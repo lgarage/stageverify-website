@@ -1,0 +1,38 @@
+---
+import SectionShell from "../ui/SectionShell.astro";
+import Card from "../ui/Card.astro";
+import { problemCards } from "../../data/site";
+---
+
+<SectionShell id="problem" variant="white">
+  <div class="mx-auto max-w-3xl text-center">
+    <h2 class="text-2xl font-bold tracking-tight text-navy sm:text-3xl md:text-4xl">
+      The handoff is where job materials disappear.
+    </h2>
+  </div>
+
+  <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      problemCards.map((problem) => (
+        <Card class="h-full">
+          <div class="flex h-full flex-col">
+            <span
+              class="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-500"
+              aria-hidden="true"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <p class="text-sm font-semibold leading-snug text-navy sm:text-base">{problem}</p>
+          </div>
+        </Card>
+      ))
+    }
+  </div>
+
+  <p class="mx-auto mt-12 max-w-3xl text-center text-base leading-relaxed text-gray-text sm:text-lg">
+    Most contractor software tracks the job. Some systems track the purchase order.
+    <span class="font-semibold text-navy">StageVerify tracks the physical handoff in the shop.</span>
+  </p>
+</SectionShell>

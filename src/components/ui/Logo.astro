@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+  variant?: "light" | "dark";
+}
+
+const { class: className = "", variant = "light" } = Astro.props;
+
+/**
+ * Replace the img src with your final SVG/wordmark when ready.
+ * Current asset: /images/stageverify-logo.png
+ */
+const logoSrc = "/images/stageverify-logo.png";
+---
+
+<a href="#" class:list={["inline-flex items-center shrink-0", className]} aria-label="StageVerify home">
+  <img
+    src={logoSrc}
+    alt="StageVerify"
+    class:list={[
+      "h-8 w-auto md:h-9",
+      variant === "dark" ? "brightness-0 invert" : "",
+    ]}
+    width="180"
+    height="36"
+  />
+</a>

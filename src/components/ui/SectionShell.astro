@@ -1,0 +1,24 @@
+---
+interface Props {
+  id?: string;
+  variant?: "white" | "steel" | "navy" | "navy-gradient";
+  class?: string;
+  containerClass?: string;
+}
+
+const { id, variant = "white", class: className = "", containerClass = "" } = Astro.props;
+
+const variants = {
+  white: "bg-white text-navy",
+  steel: "bg-steel text-navy",
+  navy: "bg-navy text-white",
+  "navy-gradient":
+    "bg-gradient-to-br from-navy via-navy-light to-navy-dark text-white",
+};
+---
+
+<section id={id} class:list={["py-16 md:py-24", variants[variant], className]}>
+  <div class:list={["mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", containerClass]}>
+    <slot />
+  </div>
+</section>

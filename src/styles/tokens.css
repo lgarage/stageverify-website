@@ -1,0 +1,16 @@
+:root {
+  /* Brand colors — update these when final brand assets are ready */
+  --sv-navy: #0b1f3a;
+  --sv-blue: #1e6fd9;
+  --sv-cyan: #2ec4e8;
+  --sv-steel: #f4f6f8;
+  --sv-white: #ffffff;
+
+  /* Derived tones */
+  --sv-navy-light: #132d52;
+  --sv-navy-dark: #071525;
+  --sv-gray-text: #5a6578;
+  --sv-gray-muted: #8b95a5;
+  --sv-border: rgba(255, 255, 255, 0.12);
+  --sv-border-light: #e2e8f0;
+}

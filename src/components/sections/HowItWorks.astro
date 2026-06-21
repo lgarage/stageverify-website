@@ -1,0 +1,26 @@
+---
+import SectionShell from "../ui/SectionShell.astro";
+import { howItWorksSteps } from "../../data/site";
+---
+
+<SectionShell id="how-it-works" variant="steel">
+  <div class="mx-auto max-w-3xl text-center">
+    <h2 class="text-2xl font-bold tracking-tight text-navy sm:text-3xl md:text-4xl">
+      One scan-based trail from vendor drop-off to field pickup.
+    </h2>
+  </div>
+
+  <ol class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+    {
+      howItWorksSteps.map((item) => (
+        <li class="relative flex flex-col rounded-xl border border-sv-border-light bg-white p-6 shadow-sm">
+          <span class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-sv-blue text-sm font-bold text-white">
+            {item.step}
+          </span>
+          <h3 class="text-base font-semibold text-navy">{item.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-gray-text">{item.description}</p>
+        </li>
+      ))
+    }
+  </ol>
+</SectionShell>

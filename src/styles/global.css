@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme {
+  --color-navy: var(--sv-navy);
+  --color-navy-light: var(--sv-navy-light);
+  --color-navy-dark: var(--sv-navy-dark);
+  --color-sv-blue: var(--sv-blue);
+  --color-sv-cyan: var(--sv-cyan);
+  --color-steel: var(--sv-steel);
+  --color-gray-text: var(--sv-gray-text);
+  --color-gray-muted: var(--sv-gray-muted);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--sv-navy);
+  background-color: var(--sv-white);
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--sv-cyan);
+  outline-offset: 2px;
+}
