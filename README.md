@@ -61,7 +61,19 @@ All brand colors live in `src/styles/tokens.css` and are wired into Tailwind via
 
 ## Logo
 
-Replace `/public/images/stageverify-logo.png` and update `src/components/ui/Logo.astro` if you switch to SVG or a different asset path.
+Brand assets in `public/images/`:
+
+| File | Use |
+|---|---|
+| `svlogo_full.png` | Header and footer (served from `logos/svlogo_full.png`) |
+| `stageverify-icon.png` | App icon / Apple touch icon |
+| `favicon.svg` | Browser tab favicon |
+
+Source file: `logos/svlogo_full.png`. The header version makes **Stage** white for dark backgrounds; icon and **Verify** keep brand colors. Regenerate after updating the source:
+
+```bash
+python scripts/prepare-logo.py
+```
 
 ## Deployment
 

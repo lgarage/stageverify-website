@@ -1,27 +1,23 @@
 ---
 interface Props {
   class?: string;
-  variant?: "light" | "dark";
+  size?: "header" | "footer";
 }
 
-const { class: className = "", variant = "light" } = Astro.props;
+const { class: className = "", size = "header" } = Astro.props;
 
-/**
- * Replace the img src with your final SVG/wordmark when ready.
- * Current asset: /images/stageverify-logo.png
- */
-const logoSrc = "/images/stageverify-logo.png";
+const sizes = {
+  header: "h-10 w-auto sm:h-11 md:h-12",
+  footer: "h-9 w-auto sm:h-10",
+};
 ---
 
-<a href="#" class:list={["inline-flex items-center shrink-0", className]} aria-label="StageVerify home">
+<a href="#" class:list={["inline-flex shrink-0 items-center", className]} aria-label="StageVerify home">
   <img
-    src={logoSrc}
+    src="/images/svlogo_full.png"
     alt="StageVerify"
-    class:list={[
-      "h-8 w-auto md:h-9",
-      variant === "dark" ? "brightness-0 invert" : "",
-    ]}
-    width="180"
-    height="36"
+    class:list={[sizes[size], "object-contain"]}
+    width="280"
+    height="70"
   />
 </a>
