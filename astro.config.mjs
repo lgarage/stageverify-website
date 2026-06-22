@@ -5,6 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://lgarage.github.io',
+  base: '/stageverify-website',
   vite: {
     plugins: [tailwindcss()]
   }

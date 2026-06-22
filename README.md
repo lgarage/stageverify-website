@@ -77,6 +77,10 @@ python scripts/prepare-logo.py
 
 ## Deployment
 
-Not configured in this milestone. The `dist/` folder can be deployed to any static host (Cloudflare Pages, Netlify, Vercel, etc.) when ready.
+Hosted on **GitHub Pages**:
 
-Target domain: **stageverify.com**
+**Live site:** https://lgarage.github.io/stageverify-website/
+
+Pushes to `master` deploy automatically via `.github/workflows/deploy.yml`.
+
+Future target domain: **stageverify.com**
