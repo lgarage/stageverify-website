@@ -18,6 +18,10 @@ html {
   scroll-behavior: smooth;
 }
 
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 body {
   font-family: var(--font-sans);
   color: var(--sv-navy);

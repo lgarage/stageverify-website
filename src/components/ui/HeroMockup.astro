@@ -1,30 +1,31 @@
 <div
-  class="relative mx-auto w-full max-w-md rounded-2xl border border-white/10 bg-navy-light/80 p-4 shadow-2xl shadow-black/30 backdrop-blur-sm md:max-w-lg md:p-5"
+  class="relative mx-auto w-full max-w-md rounded-2xl border border-white/15 bg-navy-light/90 shadow-2xl shadow-black/40 ring-1 ring-white/10 md:max-w-lg"
   aria-hidden="true"
 >
-  <div class="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+  <div class="flex items-center justify-between border-b border-white/10 px-4 py-3 md:px-5">
     <div>
-      <p class="text-xs font-medium uppercase tracking-wider text-sv-cyan">Shop Staging</p>
-      <p class="text-sm font-semibold text-white">Delivery Queue</p>
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-sv-cyan">Main shop</p>
+      <p class="text-sm font-semibold text-white">Material staging board</p>
     </div>
-    <span class="rounded-full bg-sv-cyan/20 px-2.5 py-1 text-xs font-semibold text-sv-cyan">
-      3 Active
-    </span>
+    <div class="text-right">
+      <p class="text-[10px] text-gray-muted">Today</p>
+      <p class="text-xs font-medium text-white/80">3 open deliveries</p>
+    </div>
   </div>
 
-  <div class="space-y-3">
-    <!-- Card 1 — Complete -->
-    <div class="rounded-xl border border-white/10 bg-navy/60 p-3.5">
-      <div class="mb-2 flex flex-wrap items-start justify-between gap-2">
+  <div class="space-y-3 p-4 md:p-5">
+    <!-- Card 1 — Complete, ready for pickup -->
+    <div class="rounded-xl border border-emerald-500/25 bg-navy/70 p-3.5 ring-1 ring-emerald-500/10">
+      <div class="mb-2.5 flex flex-wrap items-start justify-between gap-2">
         <div>
           <p class="text-[10px] font-medium uppercase tracking-wide text-gray-muted">Job #</p>
           <p class="text-sm font-bold text-white">JOB-2847</p>
         </div>
-        <span class="rounded-md bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase text-emerald-300">
+        <span class="rounded-md bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-300">
           Complete
         </span>
       </div>
-      <div class="grid grid-cols-2 gap-2 text-xs">
+      <div class="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
         <div>
           <p class="text-gray-muted">Vendor</p>
           <p class="font-medium text-white/90">Metro Supply Co.</p>
@@ -34,14 +35,18 @@
           <p class="font-medium text-white/90">PO-11942</p>
         </div>
         <div class="col-span-2">
-          <p class="text-gray-muted">Staging Location</p>
+          <p class="text-gray-muted">Staging location</p>
           <p class="font-medium text-sv-cyan">Bay A — Rack 3</p>
         </div>
+        <div class="col-span-2">
+          <p class="text-gray-muted">Lines received</p>
+          <p class="font-medium text-white/90">4 of 4 · Checked in 7:42 AM</p>
+        </div>
       </div>
-      <div class="mt-3 flex items-center justify-between border-t border-white/10 pt-2">
+      <div class="mt-3 flex items-center justify-between border-t border-white/10 pt-2.5">
         <div class="flex items-center gap-2">
-          <div class="flex h-8 w-8 items-center justify-center rounded border border-white/20 bg-white p-0.5">
-            <svg viewBox="0 0 24 24" class="h-full w-full text-navy" fill="currentColor">
+          <div class="flex h-8 w-8 items-center justify-center rounded-md border border-white/20 bg-white p-0.5">
+            <svg viewBox="0 0 24 24" class="h-full w-full text-navy" fill="currentColor" aria-hidden="true">
               <rect x="3" y="3" width="7" height="7" rx="1" />
               <rect x="14" y="3" width="7" height="7" rx="1" />
               <rect x="3" y="14" width="7" height="7" rx="1" />
@@ -51,24 +56,24 @@
               <rect x="18" y="18" width="3" height="3" rx="0.5" />
             </svg>
           </div>
-          <span class="text-[10px] text-gray-muted">Pickup QR</span>
+          <span class="text-[10px] font-medium text-gray-muted">Pickup QR</span>
         </div>
-        <span class="text-[10px] font-medium text-emerald-300">Verified pickup</span>
+        <span class="text-[10px] font-semibold text-emerald-300">Pickup verified</span>
       </div>
     </div>
 
     <!-- Card 2 — Partial -->
-    <div class="rounded-xl border border-sv-blue/30 bg-navy/60 p-3.5 ring-1 ring-sv-blue/20">
-      <div class="mb-2 flex flex-wrap items-start justify-between gap-2">
+    <div class="rounded-xl border border-amber-500/30 bg-navy/60 p-3.5">
+      <div class="mb-2.5 flex flex-wrap items-start justify-between gap-2">
         <div>
           <p class="text-[10px] font-medium uppercase tracking-wide text-gray-muted">Job #</p>
           <p class="text-sm font-bold text-white">JOB-2901</p>
         </div>
-        <span class="rounded-md bg-amber-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase text-amber-300">
+        <span class="rounded-md bg-amber-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-300">
           Partial
         </span>
       </div>
-      <div class="grid grid-cols-2 gap-2 text-xs">
+      <div class="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
         <div>
           <p class="text-gray-muted">Vendor</p>
           <p class="font-medium text-white/90">Allied Electric</p>
@@ -78,24 +83,28 @@
           <p class="font-medium text-white/90">PO-12008</p>
         </div>
         <div class="col-span-2">
-          <p class="text-gray-muted">Staging Location</p>
-          <p class="font-medium text-sv-cyan">Bay C — Floor Stack</p>
+          <p class="text-gray-muted">Staging location</p>
+          <p class="font-medium text-sv-cyan">Bay C — Floor stack</p>
+        </div>
+        <div class="col-span-2">
+          <p class="text-gray-muted">Lines received</p>
+          <p class="font-medium text-amber-200/90">2 of 5 · Awaiting backorder</p>
         </div>
       </div>
     </div>
 
-    <!-- Card 3 — Staged -->
-    <div class="rounded-xl border border-white/10 bg-navy/40 p-3.5 opacity-80">
-      <div class="mb-2 flex flex-wrap items-start justify-between gap-2">
+    <!-- Card 3 — Staged, awaiting pickup -->
+    <div class="rounded-xl border border-white/10 bg-navy/50 p-3.5">
+      <div class="mb-2.5 flex flex-wrap items-start justify-between gap-2">
         <div>
           <p class="text-[10px] font-medium uppercase tracking-wide text-gray-muted">Job #</p>
           <p class="text-sm font-bold text-white">JOB-2915</p>
         </div>
-        <span class="rounded-md bg-sv-blue/30 px-2 py-0.5 text-[10px] font-semibold uppercase text-sv-cyan">
+        <span class="rounded-md bg-sv-blue/25 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sv-cyan">
           Staged
         </span>
       </div>
-      <div class="grid grid-cols-2 gap-2 text-xs">
+      <div class="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
         <div>
           <p class="text-gray-muted">Vendor</p>
           <p class="font-medium text-white/90">Pipe &amp; Valve Inc.</p>
@@ -104,6 +113,21 @@
           <p class="text-gray-muted">PO #</p>
           <p class="font-medium text-white/90">PO-12031</p>
         </div>
+        <div class="col-span-2">
+          <p class="text-gray-muted">Staging location</p>
+          <p class="font-medium text-sv-cyan">Will-call shelf — Lane 2</p>
+        </div>
+      </div>
+      <div class="mt-3 flex items-center gap-2 border-t border-white/10 pt-2.5">
+        <div class="flex h-7 w-7 items-center justify-center rounded border border-dashed border-white/25 bg-white/5">
+          <svg viewBox="0 0 24 24" class="h-4 w-4 text-white/40" fill="currentColor" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="3" height="3" rx="0.5" />
+          </svg>
+        </div>
+        <span class="text-[10px] text-gray-muted">Scan at pickup</span>
       </div>
     </div>
   </div>

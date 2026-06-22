@@ -1,21 +1,30 @@
 ---
 import Logo from "../ui/Logo.astro";
+import Button from "../ui/Button.astro";
 import { navLinks, site } from "../../data/site";
 ---
 
-<footer class="border-t border-white/10 bg-navy-dark py-12 text-white">
+<footer class="border-t border-white/10 bg-navy-dark py-14 text-white md:py-16">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <div class="grid gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-      <div class="lg:col-span-2">
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-5">
         <Logo size="footer" />
-        <p class="mt-4 max-w-md text-sm leading-relaxed text-white/70">
+        <p class="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
           {site.footerDescription}
         </p>
+        <p class="mt-3 max-w-sm text-sm leading-relaxed text-white/50">
+          Shop staging control without a full warehouse system.
+        </p>
+        <div class="mt-6">
+          <Button href="#demo" variant="primary" size="sm">
+            Request Demo
+          </Button>
+        </div>
       </div>
 
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-wider text-sv-cyan">Navigate</p>
-        <ul class="mt-4 space-y-2">
+      <div class="lg:col-span-3 lg:col-start-8">
+        <p class="text-xs font-semibold uppercase tracking-widest text-sv-cyan">Navigate</p>
+        <ul class="mt-4 space-y-2.5">
           {
             navLinks.map((link) => (
               <li>
@@ -30,12 +39,21 @@ import { navLinks, site } from "../../data/site";
           }
         </ul>
       </div>
+
+      <div class="lg:col-span-4 lg:col-start-10">
+        <p class="text-xs font-semibold uppercase tracking-widest text-sv-cyan">Built for</p>
+        <p class="mt-4 text-sm leading-relaxed text-white/65">
+          Operations managers, dispatchers, shop staff, and field crews at trade contractors who
+          need a clear material handoff — not another ERP.
+        </p>
+      </div>
     </div>
 
-    <div class="mt-10 border-t border-white/10 pt-6">
-      <p class="text-xs text-white/50">
+    <div class="mt-12 flex flex-col gap-2 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-xs text-white/45">
         &copy; {new Date().getFullYear()} StageVerify. All rights reserved.
       </p>
+      <p class="text-xs text-white/45">Material handoff visibility from delivery to pickup.</p>
     </div>
   </div>
 </footer>

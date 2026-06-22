@@ -1,20 +1,21 @@
 ---
 import SectionShell from "../ui/SectionShell.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
 import Card from "../ui/Card.astro";
-import { industries } from "../../data/site";
+import { industries, sectionCopy } from "../../data/site";
 ---
 
 <SectionShell id="who-its-for" variant="white">
-  <div class="mx-auto max-w-3xl text-center">
-    <h2 class="text-2xl font-bold tracking-tight text-navy sm:text-3xl md:text-4xl">
-      Built for trade contractors moving job materials through a shop.
-    </h2>
-  </div>
+  <SectionHeader
+    eyebrow={sectionCopy.whoItsFor.eyebrow}
+    title="Built for trade contractors moving job materials through a shop."
+    description={sectionCopy.whoItsFor.intro}
+  />
 
-  <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
     {
       industries.map((industry) => (
-        <Card class="h-full text-center">
+        <Card class="h-full border-sv-border-light/80 text-center transition-shadow hover:border-sv-blue/20">
           <div class="flex flex-col items-center">
             <span
               class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-sv-blue/10 text-sv-blue"

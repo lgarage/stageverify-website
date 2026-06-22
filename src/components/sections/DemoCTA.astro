@@ -1,21 +1,50 @@
 ---
 import SectionShell from "../ui/SectionShell.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
 import Button from "../ui/Button.astro";
+import { sectionCopy } from "../../data/site";
+
+const demoPoints = [
+  "Delivery check-in at the shop",
+  "Staging location assignment",
+  "Partial vs. complete status",
+  "Technician pickup verification",
+] as const;
 ---
 
 <SectionShell id="demo" variant="navy" containerClass="text-center">
   <div class="mx-auto max-w-2xl">
-    <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
-      Put your material handoff on a silver platter.
-    </h2>
-    <p class="mt-5 text-base leading-relaxed text-white/80 sm:text-lg">
-      Give operations a clear view of what arrived, where it was staged, whether it is complete,
-      and when it was picked up.
+    <SectionHeader
+      eyebrow={sectionCopy.demo.eyebrow}
+      title="Put your material handoff on a silver platter."
+      description={sectionCopy.demo.intro}
+      dark
+    />
+
+    <p class="mt-6 text-base leading-relaxed text-white/80 sm:text-lg">
+      {sectionCopy.demo.opsNote}
     </p>
-    <div class="mt-8">
-      <Button href="#demo" variant="primary" size="lg" class="min-w-[200px]">
+
+    <ul class="mx-auto mt-8 grid max-w-md gap-3 text-left sm:grid-cols-2">
+      {
+        demoPoints.map((point) => (
+          <li class="flex items-start gap-2.5 text-sm text-white/85">
+            <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sv-cyan/20 text-sv-cyan" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+            {point}
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-10 flex flex-col items-center gap-3">
+      <Button href="#demo" variant="primary" size="lg" class="min-w-[220px] shadow-lg shadow-sv-blue/25">
         Request Demo
       </Button>
+      <p class="text-xs text-white/50">{sectionCopy.demo.reassurance}</p>
     </div>
   </div>
 </SectionShell>
