@@ -2,14 +2,7 @@
 import SectionShell from "../ui/SectionShell.astro";
 import SectionHeader from "../ui/SectionHeader.astro";
 import Button from "../ui/Button.astro";
-import { sectionCopy } from "../../data/site";
-
-const demoPoints = [
-  "Delivery check-in at the shop",
-  "Staging location assignment",
-  "Partial vs. complete status",
-  "Technician pickup verification",
-] as const;
+import { sectionCopy, demoPoints } from "../../data/site";
 ---
 
 <SectionShell id="demo" variant="navy" containerClass="text-center">
@@ -25,7 +18,7 @@ const demoPoints = [
       {sectionCopy.demo.opsNote}
     </p>
 
-    <ul class="mx-auto mt-8 grid max-w-md gap-3 text-left sm:grid-cols-2">
+    <ul class="mx-auto mt-8 grid max-w-lg gap-3 text-left sm:grid-cols-2">
       {
         demoPoints.map((point) => (
           <li class="flex items-start gap-2.5 text-sm text-white/85">

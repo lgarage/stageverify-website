@@ -16,8 +16,8 @@ const DESCRIPTION =
 
 const sections = [
   { id: "problem", heading: "The handoff is where job materials disappear." },
-  { id: "how-it-works", heading: "One scan-based trail from vendor drop-off to field pickup." },
-  { id: "features", heading: "Shop staging control without a full warehouse system." },
+  { id: "how-it-works", heading: "Five steps from dispatch setup to verified pickup." },
+  { id: "features", heading: "Control the handoff without a warehouse system." },
   { id: "who-its-for", heading: "Built for trade contractors moving job materials through a shop." },
   { id: "scale", heading: "Start with one shop. Expand to every branch." },
   { id: "demo", heading: "Put your material handoff on a silver platter." },
@@ -96,14 +96,14 @@ async function checkViewport(browser, { name, width, height }) {
       fail(`[${name}] Header logo missing`);
     }
 
-    const mockup = page.getByText(/Material staging board|Delivery Queue/);
+    const mockup = page.getByText(/Dispatcher view|Ready for Pickup|Job readiness/);
     await mockup.first().scrollIntoViewIfNeeded();
     if (await mockup.first().isVisible()) pass(`[${name}] Hero mockup visible`);
     else fail(`[${name}] Hero mockup not visible`);
 
     const featureDesc = page.getByText(/Log what the vendor dropped off|Vendor delivery tracking/);
     const hasFeatureDetail = await page
-      .getByText(/Track which vendor delivered|Log what the vendor dropped off/)
+      .getByText(/Track each vendor, PO, and delivery separately|Ready for Pickup requires vendor order evidence/)
       .count();
     const hasFeatureTitleOnly = await page
       .locator("#features")

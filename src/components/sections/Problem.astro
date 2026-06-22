@@ -2,7 +2,7 @@
 import SectionShell from "../ui/SectionShell.astro";
 import SectionHeader from "../ui/SectionHeader.astro";
 import Card from "../ui/Card.astro";
-import { problemCards, sectionCopy } from "../../data/site";
+import { problemCards, sectionCopy, problemCallout } from "../../data/site";
 ---
 
 <SectionShell id="problem" variant="white">
@@ -34,7 +34,7 @@ import { problemCards, sectionCopy } from "../../data/site";
   </div>
 
   <p class="mx-auto mt-14 max-w-3xl rounded-2xl border border-sv-border-light bg-steel/60 px-6 py-5 text-center text-base leading-relaxed text-gray-text sm:text-lg">
-    Most contractor software tracks the job. Some systems track the purchase order.
-    <span class="font-semibold text-navy">StageVerify tracks the physical handoff in the shop.</span>
+    {problemCallout.lead}
+    <span class="font-semibold text-navy">{problemCallout.emphasis}</span>
   </p>
 </SectionShell>
