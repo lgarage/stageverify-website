@@ -56,6 +56,10 @@ Include in the completion summary:
 
 Only say **ready** when all checks pass.
 
+### 5. Commit and push
+
+Follow [.cursor/skills/commit-and-push/SKILL.md](../commit-and-push/SKILL.md). Do not report UI work complete until changes are pushed.
+
 ## What the verifier checks
 
 | Check | Why |

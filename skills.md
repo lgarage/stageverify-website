@@ -6,9 +6,15 @@ Skills in this repo teach the agent project-specific workflows.
 
 | Skill | Path | When to use |
 |---|---|---|
-| **UI Playwright verify** | [.cursor/skills/ui-playwright-verify/SKILL.md](.cursor/skills/ui-playwright-verify/SKILL.md) | **Always** after UI edits — run Playwright before saying work is ready |
+| **Commit and push** | [.cursor/skills/commit-and-push/SKILL.md](.cursor/skills/commit-and-push/SKILL.md) | **Always** after any repo change — commit and push before reporting done |
+| **UI Playwright verify** | [.cursor/skills/ui-playwright-verify/SKILL.md](.cursor/skills/ui-playwright-verify/SKILL.md) | **Always** after UI edits — run Playwright before commit/push |
 
-## UI verification (required)
+## Default completion order
+
+1. Make the change
+2. If UI: build → preview → `npm run verify:ui` until all pass
+3. **Commit and push** (required — do not skip)
+4. Report done with commit hash and push confirmation
 
 After any UI change:
 
