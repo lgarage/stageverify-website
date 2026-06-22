@@ -18,140 +18,107 @@ export const navLinks = [
 ] as const;
 
 export const problemCards = [
-  {
-    title: "Vendor says it was delivered",
-    detail: "No shop record ties the drop-off to a job, PO, and staging location.",
-  },
-  {
-    title: "Dispatcher thinks it's staged",
-    detail: "Physical drop-off and order completeness aren't tracked separately — so 'ready' is a guess.",
-  },
-  {
-    title: "Technician can't find it",
-    detail: "The pickup list doesn't show what to collect or where it sits in the shop.",
-  },
-  {
-    title: "Job gets delayed or reordered",
-    detail: "Material is somewhere on the floor — but dispatch can't see what's picked up vs. still outstanding.",
-  },
+  { title: "Vendor says it was dropped off" },
+  { title: "Dispatch thinks it is ready" },
+  { title: "Technician cannot find it" },
+  { title: "Job gets delayed" },
 ] as const;
 
 export const sectionCopy = {
   problem: {
     eyebrow: "The gap",
-    intro:
-      "Deliveries hit the shop every day. The breakdown happens in the handoff — between vendor drop-off, assigned staging locations, readiness, and field pickup.",
   },
   howItWorks: {
     eyebrow: "The workflow",
     intro:
-      "Dispatch assigns the job and staging location before the vendor arrives. The vendor confirms physical drop-off. StageVerify applies a two-source readiness gate. The technician picks up from a simple link — no warehouse system required.",
+      "From vendor drop-off to technician pickup, StageVerify keeps the shop trail clear.",
   },
   features: {
     eyebrow: "Capabilities",
-    intro:
-      "Built for dispatch, vendors, and field crews — without individual vendor or technician accounts, and without replacing your existing job tools.",
   },
   whoItsFor: {
     eyebrow: "Trade contractors",
     intro:
-      "Mechanical, electrical, plumbing, HVAC, fire protection, controls, and facility contractors all move job materials through a shop. The trade changes — the handoff problem does not.",
+      "For contractors who stage job materials in a shop before sending crews to the field.",
   },
   scale: {
     eyebrow: "Grow with you",
     intro:
-      "Start with one staging area and a simple check-in workflow. Add zones, branches, and tighter material control as the operation grows — without replacing the system.",
+      "Start with one staging area. Add more zones, branches, and material workflows as the operation grows.",
   },
   demo: {
     eyebrow: "Request a demo",
     intro:
-      "Give operations a clear view of what arrived, where it was staged, whether it is complete, and when it was picked up.",
-    opsNote:
-      "Walk through dispatch setup, vendor QR check-in, the two-source Ready for Pickup gate, and technician pickup verification — before you commit a single shop to rollout.",
+      "Show operations what arrived, where it is, what is ready, and what was picked up.",
     reassurance: "No platform contract required to see how it works.",
   },
 } as const;
 
-export const demoPoints = [
-  "Dispatch assigns job, vendor, PO, and staging location",
-  "Vendor QR check-in and DELIVERED at the assigned spot",
-  "Two-source Ready for Pickup (order evidence + physical delivery)",
-  "Technician pickup link — checklist by location, no login",
-] as const;
-
 export const howItWorksSteps = [
   {
     step: 1,
-    title: "Dispatch sets up the job and location",
+    title: "Vendor drops off material",
     description:
-      "Authorized dispatch creates the job, vendor, PO, and assigned staging location before the truck arrives.",
+      "The driver follows the assigned staging location and confirms the delivery.",
   },
   {
     step: 2,
-    title: "Vendor arrives and checks in",
+    title: "StageVerify records the drop-off",
     description:
-      "The entry display shows where to go. At that spot, the vendor scans the delivery QR and enters the company's shared PIN — no driver account.",
+      "The delivery, vendor, PO, time, and location are saved in one record.",
   },
   {
     step: 3,
-    title: "Vendor confirms physical drop-off",
+    title: "Readiness is checked",
     description:
-      "The vendor presses DELIVERED, reports an issue, or requests more space. They don't count items or decide when material is ready for pickup.",
+      "StageVerify helps dispatch see what is complete, what is missing, and what needs review.",
   },
   {
     step: 4,
-    title: "StageVerify determines readiness",
+    title: "Pickup gets scheduled",
     description:
-      "Ready for Pickup requires vendor order evidence and confirmed physical delivery. Neither condition alone is enough.",
+      "When the material is ready, dispatch sends the technician the pickup details.",
   },
   {
     step: 5,
-    title: "Technician pickup is verified",
+    title: "Technician confirms pickup",
     description:
-      "The tech opens a pickup link with no login, checks off material by location, and submits. Dispatch sees what was picked up and what remains.",
+      "The technician opens the checklist, picks up the material, and StageVerify records what left the shop.",
   },
 ] as const;
 
 export const features = [
   {
     title: "Vendor delivery tracking",
-    description:
-      "Track each vendor, PO, and delivery separately — from dispatch setup through physical drop-off at the assigned location.",
+    description: "Know which vendor dropped off material, for which job and PO.",
   },
   {
     title: "Staging location visibility",
-    description:
-      "Dispatch assigns locations before arrival. See where material sits — including additional space when a delivery spans more than one spot.",
+    description: "See where material is staged before anyone goes looking.",
   },
   {
-    title: "Readiness by delivery, PO, and job",
-    description:
-      "One completed delivery does not make the whole job ready. Partial shipments, backorders, and open issues stay visible until resolved.",
+    title: "Readiness status",
+    description: "Know what is ready, partial, missing, or needs review.",
   },
   {
     title: "Pickup verification",
-    description:
-      "Technicians confirm what they physically collect by location. Partial pickups stay in progress until dispatch sees what's still outstanding.",
+    description: "Record when material leaves the shop with the technician.",
   },
   {
-    title: "Delivery QR and vendor PIN flow",
-    description:
-      "Vendors scan a delivery-specific QR and enter a shared company PIN at the staging location. No barcode gun or personal login required.",
+    title: "QR-based workflow",
+    description: "Simple links and scans without extra accounts for vendors or techs.",
   },
   {
-    title: "Delivery history / audit trail",
-    description:
-      "Pull the record when a job gets questioned days or weeks later — vendor actions, readiness changes, and pickup transactions included.",
+    title: "Delivery history",
+    description: "Pull up the record when a delivery or pickup gets questioned.",
   },
   {
     title: "Multi-shop ready",
-    description:
-      "Run one shop today. Add branches without rebuilding your process.",
+    description: "Start with one shop and grow into multiple branches.",
   },
   {
-    title: "Simple for vendors, dispatch, and technicians",
-    description:
-      "A few actions for vendors at drop-off. A clear readiness view for dispatch. One pickup link for field crews — no warehouse specialists required.",
+    title: "Built for real users",
+    description: "Simple enough for vendors, dispatch, shop staff, and technicians.",
   },
 ] as const;
 
@@ -169,25 +136,23 @@ export const industries = [
 export const scaleStages = [
   {
     title: "One staging area",
-    description: "Dispatch assigns locations and vendors check in at the assigned spot.",
+    description: "One location to start. Same workflow every delivery.",
   },
   {
     title: "Multiple zones",
-    description: "Separate bays, racks, ground stacks, and will-call areas as volume grows.",
+    description: "Add bays, racks, ground stacks, and will-call areas.",
   },
   {
     title: "Multiple branches",
-    description: "Same workflow at every shop — one view for operations.",
+    description: "Run the same process at every shop.",
   },
   {
     title: "Larger material operation",
-    description:
-      "Tighter control across locations without a warehouse overhaul.",
+    description: "More control across locations — without a warehouse overhaul.",
   },
 ] as const;
 
 export const problemCallout = {
-  lead: "Most contractor software tracks the job. Some systems track the purchase order. ",
-  emphasis:
-    "StageVerify tracks the physical handoff, staging assignment, readiness, and pickup — separately.",
+  lead: "Most systems track the job or PO. ",
+  emphasis: "StageVerify tracks the material handoff in the shop.",
 } as const;

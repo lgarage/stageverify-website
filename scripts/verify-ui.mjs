@@ -15,10 +15,10 @@ const DESCRIPTION =
   "StageVerify tracks vendor deliveries from drop-off to shop staging to field pickup, so trade contractors know what arrived, where it is, whether it is complete, and when it was picked up.";
 
 const sections = [
-  { id: "problem", heading: "The handoff is where job materials disappear." },
-  { id: "how-it-works", heading: "Five steps from dispatch setup to verified pickup." },
-  { id: "features", heading: "Control the handoff without a warehouse system." },
-  { id: "who-its-for", heading: "Built for trade contractors moving job materials through a shop." },
+  { id: "problem", heading: "The handoff is where materials get lost." },
+  { id: "how-it-works", heading: "One clear trail from delivery to pickup." },
+  { id: "features", heading: "Shop staging control without a full warehouse system." },
+  { id: "who-its-for", heading: "Built for trade contractors." },
   { id: "scale", heading: "Start with one shop. Expand to every branch." },
   { id: "demo", heading: "Put your material handoff on a silver platter." },
 ];
@@ -103,7 +103,7 @@ async function checkViewport(browser, { name, width, height }) {
 
     const featureDesc = page.getByText(/Log what the vendor dropped off|Vendor delivery tracking/);
     const hasFeatureDetail = await page
-      .getByText(/Track each vendor, PO, and delivery separately|Ready for Pickup requires vendor order evidence/)
+      .getByText(/Know which vendor dropped off material|See where material is staged before anyone goes looking/)
       .count();
     const hasFeatureTitleOnly = await page
       .locator("#features")
