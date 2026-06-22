@@ -109,8 +109,7 @@ export const features = [
   {
     title: "Vendor delivery tracking",
     description:
-      "Track which vendor delivered the materials, what arrived, and when the delivery was checked in.
-",
+      "Track which vendor delivered the materials, what arrived, and when the delivery was checked in.",
   },
   {
     title: "Staging location visibility",

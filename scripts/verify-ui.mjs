@@ -102,7 +102,9 @@ async function checkViewport(browser, { name, width, height }) {
     else fail(`[${name}] Hero mockup not visible`);
 
     const featureDesc = page.getByText(/Log what the vendor dropped off|Vendor delivery tracking/);
-    const hasFeatureDetail = await page.getByText("Log what the vendor dropped off").count();
+    const hasFeatureDetail = await page
+      .getByText(/Track which vendor delivered|Log what the vendor dropped off/)
+      .count();
     const hasFeatureTitleOnly = await page
       .locator("#features")
       .getByText("Vendor delivery tracking")
