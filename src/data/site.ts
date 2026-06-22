@@ -23,11 +23,11 @@ export const problemCards = [
     detail: "No shop record matches the drop-off.",
   },
   {
-    title: "Dispatcher thinks it is staged",
+    title: "Dispatcher thinks it's staged",
     detail: "The job is marked ready — but nobody verified it.",
   },
   {
-    title: "Technician cannot find it",
+    title: "Technician can't find it",
     detail: "Crews burn hours searching the shop floor.",
   },
   {
@@ -76,34 +76,41 @@ export const howItWorksSteps = [
   {
     step: 1,
     title: "Vendor delivery arrives",
-    description: "Materials hit the shop. Staff know a drop-off needs to be checked in.",
+    description:
+      "Materials hit the shop. Staff knows a drop-off needs to be checked in.",
   },
   {
     step: 2,
     title: "Items are checked in",
-    description: "What arrived gets verified against the PO — while it is still at the dock or desk.",
+    description:
+      "What arrived gets verified against the PO and/or Job Number — while it is still at the dock or desk.",
   },
   {
     step: 3,
     title: "Materials are assigned to a staging location",
-    description: "Every delivery gets a visible spot in the shop — bay, rack, or floor stack.",
+    description:
+      "Every delivery gets a visible spot in the shop — bay, rack, or floor stack.",
   },
   {
     step: 4,
     title: "Delivery is marked partial or complete",
-    description: "Dispatch sees whether the full order is ready — not just that something showed up.",
+    description:
+      "Dispatch sees whether the full order is ready — not just that something showed up.",
   },
   {
     step: 5,
     title: "Technician pickup is verified",
-    description: "Field crews confirm pickup with a scan. The handoff is closed, not guessed.",
+    description:
+      "Field crews confirm pickup via URL or QR code. The handoff is closed, not guessed.",
   },
 ] as const;
 
 export const features = [
   {
     title: "Vendor delivery tracking",
-    description: "Log what the vendor dropped off, when it arrived, and who checked it in.",
+    description:
+      "Track which vendor delivered the materials, what arrived, and when the delivery was checked in.
+",
   },
   {
     title: "Staging location visibility",
@@ -111,27 +118,34 @@ export const features = [
   },
   {
     title: "Partial and complete delivery status",
-    description: "Know when an order is only partly in — before the job assumes it is ready.",
+    description:
+      "Know when an order is only partly in — before the job assumes it is ready.",
   },
   {
     title: "Pickup verification",
-    description: "Confirm technicians picked up the right materials — not just that someone said they did.",
+    description:
+      "Confirm technicians picked up the right materials — not just that someone said they did.",
   },
   {
     title: "QR-based scan flow",
-    description: "Simple scans at check-in, staging, and pickup. No barcode gun required.",
+    description:
+      "Simple scans at check-in, staging, and pickup. No barcode gun required.",
   },
   {
     title: "Delivery history / audit trail",
-    description: "Pull the record when a job gets questioned days or weeks later.",
+    description:
+      "Pull the record when a job gets questioned days or weeks later.",
   },
   {
     title: "Multi-shop ready",
-    description: "Run one shop today. Add branches without rebuilding your process.",
+    description:
+      "Run one shop today. Add branches without rebuilding your process.",
   },
   {
-    title: "Simple enough for vendors, dispatchers, shop staff, and technicians",
-    description: "Built for the people who touch the materials — not warehouse specialists.",
+    title:
+      "Simple enough for vendors, dispatchers, shop staff, and technicians",
+    description:
+      "Built for the people who touch the materials — not warehouse specialists.",
   },
 ] as const;
 
@@ -153,7 +167,8 @@ export const scaleStages = [
   },
   {
     title: "Multiple zones",
-    description: "Separate bays, racks, and will-call areas as volume picks up.",
+    description:
+      "Separate bays, racks, and will-call areas as volume picks up.",
   },
   {
     title: "Multiple branches",
@@ -161,6 +176,7 @@ export const scaleStages = [
   },
   {
     title: "Larger material operation",
-    description: "Tighter control across locations without a warehouse overhaul.",
+    description:
+      "Tighter control across locations without a warehouse overhaul.",
   },
 ] as const;
