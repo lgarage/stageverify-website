@@ -31,7 +31,7 @@ export const sectionCopy = {
   howItWorks: {
     eyebrow: "The workflow",
     intro:
-      "From vendor drop-off to technician pickup, StageVerify keeps the shop trail clear.",
+      "From vendor drop-off to technician pickup, StageVerify keeps the shop trail clear — without adding a warehouse system.",
   },
   features: {
     eyebrow: "Capabilities",
@@ -49,7 +49,7 @@ export const sectionCopy = {
   demo: {
     eyebrow: "Request a demo",
     intro:
-      "Show operations what arrived, where it is, what is ready, and what was picked up.",
+      "See how StageVerify gives operations a clear trail from vendor delivery to technician pickup.",
     reassurance: "No platform contract required to see how it works.",
   },
 } as const;
@@ -57,33 +57,33 @@ export const sectionCopy = {
 export const howItWorksSteps = [
   {
     step: 1,
-    title: "Vendor drops off material",
+    title: "Dispatch sets the job and location",
     description:
-      "The driver follows the assigned staging location and confirms the delivery.",
+      "Assign the job, vendor, PO, and staging location before the delivery arrives.",
   },
   {
     step: 2,
-    title: "StageVerify records the drop-off",
+    title: "Vendor confirms drop-off",
     description:
-      "The delivery, vendor, PO, time, and location are saved in one record.",
+      "The vendor follows the assigned location and confirms the material was delivered.",
   },
   {
     step: 3,
-    title: "Readiness is checked",
+    title: "StageVerify tracks readiness",
     description:
-      "StageVerify helps dispatch see what is complete, what is missing, and what needs review.",
+      "Dispatch sees what is ready, what is partial, and what needs review.",
   },
   {
     step: 4,
-    title: "Pickup gets scheduled",
+    title: "Pickup details are sent",
     description:
-      "When the material is ready, dispatch sends the technician the pickup details.",
+      "When the material is ready, dispatch sends the technician the pickup link and locations.",
   },
   {
     step: 5,
     title: "Technician confirms pickup",
     description:
-      "The technician opens the checklist, picks up the material, and StageVerify records what left the shop.",
+      "The technician checks off what was collected so dispatch can see what left the shop and what remains.",
   },
 ] as const;
 
