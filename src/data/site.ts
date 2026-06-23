@@ -2,9 +2,8 @@ export const site = {
   name: "StageVerify",
   title: "StageVerify — Material Staging & Pickup Verification",
   description:
-    "StageVerify tracks vendor deliveries from drop-off to shop staging to field pickup, so trade contractors know what arrived, where it is, whether it is complete, and when it was picked up.",
-  positioning:
-    "StageVerify controls the material handoff between vendor delivery, shop staging, and field pickup.",
+    "StageVerify helps trade contractors know what arrived, what is ready, what is missing, and what was picked up.",
+  positioning: "Stop sending technicians to pickups that are not actually ready.",
   headline: "Stop Losing Job Materials Between Delivery and Pickup",
   footerDescription:
     "Material staging and pickup verification for trade contractors.",
@@ -57,7 +56,7 @@ export const sectionCopy = {
     eyebrow: "Request a demo",
     title: "Give operations a clear material trail",
     intro:
-      "See how StageVerify helps operations know what is ready, what is missing, and what was picked up.",
+      "See what arrived, what is ready, what is missing, and what was picked up.",
     reassurance: "No platform contract required to see how it works.",
   },
 } as const;
@@ -76,7 +75,7 @@ export const howItWorksSteps = [
   {
     step: 3,
     title: "StageVerify checks readiness",
-    description: "Dispatch sees what is ready, partial, backordered, or needs review.",
+    description: "See what is ready, partial, missing, backordered, or needs review.",
   },
   {
     step: 4,

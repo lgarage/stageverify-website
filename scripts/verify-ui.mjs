@@ -12,12 +12,15 @@ const baseUrl =
 
 const HEADLINE = "Stop Losing Job Materials Between Delivery and Pickup";
 const DESCRIPTION =
-  "StageVerify tracks vendor deliveries from drop-off to shop staging to field pickup, so trade contractors know what arrived, where it is, whether it is complete, and when it was picked up.";
+  "StageVerify helps trade contractors know what arrived, what is ready, what is missing, and what was picked up.";
 
 const sections = [
   { id: "problem", heading: "The handoff is where materials get lost." },
   { id: "how-it-works", heading: "One clear trail from delivery to pickup." },
-  { id: "features", heading: "Shop staging control without a full warehouse system." },
+  {
+    id: "features",
+    heading: "Shop staging control without a full warehouse system.",
+  },
   { id: "who-its-for", heading: "Built for trade contractors." },
   { id: "scale", heading: "Start with one shop. Expand to every branch." },
   { id: "demo", heading: "Give operations a clear material trail" },
@@ -49,7 +52,7 @@ const FAVICON_MAX_HEIGHT_FILL = 0.72;
 const FAVICON_MAX_WIDTH_FILL = 0.94;
 const FAVICON_MIN_MAX_FILL = 0.85;
 const FAVICON_MAX_MAX_FILL = 0.94;
-const FAVICON_MIN_INK_RATIO = 0.10;
+const FAVICON_MIN_INK_RATIO = 0.1;
 
 async function analyzeIconPixels(page, url) {
   return page.evaluate(
@@ -110,7 +113,14 @@ async function analyzeIconPixels(page, url) {
       }
 
       if (ink === 0) {
-        return { width, height, heightFill: 0, widthFill: 0, inkRatio: 0, ok: false };
+        return {
+          width,
+          height,
+          heightFill: 0,
+          widthFill: 0,
+          inkRatio: 0,
+          ok: false,
+        };
       }
 
       const heightFill = (maxY - minY + 1) / height;
@@ -220,7 +230,10 @@ async function checkFavicons(page) {
   const previewUrl = `${baseUrl}/favicon-preview/`;
   const previewRes = await page.request.get(previewUrl);
   if (previewRes.ok()) pass("[favicon] favicon-preview/index.html loads (200)");
-  else fail(`[favicon] favicon-preview/index.html failed (${previewRes.status()})`);
+  else
+    fail(
+      `[favicon] favicon-preview/index.html failed (${previewRes.status()})`,
+    );
 }
 
 async function checkViewport(browser, { name, width, height }) {
@@ -241,17 +254,23 @@ async function checkViewport(browser, { name, width, height }) {
     else fail(`[${name}] H1 mismatch: "${h1Text}"`);
 
     const body = await page.locator("body").innerText();
-    if (body.includes(DESCRIPTION)) pass(`[${name}] Approved description present`);
+    if (body.includes(DESCRIPTION))
+      pass(`[${name}] Approved description present`);
     else fail(`[${name}] Approved description missing`);
 
     const h1Count = await page.locator("h1").count();
     if (h1Count === 1) pass(`[${name}] Single H1`);
     else fail(`[${name}] Expected 1 H1, found ${h1Count}`);
 
-    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
-    const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
+    const scrollWidth = await page.evaluate(
+      () => document.documentElement.scrollWidth,
+    );
+    const clientWidth = await page.evaluate(
+      () => document.documentElement.clientWidth,
+    );
     if (scrollWidth <= clientWidth + 1) pass(`[${name}] No horizontal scroll`);
-    else fail(`[${name}] Horizontal scroll (${scrollWidth}px > ${clientWidth}px)`);
+    else
+      fail(`[${name}] Horizontal scroll (${scrollWidth}px > ${clientWidth}px)`);
 
     for (const { id, heading } of sections) {
       const section = page.locator(`#${id}`);
@@ -271,20 +290,25 @@ async function checkViewport(browser, { name, width, height }) {
         const img = el;
         return img.complete && img.naturalWidth > 0;
       });
-      if (logoOk && (await logo.first().isVisible())) pass(`[${name}] Header logo visible`);
+      if (logoOk && (await logo.first().isVisible()))
+        pass(`[${name}] Header logo visible`);
       else fail(`[${name}] Header logo broken or hidden`);
     } else {
       fail(`[${name}] Header logo missing`);
     }
 
-    const mockup = page.getByText(/Dispatcher view|Ready for Pickup|Job readiness/);
+    const mockup = page.getByText(
+      /Dispatcher view|Ready for Pickup|Job readiness/,
+    );
     await mockup.first().scrollIntoViewIfNeeded();
     if (await mockup.first().isVisible()) pass(`[${name}] Hero mockup visible`);
     else fail(`[${name}] Hero mockup not visible`);
 
     const hasFeatureDetail = await page
       .locator("#features")
-      .getByText(/Know which vendor dropped off|Each role sees only what they need/)
+      .getByText(
+        /Know which vendor dropped off|Each role sees only what they need/,
+      )
       .count();
     const hasHowItWorksDetail = await page
       .locator("#how-it-works")
@@ -295,7 +319,8 @@ async function checkViewport(browser, { name, width, height }) {
       .getByText("Vendor delivery tracking")
       .count();
     if (hasFeatureDetail > 0) pass(`[${name}] Feature descriptions present`);
-    else if (hasFeatureTitleOnly > 0) pass(`[${name}] Feature list present (titles only)`);
+    else if (hasFeatureTitleOnly > 0)
+      pass(`[${name}] Feature list present (titles only)`);
     else fail(`[${name}] Features section content missing`);
 
     if (hasHowItWorksDetail > 0) pass(`[${name}] How It Works steps present`);
@@ -328,7 +353,9 @@ async function main() {
   try {
     browser = await chromium.launch();
   } catch {
-    console.error("Playwright browsers missing. Run: npx playwright install chromium");
+    console.error(
+      "Playwright browsers missing. Run: npx playwright install chromium",
+    );
     process.exit(2);
   }
 
@@ -341,7 +368,9 @@ async function main() {
   console.log("favicon");
   const favPage = await browser.newPage();
   try {
-    const favResponse = await favPage.goto(baseUrl, { waitUntil: "networkidle" });
+    const favResponse = await favPage.goto(baseUrl, {
+      waitUntil: "networkidle",
+    });
     if (!favResponse || !favResponse.ok()) {
       fail("[favicon] Page failed to load for favicon checks");
     } else {
