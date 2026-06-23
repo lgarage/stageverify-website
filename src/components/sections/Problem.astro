@@ -1,22 +1,18 @@
 ---
 import SectionShell from "../ui/SectionShell.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
 import Card from "../ui/Card.astro";
 import { problemCards, sectionCopy, problemCallout } from "../../data/site";
 ---
 
 <SectionShell id="problem" variant="white">
-  <div class="mx-auto max-w-3xl text-center">
-    <p
-      class="mx-auto mb-6 inline-flex max-w-2xl items-center justify-center rounded-full border border-sv-blue/25 bg-sv-blue/10 px-5 py-2.5 text-center text-base font-bold uppercase leading-snug tracking-wide text-sv-blue sm:px-6 sm:py-3 sm:text-lg md:text-xl"
-    >
-      {sectionCopy.problem.eyebrow}
-    </p>
-    <h2 class="text-2xl font-bold tracking-tight text-navy sm:text-3xl md:text-4xl">
-      The handoff is where materials get lost.
-    </h2>
-  </div>
+  <SectionHeader
+    eyebrow={sectionCopy.problem.eyebrow}
+    title={sectionCopy.problem.title}
+    description={sectionCopy.problem.intro}
+  />
 
-  <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="mt-12 grid gap-5 sm:grid-cols-2 md:mt-14 lg:grid-cols-4">
     {
       problemCards.map((problem) => (
         <Card class="h-full border-sv-border-light/80">
@@ -36,7 +32,7 @@ import { problemCards, sectionCopy, problemCallout } from "../../data/site";
     }
   </div>
 
-  <p class="mx-auto mt-14 max-w-3xl rounded-2xl border border-sv-border-light bg-steel/60 px-6 py-5 text-center text-base leading-relaxed text-gray-text sm:text-lg">
+  <p class="mx-auto mt-12 max-w-3xl rounded-2xl border border-sv-border-light bg-steel/60 px-6 py-5 text-center text-base leading-relaxed text-gray-text sm:text-lg md:mt-14">
     {problemCallout.lead}
     <span class="font-semibold text-navy">{problemCallout.emphasis}</span>
   </p>

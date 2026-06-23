@@ -103,7 +103,7 @@ async function checkViewport(browser, { name, width, height }) {
 
     const hasFeatureDetail = await page
       .locator("#features")
-      .getByText(/Know which vendor dropped off material|Simple field workflow/)
+      .getByText(/Know which vendor dropped off|Each role sees only what they need/)
       .count();
     const hasHowItWorksDetail = await page
       .locator("#how-it-works")

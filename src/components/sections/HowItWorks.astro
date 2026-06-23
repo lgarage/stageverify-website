@@ -7,11 +7,11 @@ import { howItWorksSteps, sectionCopy } from "../../data/site";
 <SectionShell id="how-it-works" variant="steel">
   <SectionHeader
     eyebrow={sectionCopy.howItWorks.eyebrow}
-    title="One clear trail from delivery to pickup."
+    title={sectionCopy.howItWorks.title}
     description={sectionCopy.howItWorks.intro}
   />
 
-  <ol class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+  <ol class="mt-12 grid gap-5 md:mt-14 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
     {
       howItWorksSteps.map((item) => (
         <li class="group relative flex flex-col rounded-2xl border border-sv-border-light bg-white p-6 shadow-sm transition-shadow hover:shadow-md">

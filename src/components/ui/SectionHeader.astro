@@ -18,23 +18,33 @@ const {
 } = Astro.props;
 
 const titleClass = dark ? "text-white" : "text-navy";
-const descClass = dark ? "text-white/75" : "text-gray-text";
+const descClass = dark ? "text-white/70" : "text-gray-text";
 const eyebrowClass = dark ? "text-sv-cyan" : "text-sv-blue";
 const alignClass = align === "left" ? "text-left" : "text-center mx-auto max-w-3xl";
+const descAlignClass = align === "left" ? "max-w-xl" : "mx-auto max-w-2xl";
 ---
 
 <div class:list={[alignClass, className]}>
-  {eyebrow && (
-    <p class:list={["mb-3 text-xs font-semibold uppercase tracking-widest", eyebrowClass]}>
-      {eyebrow}
-    </p>
-  )}
-  <h2 class:list={["text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl", titleClass]}>
+  {
+    eyebrow && (
+      <p class:list={["mb-3 text-xs font-semibold uppercase tracking-widest", eyebrowClass]}>
+        {eyebrow}
+      </p>
+    )
+  }
+  <h2
+    class:list={[
+      "text-2xl font-bold leading-[1.15] tracking-tight sm:text-3xl md:text-4xl",
+      titleClass,
+    ]}
+  >
     {title}
   </h2>
-  {description && (
-    <p class:list={["mt-4 text-base leading-relaxed sm:text-lg", descClass]}>
-      {description}
-    </p>
-  )}
+  {
+    description && (
+      <p class:list={["mt-4 text-base leading-relaxed sm:text-lg", descAlignClass, descClass]}>
+        {description}
+      </p>
+    )
+  }
 </div>

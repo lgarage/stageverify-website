@@ -26,25 +26,32 @@ export const problemCards = [
 
 export const sectionCopy = {
   problem: {
-    eyebrow: "Don't send the tech until the material is ready",
+    eyebrow: "The problem",
+    title: "The handoff is where materials get lost.",
+    intro: "Know what is actually ready before you send the tech.",
   },
   howItWorks: {
     eyebrow: "The workflow",
+    title: "One clear trail from delivery to pickup.",
     intro:
       "StageVerify keeps the shop trail clear from vendor drop-off to technician pickup.",
   },
   features: {
     eyebrow: "Capabilities",
+    title: "Shop staging control without a full warehouse system.",
   },
   whoItsFor: {
-    eyebrow: "Trade contractors",
+    eyebrow: "Who it's for",
+    title: "Built for trade contractors.",
     intro:
       "For contractors who stage job materials in a shop before sending crews to the field.",
   },
   scale: {
     eyebrow: "Grow with you",
+    title: "Start with one shop. Expand to every branch.",
     intro:
       "Start with one staging area. Add more zones, branches, and material workflows as the operation grows.",
+    note: "Grounded in contractor shops — not massive automated warehouses.",
   },
   demo: {
     eyebrow: "Request a demo",
@@ -59,18 +66,17 @@ export const howItWorksSteps = [
   {
     step: 1,
     title: "Dispatch assigns it",
-    description: "Job, vendor, PO, and staging location are set before delivery.",
+    description: "Job, vendor, PO, and location set before delivery.",
   },
   {
     step: 2,
     title: "Vendor drops it off",
-    description: "The driver follows the assigned location and confirms delivery.",
+    description: "The driver confirms delivery at the assigned location.",
   },
   {
     step: 3,
     title: "StageVerify checks readiness",
-    description:
-      "Dispatch sees what is ready, partial, backordered, missing, or needs review.",
+    description: "Dispatch sees what is ready, partial, backordered, or needs review.",
   },
   {
     step: 4,
@@ -87,8 +93,7 @@ export const howItWorksSteps = [
 export const features = [
   {
     title: "Vendor delivery tracking",
-    description:
-      "Know which vendor dropped off material, for which job and PO.",
+    description: "Know which vendor dropped off, for which job and PO.",
   },
   {
     title: "Staging location visibility",
@@ -97,7 +102,7 @@ export const features = [
   {
     title: "Readiness status",
     description:
-      "See what is ready, partial, missing, backordered, or needs review before pickup is scheduled.",
+      "See what is ready, partial, missing, or needs review before pickup.",
   },
   {
     title: "Pickup verification",
@@ -105,13 +110,11 @@ export const features = [
   },
   {
     title: "QR-based workflow",
-    description:
-      "Simple links and scans without extra accounts for vendors or techs.",
+    description: "Simple links and scans — no extra accounts for vendors or techs.",
   },
   {
     title: "Delivery history",
-    description:
-      "Pull up the record when a delivery or pickup gets questioned.",
+    description: "Pull up the record when a delivery or pickup gets questioned.",
   },
   {
     title: "Multi-shop ready",
@@ -119,8 +122,7 @@ export const features = [
   },
   {
     title: "Simple field workflow",
-    description:
-      "Vendors, dispatch, shop staff, and technicians each see only what they need to keep materials moving.",
+    description: "Each role sees only what they need to keep materials moving.",
   },
 ] as const;
 
@@ -150,8 +152,7 @@ export const scaleStages = [
   },
   {
     title: "Larger material operation",
-    description:
-      "More control across locations — without a warehouse overhaul.",
+    description: "More control across locations — without a warehouse overhaul.",
   },
 ] as const;
 

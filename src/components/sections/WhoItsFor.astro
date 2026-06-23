@@ -8,11 +8,11 @@ import { industries, sectionCopy } from "../../data/site";
 <SectionShell id="who-its-for" variant="white">
   <SectionHeader
     eyebrow={sectionCopy.whoItsFor.eyebrow}
-    title="Built for trade contractors."
+    title={sectionCopy.whoItsFor.title}
     description={sectionCopy.whoItsFor.intro}
   />
 
-  <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="mt-12 grid gap-5 sm:grid-cols-2 md:mt-14 lg:grid-cols-4">
     {
       industries.map((industry) => (
         <Card class="h-full border-sv-border-light/80 text-center transition-shadow hover:border-sv-blue/20">

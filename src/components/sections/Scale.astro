@@ -9,14 +9,14 @@ import { scaleStages, sectionCopy } from "../../data/site";
     <div>
       <SectionHeader
         eyebrow={sectionCopy.scale.eyebrow}
-        title="Start with one shop. Expand to every branch."
+        title={sectionCopy.scale.title}
         description={sectionCopy.scale.intro}
         dark
         align="left"
         class="max-w-xl"
       />
-      <p class="mt-6 text-sm leading-relaxed text-white/60">
-        Grounded in contractor shops — not massive automated warehouses.
+      <p class="mt-3 max-w-xl text-sm leading-relaxed text-white/60">
+        {sectionCopy.scale.note}
       </p>
     </div>
 
