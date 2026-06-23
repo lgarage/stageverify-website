@@ -101,9 +101,13 @@ async function checkViewport(browser, { name, width, height }) {
     if (await mockup.first().isVisible()) pass(`[${name}] Hero mockup visible`);
     else fail(`[${name}] Hero mockup not visible`);
 
-    const featureDesc = page.getByText(/Log what the vendor dropped off|Vendor delivery tracking/);
     const hasFeatureDetail = await page
-      .getByText(/Know which vendor dropped off material|See where material is staged before anyone goes looking/)
+      .locator("#features")
+      .getByText(/Know which vendor dropped off material|Simple field workflow/)
+      .count();
+    const hasHowItWorksDetail = await page
+      .locator("#how-it-works")
+      .getByText(/Dispatch assigns it|StageVerify shows readiness/)
       .count();
     const hasFeatureTitleOnly = await page
       .locator("#features")
@@ -112,6 +116,9 @@ async function checkViewport(browser, { name, width, height }) {
     if (hasFeatureDetail > 0) pass(`[${name}] Feature descriptions present`);
     else if (hasFeatureTitleOnly > 0) pass(`[${name}] Feature list present (titles only)`);
     else fail(`[${name}] Features section content missing`);
+
+    if (hasHowItWorksDetail > 0) pass(`[${name}] How It Works steps present`);
+    else fail(`[${name}] How It Works content missing`);
 
     if (name === "desktop") {
       await page.evaluate(() => window.scrollTo(0, 0));

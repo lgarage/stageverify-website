@@ -1,15 +1,20 @@
 ---
 import SectionShell from "../ui/SectionShell.astro";
-import SectionHeader from "../ui/SectionHeader.astro";
 import Card from "../ui/Card.astro";
 import { problemCards, sectionCopy, problemCallout } from "../../data/site";
 ---
 
 <SectionShell id="problem" variant="white">
-  <SectionHeader
-    eyebrow={sectionCopy.problem.eyebrow}
-    title="The handoff is where materials get lost."
-  />
+  <div class="mx-auto max-w-3xl text-center">
+    <p
+      class="mb-5 inline-flex items-center rounded-full border border-sv-blue/20 bg-sv-blue/[0.08] px-4 py-2 text-sm font-semibold uppercase tracking-wide text-sv-blue sm:text-[15px]"
+    >
+      {sectionCopy.problem.eyebrow}
+    </p>
+    <h2 class="text-2xl font-bold tracking-tight text-navy sm:text-3xl md:text-4xl">
+      The handoff is where materials get lost.
+    </h2>
+  </div>
 
   <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
     {

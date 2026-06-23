@@ -26,12 +26,12 @@ export const problemCards = [
 
 export const sectionCopy = {
   problem: {
-    eyebrow: "The gap",
+    eyebrow: "The gap between delivery and pickup",
   },
   howItWorks: {
     eyebrow: "The workflow",
     intro:
-      "From vendor drop-off to technician pickup, StageVerify keeps the shop trail clear — without adding a warehouse system.",
+      "StageVerify keeps the shop trail clear from vendor drop-off to technician pickup.",
   },
   features: {
     eyebrow: "Capabilities",
@@ -58,33 +58,28 @@ export const sectionCopy = {
 export const howItWorksSteps = [
   {
     step: 1,
-    title: "Dispatch sets the job and location",
-    description:
-      "Assign the job, vendor, PO, and staging location before the delivery arrives.",
+    title: "Dispatch assigns it",
+    description: "Job, vendor, PO, and staging location are set before delivery.",
   },
   {
     step: 2,
-    title: "Vendor confirms drop-off",
-    description:
-      "The vendor follows the assigned location and confirms the material was delivered.",
+    title: "Vendor drops it off",
+    description: "The driver follows the assigned location and confirms delivery.",
   },
   {
     step: 3,
-    title: "StageVerify tracks readiness",
-    description:
-      "Dispatch sees what is ready, what is partial, and what needs review.",
+    title: "StageVerify shows readiness",
+    description: "Dispatch sees what is ready, partial, or needs review.",
   },
   {
     step: 4,
-    title: "Pickup details are sent",
-    description:
-      "When the material is ready, dispatch sends the technician the pickup link and locations.",
+    title: "Pickup info is sent",
+    description: "The technician gets the pickup link and locations.",
   },
   {
     step: 5,
-    title: "Technician confirms pickup",
-    description:
-      "The technician checks off what was collected so dispatch can see what left the shop and what remains.",
+    title: "Pickup is confirmed",
+    description: "StageVerify records what left the shop and what remains.",
   },
 ] as const;
 
