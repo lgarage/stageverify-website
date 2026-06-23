@@ -50,7 +50,7 @@ export const sectionCopy = {
     eyebrow: "Request a demo",
     title: "Give operations a clear material trail",
     intro:
-      "See how StageVerify tracks vendor delivery, shop staging, readiness, and technician pickup in one simple flow.",
+      "See how StageVerify gives operations one clear view from vendor delivery to technician pickup.",
     reassurance: "No platform contract required to see how it works.",
   },
 } as const;
@@ -91,7 +91,8 @@ export const howItWorksSteps = [
 export const features = [
   {
     title: "Vendor delivery tracking",
-    description: "Know which vendor dropped off material, for which job and PO.",
+    description:
+      "Know which vendor dropped off material, for which job and PO.",
   },
   {
     title: "Staging location visibility",
@@ -107,11 +108,13 @@ export const features = [
   },
   {
     title: "QR-based workflow",
-    description: "Simple links and scans without extra accounts for vendors or techs.",
+    description:
+      "Simple links and scans without extra accounts for vendors or techs.",
   },
   {
     title: "Delivery history",
-    description: "Pull up the record when a delivery or pickup gets questioned.",
+    description:
+      "Pull up the record when a delivery or pickup gets questioned.",
   },
   {
     title: "Multi-shop ready",
@@ -150,7 +153,8 @@ export const scaleStages = [
   },
   {
     title: "Larger material operation",
-    description: "More control across locations — without a warehouse overhaul.",
+    description:
+      "More control across locations — without a warehouse overhaul.",
   },
 ] as const;
 
