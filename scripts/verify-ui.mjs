@@ -43,9 +43,9 @@ function fail(msg) {
 }
 
 /** Stretched favicon target: strong width fill with improved vertical presence. */
-const FAVICON_MIN_HEIGHT_FILL = 0.48;
-const FAVICON_MIN_WIDTH_FILL = 0.80;
-const FAVICON_MAX_HEIGHT_FILL = 0.66;
+const FAVICON_MIN_HEIGHT_FILL = 0.52;
+const FAVICON_MIN_WIDTH_FILL = 0.78;
+const FAVICON_MAX_HEIGHT_FILL = 0.72;
 const FAVICON_MAX_WIDTH_FILL = 0.94;
 const FAVICON_MIN_MAX_FILL = 0.85;
 const FAVICON_MAX_MAX_FILL = 0.94;

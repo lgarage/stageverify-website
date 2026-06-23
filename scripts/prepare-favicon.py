@@ -15,9 +15,10 @@ PUBLIC = ROOT / "public"
 PREVIEW_DIR = PUBLIC / "favicon-preview"
 LOGOS = ROOT / "logos"
 
-PREVIEW_SIZES = [16, 24, 32]
+PREVIEW_SIZES = [16, 24, 32, 48]
 NAVY = (11, 31, 58)
 MIN_EDGE_PX = 1
+MAX_STRETCH_RATIO = 1.58  # reject variants that look over-stretched
 
 
 @dataclass(frozen=True)
@@ -29,15 +30,17 @@ class FaviconVariant:
 
 
 STRETCH_VARIANTS = [
-    FaviconVariant("baseline", "Baseline 90%, no stretch", 90, 100),
-    FaviconVariant("90v105", "90% width, 105% vertical", 90, 105),
-    FaviconVariant("90v110", "90% width, 110% vertical", 90, 110),
-    FaviconVariant("88v112", "88% width, 112% vertical", 88, 112),
-    FaviconVariant("86v115", "86% width, 115% vertical", 86, 115),
+    FaviconVariant("baseline", "Baseline (current 88×112)", 88, 112),
+    FaviconVariant("86v118", "86% width × 118% height", 86, 118),
+    FaviconVariant("86v122", "86% width × 122% height", 86, 122),
+    FaviconVariant("86v120", "86% width × 120% height", 86, 120),
+    FaviconVariant("84v126", "84% width × 126% height", 84, 126),
+    FaviconVariant("84v128", "84% width × 128% height", 84, 128),
+    FaviconVariant("84v130", "84% width × 130% height", 84, 130),
+    FaviconVariant("82v132", "82% width × 132% height", 82, 132),
 ]
 
-# Best balance: taller at 16px than 90v110 without 86v115 distortion.
-CHOSEN_VARIANT = FaviconVariant("88v112", "88% width, 112% vertical", 88, 112)
+CHOSEN_VARIANT = FaviconVariant("84v126", "84% width × 126% height", 84, 126)
 
 
 def trim_transparent_and_white(im: Image.Image, threshold: int = 250) -> Image.Image:
@@ -199,7 +202,7 @@ def checker_cell(size: int) -> Image.Image:
 
 def build_stretch_sheet() -> Image.Image:
     cell = 88
-    label_w = 210
+    label_w = 230
     header_h = 34
     sheet_w = label_w + cell * len(PREVIEW_SIZES)
     sheet_h = header_h + cell * len(STRETCH_VARIANTS)
@@ -267,7 +270,7 @@ def write_preview_html() -> None:
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>StageVerify favicon stretch ladder</title>
+    <title>StageVerify transparent favicon ladder</title>
     <style>
       body {{ font-family: system-ui, sans-serif; margin: 2rem; color: #0b1f3a; background: #f4f6f8; }}
       h1 {{ font-size: 1.35rem; margin-bottom: 0.25rem; }}
@@ -302,10 +305,10 @@ def write_preview_html() -> None:
     </style>
   </head>
   <body>
-    <h1>StageVerify favicon stretch ladder</h1>
+    <h1>StageVerify transparent favicon ladder</h1>
     <p>
-      Favicon-only vertical stretch variants at real tab sizes. Selected production variant:
-      <strong>{CHOSEN_VARIANT.label}</strong>.
+      Transparent SV letters only — no background shape. Compare stretch variants at real tab sizes.
+      Selected production variant: <strong>{CHOSEN_VARIANT.label}</strong>.
     </p>
     <div class="sheet">
       <p><strong>Contact sheet</strong></p>
@@ -319,8 +322,14 @@ def write_preview_html() -> None:
 
 
 def cleanup_old_preview_assets() -> None:
-    for path in PREVIEW_DIR.glob("sv-*"):
-        path.unlink(missing_ok=True)
+    keep_ids = {variant.id for variant in STRETCH_VARIANTS}
+    for path in PREVIEW_DIR.glob("*-*.png"):
+        variant_id = path.name.rsplit("-", 1)[0]
+        if variant_id not in keep_ids and path.name not in {
+            "favicon-stretch-ladder.png",
+            "stretch-screenshot.png",
+        }:
+            path.unlink(missing_ok=True)
     for name in ("favicon-sizing-ladder.png", "ladder-screenshot.png"):
         path = PREVIEW_DIR / name
         if path.exists():
@@ -328,17 +337,22 @@ def cleanup_old_preview_assets() -> None:
 
 
 def pick_best_variant() -> FaviconVariant:
-    """Prefer the largest vertical presence with safe edge clearance at 16px."""
+    """Largest transparent SV with safe edges and acceptable stretch."""
     passing: list[tuple[float, FaviconVariant]] = []
 
     for variant in STRETCH_VARIANTS:
+        ratio = variant.vertical_stretch / variant.width_percent
+        if ratio > MAX_STRETCH_RATIO:
+            continue
+
         m16 = measure_fill(variant_icon(16, variant))
         m32 = measure_fill(variant_icon(32, variant))
         if m16["edgeClearance"] < MIN_EDGE_PX or m32["edgeClearance"] < MIN_EDGE_PX:
             continue
-        score = float(m16["heightFill"]) * 0.6 + float(m32["heightFill"]) * 0.4
-        if variant.id == "90v110":
-            score += 0.02
+        if float(m16["heightFill"]) > 0.72 or float(m32["heightFill"]) > 0.78:
+            continue
+
+        score = float(m16["heightFill"]) * 0.65 + float(m32["heightFill"]) * 0.35
         passing.append((score, variant))
 
     if not passing:
@@ -351,6 +365,9 @@ def pick_best_variant() -> FaviconVariant:
 def main() -> None:
     if not SRC.exists():
         raise SystemExit(f"Missing source logo: {SRC}")
+
+    global CHOSEN_VARIANT
+    CHOSEN_VARIANT = pick_best_variant()
 
     LOGOS.mkdir(parents=True, exist_ok=True)
     PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
@@ -370,9 +387,6 @@ def main() -> None:
     transparent_uri = png_to_data_uri(master)
     write_svg(PUBLIC / "favicon.svg", None, transparent_uri)
     write_svg(LOGOS / "favicon-transparent.svg", None, transparent_uri)
-
-    blue_master = variant_icon(512, CHOSEN_VARIANT, NAVY)
-    write_svg(LOGOS / "favicon-bluebg.svg", "#0b1f3a", png_to_data_uri(blue_master))
 
     icons = {
         16: variant_icon(16, CHOSEN_VARIANT, None),
@@ -400,8 +414,7 @@ def main() -> None:
         f"Chosen variant: {CHOSEN_VARIANT.label} "
         f"(width {CHOSEN_VARIANT.width_percent:.0f}%, stretch {CHOSEN_VARIANT.vertical_stretch:.0f}%)"
     )
-    print("\nStretch ladder metrics:")
-    recommended = pick_best_variant()
+    print("\nTransparent ladder metrics:")
     for variant in STRETCH_VARIANTS:
         m16 = measure_fill(variant_icon(16, variant))
         m32 = measure_fill(variant_icon(32, variant))
@@ -411,7 +424,6 @@ def main() -> None:
             f"16px h={m16['heightFill']:.0%} w={m16['widthFill']:.0%} edge={m16['edgeClearance']}px | "
             f"32px h={m32['heightFill']:.0%} w={m32['widthFill']:.0%}{marker}"
         )
-    print(f"  Auto-score leader (metrics only): {recommended.label}")
 
     m16 = measure_fill(icons[16])
     m32 = measure_fill(icons[32])
