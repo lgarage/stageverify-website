@@ -42,10 +42,10 @@ function fail(msg) {
   console.error(`  ✗ ${msg}`);
 }
 
-/** Scale ladder target: SV ~88–91% width fill with visible edge clearance. */
-const FAVICON_MIN_HEIGHT_FILL = 0.38;
+/** Stretched favicon target: strong width fill with improved vertical presence. */
+const FAVICON_MIN_HEIGHT_FILL = 0.48;
 const FAVICON_MIN_WIDTH_FILL = 0.80;
-const FAVICON_MAX_HEIGHT_FILL = 0.60;
+const FAVICON_MAX_HEIGHT_FILL = 0.66;
 const FAVICON_MAX_WIDTH_FILL = 0.94;
 const FAVICON_MIN_MAX_FILL = 0.85;
 const FAVICON_MAX_MAX_FILL = 0.94;

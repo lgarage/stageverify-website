@@ -1,9 +1,10 @@
-"""Generate SV-mark favicons with configurable scale and a sizing ladder preview."""
+"""Generate favicon-specific SV marks with optional vertical stretch and preview ladders."""
 
 from __future__ import annotations
 
 import base64
 import io
+from dataclasses import dataclass
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -14,12 +15,29 @@ PUBLIC = ROOT / "public"
 PREVIEW_DIR = PUBLIC / "favicon-preview"
 LOGOS = ROOT / "logos"
 
-# Largest variant that stays centered with visible edge clearance at 16px.
-CHOSEN_SCALE_PERCENT = 90
-
-LADDER_PERCENTS = [70, 75, 80, 85, 90, 92, 94]
-PREVIEW_SIZES = [16, 24, 32, 48]
+PREVIEW_SIZES = [16, 24, 32]
 NAVY = (11, 31, 58)
+MIN_EDGE_PX = 1
+
+
+@dataclass(frozen=True)
+class FaviconVariant:
+    id: str
+    label: str
+    width_percent: float
+    vertical_stretch: float = 100.0
+
+
+STRETCH_VARIANTS = [
+    FaviconVariant("baseline", "Baseline 90%, no stretch", 90, 100),
+    FaviconVariant("90v105", "90% width, 105% vertical", 90, 105),
+    FaviconVariant("90v110", "90% width, 110% vertical", 90, 110),
+    FaviconVariant("88v112", "88% width, 112% vertical", 88, 112),
+    FaviconVariant("86v115", "86% width, 115% vertical", 86, 115),
+]
+
+# Best balance: taller at 16px than 90v110 without 86v115 distortion.
+CHOSEN_VARIANT = FaviconVariant("88v112", "88% width, 112% vertical", 88, 112)
 
 
 def trim_transparent_and_white(im: Image.Image, threshold: int = 250) -> Image.Image:
@@ -47,43 +65,67 @@ def trim_transparent_and_white(im: Image.Image, threshold: int = 250) -> Image.I
     return im.crop((min_x, min_y, max_x + 1, max_y + 1))
 
 
-def contain_mark(max_w: int, max_h: int, src: Image.Image | None = None) -> Image.Image:
-    """Scale the mark to fit inside max_w x max_h, centered, preserving aspect ratio."""
-    mark_src = trim_transparent_and_white(src or Image.open(SRC))
-    scale = min(max_w / mark_src.width, max_h / mark_src.height)
-    mark_w = max(1, int(mark_src.width * scale))
-    mark_h = max(1, int(mark_src.height * scale))
-    mark = mark_src.resize((mark_w, mark_h), Image.Resampling.LANCZOS)
-
-    canvas = Image.new("RGBA", (max_w, max_h), (0, 0, 0, 0))
-    canvas.paste(
-        mark,
-        ((max_w - mark_w) // 2, (max_h - mark_h) // 2),
-        mark,
-    )
-    return canvas
-
-
-def square_icon(
+def favicon_icon(
     size: int,
-    scale_percent: float,
+    width_percent: float,
+    vertical_stretch: float = 100.0,
     background: tuple[int, int, int] | None = None,
+    src: Image.Image | None = None,
 ) -> Image.Image:
-    """Place the SV mark inside a square canvas at the given scale percentage."""
-    inner = max(1, round(size * scale_percent / 100))
-    render_size = inner * 4 if size <= 32 else inner * 2
-    mark = contain_mark(render_size, render_size)
-    if render_size != inner:
-        mark = mark.resize((inner, inner), Image.Resampling.LANCZOS)
+    """Render a favicon-only SV mark with optional vertical stretch."""
+    mark_src = trim_transparent_and_white(src or Image.open(SRC))
+    supersample = 4 if size <= 32 else 2
+    work_size = size * supersample
+    margin = max(MIN_EDGE_PX, 2) * supersample if size <= 32 else MIN_EDGE_PX * supersample
 
-    if background is None:
-        canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    else:
-        canvas = Image.new("RGBA", (size, size), background + (255,))
+    for shrink in (1.0, 0.96, 0.92, 0.88):
+        max_w = work_size - 2 * margin
+        max_h = work_size - 2 * margin
+        target_w = max(1, min(max_w, round(work_size * width_percent / 100 * shrink)))
+        scale = target_w / mark_src.width
+        mark_h = max(1, int(mark_src.height * scale))
+        mark = mark_src.resize((target_w, mark_h), Image.Resampling.LANCZOS)
 
-    offset = ((size - inner) // 2, (size - inner) // 2)
-    canvas.paste(mark, offset, mark)
-    return canvas
+        if vertical_stretch != 100.0:
+            mark_h = max(1, int(mark_h * vertical_stretch / 100.0))
+            mark = mark.resize((target_w, mark_h), Image.Resampling.LANCZOS)
+
+        if mark.width > max_w or mark.height > max_h:
+            fit = min(max_w / mark.width, max_h / mark.height)
+            mark = mark.resize(
+                (max(1, int(mark.width * fit)), max(1, int(mark.height * fit))),
+                Image.Resampling.LANCZOS,
+            )
+
+        if background is None:
+            canvas = Image.new("RGBA", (work_size, work_size), (0, 0, 0, 0))
+        else:
+            canvas = Image.new("RGBA", (work_size, work_size), background + (255,))
+
+        canvas.paste(
+            mark,
+            ((work_size - mark.width) // 2, (work_size - mark.height) // 2),
+            mark,
+        )
+
+        final = (
+            canvas.resize((size, size), Image.Resampling.LANCZOS)
+            if supersample > 1
+            else canvas
+        )
+        if size > 32 or measure_fill(final)["edgeClearance"] >= MIN_EDGE_PX:
+            return final
+
+    return final
+
+
+def variant_icon(size: int, variant: FaviconVariant, background=None) -> Image.Image:
+    return favicon_icon(
+        size,
+        variant.width_percent,
+        variant.vertical_stretch,
+        background=background,
+    )
 
 
 def png_to_data_uri(im: Image.Image) -> str:
@@ -155,12 +197,12 @@ def checker_cell(size: int) -> Image.Image:
     return Image.alpha_composite(preview, checker)
 
 
-def build_ladder_sheet() -> Image.Image:
+def build_stretch_sheet() -> Image.Image:
     cell = 88
-    label_w = 92
+    label_w = 210
     header_h = 34
     sheet_w = label_w + cell * len(PREVIEW_SIZES)
-    sheet_h = header_h + cell * len(LADDER_PERCENTS)
+    sheet_h = header_h + cell * len(STRETCH_VARIANTS)
     sheet = Image.new("RGB", (sheet_w, sheet_h), (245, 246, 248))
     draw = ImageDraw.Draw(sheet)
 
@@ -168,11 +210,11 @@ def build_ladder_sheet() -> Image.Image:
         x = label_w + col * cell
         draw.text((x + 24, 10), f"{size}px", fill=(11, 31, 58))
 
-    for row, pct in enumerate(LADDER_PERCENTS):
+    for row, variant in enumerate(STRETCH_VARIANTS):
         y0 = header_h + row * cell
-        draw.text((8, y0 + 36), f"SV {pct}%", fill=(11, 31, 58))
+        draw.text((8, y0 + 34), variant.label, fill=(11, 31, 58))
         for col, size in enumerate(PREVIEW_SIZES):
-            icon = square_icon(size, pct)
+            icon = variant_icon(size, variant)
             tile = checker_cell(cell)
             offset = ((cell - size) // 2, (cell - size) // 2)
             tile.paste(icon, offset, icon)
@@ -181,28 +223,41 @@ def build_ladder_sheet() -> Image.Image:
     return sheet
 
 
+def reference_tab_icons() -> dict[str, str]:
+    return {
+        "gmail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23c5221f' d='M1 3.5v9h14v-9H1zm12.8 1.1L8 8.9 2.2 4.6h11.6z'/%3E%3C/svg%3E",
+        "gemini": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%234285f4' d='M8 1l1.8 5.5L15 8l-5.2 1.5L8 15l-1.8-5.5L1 8l5.2-1.5z'/%3E%3C/svg%3E",
+        "chatgpt": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%2310a37f'/%3E%3C/svg%3E",
+    }
+
+
 def write_preview_html() -> None:
+    refs = reference_tab_icons()
+    ref_tabs = "".join(
+        f"""        <div class="tab ref"><img src="{href}" width="16" height="16" alt="" />{name.title()}</div>"""
+        for name, href in refs.items()
+    )
+
     rows = []
-    for pct in LADDER_PERCENTS:
+    for variant in STRETCH_VARIANTS:
         cells = []
         for size in PREVIEW_SIZES:
-            src = f"./sv-{pct}-32.png"
+            src = f"./{variant.id}-{size}.png"
             cells.append(
                 f"""      <div class="cell">
         <h3>{size}×{size}</h3>
         <div class="icon-wrap"><img src="{src}" width="{size}" height="{size}" alt="" /></div>
       </div>"""
             )
-        chosen = ' class="row chosen"' if pct == CHOSEN_SCALE_PERCENT else ""
+        chosen = ' class="row chosen"' if variant.id == CHOSEN_VARIANT.id else ""
         rows.append(
             f"""    <section{chosen}>
-      <h2>SV {pct}%</h2>
+      <h2>{variant.label}</h2>
       <div class="grid">{''.join(cells)}
       </div>
       <div class="tab-row">
-        <div class="tab"><img src="./sv-{pct}-16.png" width="16" height="16" alt="" />StageVerify</div>
-        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234285f4'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
-        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%2334a853'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+        <div class="tab"><img src="./{variant.id}-16.png" width="16" height="16" alt="" />StageVerify</div>
+{ref_tabs}
       </div>
     </section>"""
         )
@@ -212,7 +267,7 @@ def write_preview_html() -> None:
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>StageVerify favicon sizing ladder</title>
+    <title>StageVerify favicon stretch ladder</title>
     <style>
       body {{ font-family: system-ui, sans-serif; margin: 2rem; color: #0b1f3a; background: #f4f6f8; }}
       h1 {{ font-size: 1.35rem; margin-bottom: 0.25rem; }}
@@ -241,20 +296,20 @@ def write_preview_html() -> None:
         background: #fff; border: 1px solid #d7dee8; border-bottom: none; font-size: 0.8125rem;
       }}
       .tab img {{ width: 16px; height: 16px; image-rendering: pixelated; }}
-      .tab.ref {{ opacity: 0.85; }}
+      .tab.ref {{ opacity: 0.9; }}
       .sheet {{ margin-top: 1.5rem; max-width: 100%; }}
       .sheet img {{ max-width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; }}
     </style>
   </head>
   <body>
-    <h1>StageVerify favicon sizing ladder</h1>
+    <h1>StageVerify favicon stretch ladder</h1>
     <p>
-      Compare SV mark scale variants at real favicon sizes. Selected production scale:
-      <strong>SV {CHOSEN_SCALE_PERCENT}%</strong> (transparent canvas, centered, aspect preserved).
+      Favicon-only vertical stretch variants at real tab sizes. Selected production variant:
+      <strong>{CHOSEN_VARIANT.label}</strong>.
     </p>
     <div class="sheet">
       <p><strong>Contact sheet</strong></p>
-      <img src="./favicon-sizing-ladder.png" alt="Favicon sizing ladder" />
+      <img src="./favicon-stretch-ladder.png" alt="Favicon stretch ladder" />
     </div>
 {''.join(rows)}
   </body>
@@ -263,34 +318,67 @@ def write_preview_html() -> None:
     (PREVIEW_DIR / "index.html").write_text(html, encoding="utf-8")
 
 
+def cleanup_old_preview_assets() -> None:
+    for path in PREVIEW_DIR.glob("sv-*"):
+        path.unlink(missing_ok=True)
+    for name in ("favicon-sizing-ladder.png", "ladder-screenshot.png"):
+        path = PREVIEW_DIR / name
+        if path.exists():
+            path.unlink()
+
+
+def pick_best_variant() -> FaviconVariant:
+    """Prefer the largest vertical presence with safe edge clearance at 16px."""
+    passing: list[tuple[float, FaviconVariant]] = []
+
+    for variant in STRETCH_VARIANTS:
+        m16 = measure_fill(variant_icon(16, variant))
+        m32 = measure_fill(variant_icon(32, variant))
+        if m16["edgeClearance"] < MIN_EDGE_PX or m32["edgeClearance"] < MIN_EDGE_PX:
+            continue
+        score = float(m16["heightFill"]) * 0.6 + float(m32["heightFill"]) * 0.4
+        if variant.id == "90v110":
+            score += 0.02
+        passing.append((score, variant))
+
+    if not passing:
+        return CHOSEN_VARIANT
+
+    passing.sort(key=lambda item: item[0], reverse=True)
+    return passing[0][1]
+
+
 def main() -> None:
     if not SRC.exists():
         raise SystemExit(f"Missing source logo: {SRC}")
 
     LOGOS.mkdir(parents=True, exist_ok=True)
     PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
+    cleanup_old_preview_assets()
 
-    for pct in LADDER_PERCENTS:
-        icon32 = square_icon(32, pct)
-        icon32.save(PREVIEW_DIR / f"sv-{pct}-32.png", optimize=True)
-        square_icon(16, pct).save(PREVIEW_DIR / f"sv-{pct}-16.png", optimize=True)
+    for variant in STRETCH_VARIANTS:
+        for size in PREVIEW_SIZES:
+            variant_icon(size, variant).save(
+                PREVIEW_DIR / f"{variant.id}-{size}.png",
+                optimize=True,
+            )
 
-    ladder = build_ladder_sheet()
-    ladder.save(PREVIEW_DIR / "favicon-sizing-ladder.png", optimize=True)
+    stretch_sheet = build_stretch_sheet()
+    stretch_sheet.save(PREVIEW_DIR / "favicon-stretch-ladder.png", optimize=True)
 
-    master = square_icon(512, CHOSEN_SCALE_PERCENT, None)
+    master = variant_icon(512, CHOSEN_VARIANT, None)
     transparent_uri = png_to_data_uri(master)
     write_svg(PUBLIC / "favicon.svg", None, transparent_uri)
     write_svg(LOGOS / "favicon-transparent.svg", None, transparent_uri)
 
-    blue_master = square_icon(512, CHOSEN_SCALE_PERCENT, NAVY)
+    blue_master = variant_icon(512, CHOSEN_VARIANT, NAVY)
     write_svg(LOGOS / "favicon-bluebg.svg", "#0b1f3a", png_to_data_uri(blue_master))
 
     icons = {
-        16: square_icon(16, CHOSEN_SCALE_PERCENT, None),
-        32: square_icon(32, CHOSEN_SCALE_PERCENT, None),
-        48: square_icon(48, CHOSEN_SCALE_PERCENT, None),
-        180: square_icon(180, CHOSEN_SCALE_PERCENT, None),
+        16: variant_icon(16, CHOSEN_VARIANT, None),
+        32: variant_icon(32, CHOSEN_VARIANT, None),
+        48: variant_icon(48, CHOSEN_VARIANT, None),
+        180: variant_icon(180, CHOSEN_VARIANT, None),
     }
 
     icons[16].save(PUBLIC / "favicon-16x16.png", optimize=True)
@@ -307,16 +395,23 @@ def main() -> None:
 
     write_preview_html()
 
-    print(f"Source: {SRC}")
-    print(f"Chosen scale: SV {CHOSEN_SCALE_PERCENT}%")
-    print("\nLadder metrics at 32x32:")
-    for pct in LADDER_PERCENTS:
-        m = measure_fill(square_icon(32, pct))
-        marker = " <-- chosen" if pct == CHOSEN_SCALE_PERCENT else ""
+    print(f"Source: {SRC} (favicon-only transforms; header logo unchanged)")
+    print(
+        f"Chosen variant: {CHOSEN_VARIANT.label} "
+        f"(width {CHOSEN_VARIANT.width_percent:.0f}%, stretch {CHOSEN_VARIANT.vertical_stretch:.0f}%)"
+    )
+    print("\nStretch ladder metrics:")
+    recommended = pick_best_variant()
+    for variant in STRETCH_VARIANTS:
+        m16 = measure_fill(variant_icon(16, variant))
+        m32 = measure_fill(variant_icon(32, variant))
+        marker = " <-- chosen" if variant.id == CHOSEN_VARIANT.id else ""
         print(
-            f"  SV {pct:>2}% — width {m['widthFill']:.0%}, height {m['heightFill']:.0%}, "
-            f"edge clearance {m['edgeClearance']}px{marker}"
+            f"  {variant.label} — "
+            f"16px h={m16['heightFill']:.0%} w={m16['widthFill']:.0%} edge={m16['edgeClearance']}px | "
+            f"32px h={m32['heightFill']:.0%} w={m32['widthFill']:.0%}{marker}"
         )
+    print(f"  Auto-score leader (metrics only): {recommended.label}")
 
     m16 = measure_fill(icons[16])
     m32 = measure_fill(icons[32])
@@ -328,11 +423,6 @@ def main() -> None:
         f"Production 32x32 — width {m32['widthFill']:.0%}, height {m32['heightFill']:.0%}, "
         f"edge {m32['edgeClearance']}px"
     )
-    print(f"\nWrote {PUBLIC / 'favicon.svg'}")
-    print(f"Wrote {PUBLIC / 'favicon-16x16.png'}")
-    print(f"Wrote {PUBLIC / 'favicon-32x32.png'}")
-    print(f"Wrote {PREVIEW_DIR / 'index.html'}")
-    print(f"Wrote {PREVIEW_DIR / 'favicon-sizing-ladder.png'}")
 
 
 if __name__ == "__main__":
