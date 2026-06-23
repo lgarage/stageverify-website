@@ -107,7 +107,7 @@ async function checkViewport(browser, { name, width, height }) {
       .count();
     const hasHowItWorksDetail = await page
       .locator("#how-it-works")
-      .getByText(/Dispatch assigns it|StageVerify shows readiness/)
+      .getByText(/Dispatch assigns it|StageVerify checks readiness/)
       .count();
     const hasFeatureTitleOnly = await page
       .locator("#features")

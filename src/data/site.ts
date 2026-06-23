@@ -19,14 +19,14 @@ export const navLinks = [
 
 export const problemCards = [
   { title: "Vendor says it was dropped off" },
+  { title: "Order is only partially complete" },
   { title: "Dispatch thinks it is ready" },
-  { title: "Technician cannot find it" },
-  { title: "Job gets delayed" },
+  { title: "Technician shows up missing material" },
 ] as const;
 
 export const sectionCopy = {
   problem: {
-    eyebrow: "The gap between delivery and pickup",
+    eyebrow: "Don't send the tech until the material is ready",
   },
   howItWorks: {
     eyebrow: "The workflow",
@@ -50,7 +50,7 @@ export const sectionCopy = {
     eyebrow: "Request a demo",
     title: "Give operations a clear material trail",
     intro:
-      "See how StageVerify gives operations one clear view from vendor delivery to technician pickup.",
+      "See how StageVerify helps operations know what is ready, what is missing, and what was picked up.",
     reassurance: "No platform contract required to see how it works.",
   },
 } as const;
@@ -68,8 +68,9 @@ export const howItWorksSteps = [
   },
   {
     step: 3,
-    title: "StageVerify shows readiness",
-    description: "Dispatch sees what is ready, partial, or needs review.",
+    title: "StageVerify checks readiness",
+    description:
+      "Dispatch sees what is ready, partial, backordered, missing, or needs review.",
   },
   {
     step: 4,
@@ -95,7 +96,8 @@ export const features = [
   },
   {
     title: "Readiness status",
-    description: "Know what is ready, partial, missing, or needs review.",
+    description:
+      "See what is ready, partial, missing, backordered, or needs review before pickup is scheduled.",
   },
   {
     title: "Pickup verification",
@@ -155,5 +157,5 @@ export const scaleStages = [
 
 export const problemCallout = {
   lead: "Most systems track the job or PO. ",
-  emphasis: "StageVerify tracks the material handoff in the shop.",
+  emphasis: "StageVerify tracks whether the material is actually ready for pickup.",
 } as const;
