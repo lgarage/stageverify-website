@@ -42,12 +42,14 @@ function fail(msg) {
   console.error(`  ✗ ${msg}`);
 }
 
-/** Balanced fill ratios: mark should occupy ~70–80% of canvas, not edge-to-edge. */
+/** Scale ladder target: SV ~88–91% width fill with visible edge clearance. */
 const FAVICON_MIN_HEIGHT_FILL = 0.38;
-const FAVICON_MIN_WIDTH_FILL = 0.55;
-const FAVICON_MAX_HEIGHT_FILL = 0.82;
-const FAVICON_MAX_WIDTH_FILL = 0.82;
-const FAVICON_MIN_INK_RATIO = 0.08;
+const FAVICON_MIN_WIDTH_FILL = 0.80;
+const FAVICON_MAX_HEIGHT_FILL = 0.60;
+const FAVICON_MAX_WIDTH_FILL = 0.94;
+const FAVICON_MIN_MAX_FILL = 0.85;
+const FAVICON_MAX_MAX_FILL = 0.94;
+const FAVICON_MIN_INK_RATIO = 0.10;
 
 async function analyzeIconPixels(page, url) {
   return page.evaluate(
@@ -58,6 +60,8 @@ async function analyzeIconPixels(page, url) {
       maxHeightFill,
       maxWidthFill,
       minInkRatio,
+      minMaxFill,
+      maxMaxFill,
     }) => {
       const isBackground = (r, g, b) => {
         if (r >= 248 && g >= 248 && b >= 248) return true;
@@ -126,8 +130,8 @@ async function analyzeIconPixels(page, url) {
           widthFill >= minWidthFill &&
           heightFill <= maxHeightFill &&
           widthFill <= maxWidthFill &&
-          maxFill >= 0.65 &&
-          maxFill <= 0.82 &&
+          maxFill >= minMaxFill &&
+          maxFill <= maxMaxFill &&
           inkRatio >= minInkRatio,
       };
     },
@@ -138,6 +142,8 @@ async function analyzeIconPixels(page, url) {
       maxHeightFill: FAVICON_MAX_HEIGHT_FILL,
       maxWidthFill: FAVICON_MAX_WIDTH_FILL,
       minInkRatio: FAVICON_MIN_INK_RATIO,
+      minMaxFill: FAVICON_MIN_MAX_FILL,
+      maxMaxFill: FAVICON_MAX_MAX_FILL,
     },
   );
 }
@@ -206,15 +212,15 @@ async function checkFavicons(page) {
       );
     } else {
       fail(
-        `[favicon] ${size}x${size} mark out of balance — height ${pct(metrics.heightFill)}, width ${pct(metrics.widthFill)}, max ${pct(metrics.maxFill)}, ink ${pct(metrics.inkRatio)} (target max 65–82%)`,
+        `[favicon] ${size}x${size} mark out of balance — height ${pct(metrics.heightFill)}, width ${pct(metrics.widthFill)}, max ${pct(metrics.maxFill)}, ink ${pct(metrics.inkRatio)} (target max ${pct(FAVICON_MIN_MAX_FILL)}–${pct(FAVICON_MAX_MAX_FILL)})`,
       );
     }
   }
 
-  const previewUrl = `${baseUrl}/favicon-preview.html`;
+  const previewUrl = `${baseUrl}/favicon-preview/`;
   const previewRes = await page.request.get(previewUrl);
-  if (previewRes.ok()) pass("[favicon] favicon-preview.html loads (200)");
-  else fail(`[favicon] favicon-preview.html failed (${previewRes.status()})`);
+  if (previewRes.ok()) pass("[favicon] favicon-preview/index.html loads (200)");
+  else fail(`[favicon] favicon-preview/index.html failed (${previewRes.status()})`);
 }
 
 async function checkViewport(browser, { name, width, height }) {

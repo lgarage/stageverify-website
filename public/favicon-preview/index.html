@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StageVerify favicon sizing ladder</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; color: #0b1f3a; background: #f4f6f8; }
+      h1 { font-size: 1.35rem; margin-bottom: 0.25rem; }
+      p { color: #5a6578; max-width: 52rem; }
+      section { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.25rem 1.25rem; margin-top: 1rem; }
+      section.chosen { border-color: #2563eb; box-shadow: 0 0 0 1px #2563eb; }
+      section h2 { font-size: 1rem; margin: 0 0 0.75rem; }
+      .grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+      .cell { min-width: 96px; }
+      .cell h3 { font-size: 0.8125rem; color: #5a6578; margin: 0 0 0.5rem; font-weight: 600; }
+      .icon-wrap {
+        display: flex; align-items: center; justify-content: center; min-height: 64px;
+        background:
+          linear-gradient(45deg, #e2e8f0 25%, transparent 25%),
+          linear-gradient(-45deg, #e2e8f0 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #e2e8f0 75%),
+          linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+        background-size: 16px 16px;
+        background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+        border-radius: 8px;
+      }
+      .tab-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.9rem; }
+      .tab {
+        display: inline-flex; align-items: center; gap: 0.45rem;
+        padding: 0.4rem 0.85rem; border-radius: 8px 8px 0 0;
+        background: #fff; border: 1px solid #d7dee8; border-bottom: none; font-size: 0.8125rem;
+      }
+      .tab img { width: 16px; height: 16px; image-rendering: pixelated; }
+      .tab.ref { opacity: 0.85; }
+      .sheet { margin-top: 1.5rem; max-width: 100%; }
+      .sheet img { max-width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; }
+    </style>
+  </head>
+  <body>
+    <h1>StageVerify favicon sizing ladder</h1>
+    <p>
+      Compare SV mark scale variants at real favicon sizes. Selected production scale:
+      <strong>SV 90%</strong> (transparent canvas, centered, aspect preserved).
+    </p>
+    <div class="sheet">
+      <p><strong>Contact sheet</strong></p>
+      <img src="./favicon-sizing-ladder.png" alt="Favicon sizing ladder" />
+    </div>
+    <section>
+      <h2>SV 70%</h2>
+      <div class="grid">      <div class="cell">
+        <h3>16×16</h3>
+        <div class="icon-wrap"><img src="./sv-70-32.png" width="16" height="16" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>24×24</h3>
+        <div class="icon-wrap"><img src="./sv-70-32.png" width="24" height="24" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>32×32</h3>
+        <div class="icon-wrap"><img src="./sv-70-32.png" width="32" height="32" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>48×48</h3>
+        <div class="icon-wrap"><img src="./sv-70-32.png" width="48" height="48" alt="" /></div>
+      </div>
+      </div>
+      <div class="tab-row">
+        <div class="tab"><img src="./sv-70-16.png" width="16" height="16" alt="" />StageVerify</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234285f4'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%2334a853'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+      </div>
+    </section>    <section>
+      <h2>SV 75%</h2>
+      <div class="grid">      <div class="cell">
+        <h3>16×16</h3>
+        <div class="icon-wrap"><img src="./sv-75-32.png" width="16" height="16" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>24×24</h3>
+        <div class="icon-wrap"><img src="./sv-75-32.png" width="24" height="24" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>32×32</h3>
+        <div class="icon-wrap"><img src="./sv-75-32.png" width="32" height="32" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>48×48</h3>
+        <div class="icon-wrap"><img src="./sv-75-32.png" width="48" height="48" alt="" /></div>
+      </div>
+      </div>
+      <div class="tab-row">
+        <div class="tab"><img src="./sv-75-16.png" width="16" height="16" alt="" />StageVerify</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234285f4'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%2334a853'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+      </div>
+    </section>    <section>
+      <h2>SV 80%</h2>
+      <div class="grid">      <div class="cell">
+        <h3>16×16</h3>
+        <div class="icon-wrap"><img src="./sv-80-32.png" width="16" height="16" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>24×24</h3>
+        <div class="icon-wrap"><img src="./sv-80-32.png" width="24" height="24" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>32×32</h3>
+        <div class="icon-wrap"><img src="./sv-80-32.png" width="32" height="32" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>48×48</h3>
+        <div class="icon-wrap"><img src="./sv-80-32.png" width="48" height="48" alt="" /></div>
+      </div>
+      </div>
+      <div class="tab-row">
+        <div class="tab"><img src="./sv-80-16.png" width="16" height="16" alt="" />StageVerify</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234285f4'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%2334a853'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+      </div>
+    </section>    <section>
+      <h2>SV 85%</h2>
+      <div class="grid">      <div class="cell">
+        <h3>16×16</h3>
+        <div class="icon-wrap"><img src="./sv-85-32.png" width="16" height="16" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>24×24</h3>
+        <div class="icon-wrap"><img src="./sv-85-32.png" width="24" height="24" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>32×32</h3>
+        <div class="icon-wrap"><img src="./sv-85-32.png" width="32" height="32" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>48×48</h3>
+        <div class="icon-wrap"><img src="./sv-85-32.png" width="48" height="48" alt="" /></div>
+      </div>
+      </div>
+      <div class="tab-row">
+        <div class="tab"><img src="./sv-85-16.png" width="16" height="16" alt="" />StageVerify</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234285f4'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%2334a853'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+      </div>
+    </section>    <section class="row chosen">
+      <h2>SV 90%</h2>
+      <div class="grid">      <div class="cell">
+        <h3>16×16</h3>
+        <div class="icon-wrap"><img src="./sv-90-32.png" width="16" height="16" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>24×24</h3>
+        <div class="icon-wrap"><img src="./sv-90-32.png" width="24" height="24" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>32×32</h3>
+        <div class="icon-wrap"><img src="./sv-90-32.png" width="32" height="32" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>48×48</h3>
+        <div class="icon-wrap"><img src="./sv-90-32.png" width="48" height="48" alt="" /></div>
+      </div>
+      </div>
+      <div class="tab-row">
+        <div class="tab"><img src="./sv-90-16.png" width="16" height="16" alt="" />StageVerify</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234285f4'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%2334a853'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+      </div>
+    </section>    <section>
+      <h2>SV 92%</h2>
+      <div class="grid">      <div class="cell">
+        <h3>16×16</h3>
+        <div class="icon-wrap"><img src="./sv-92-32.png" width="16" height="16" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>24×24</h3>
+        <div class="icon-wrap"><img src="./sv-92-32.png" width="24" height="24" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>32×32</h3>
+        <div class="icon-wrap"><img src="./sv-92-32.png" width="32" height="32" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>48×48</h3>
+        <div class="icon-wrap"><img src="./sv-92-32.png" width="48" height="48" alt="" /></div>
+      </div>
+      </div>
+      <div class="tab-row">
+        <div class="tab"><img src="./sv-92-16.png" width="16" height="16" alt="" />StageVerify</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234285f4'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%2334a853'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+      </div>
+    </section>    <section>
+      <h2>SV 94%</h2>
+      <div class="grid">      <div class="cell">
+        <h3>16×16</h3>
+        <div class="icon-wrap"><img src="./sv-94-32.png" width="16" height="16" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>24×24</h3>
+        <div class="icon-wrap"><img src="./sv-94-32.png" width="24" height="24" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>32×32</h3>
+        <div class="icon-wrap"><img src="./sv-94-32.png" width="32" height="32" alt="" /></div>
+      </div>      <div class="cell">
+        <h3>48×48</h3>
+        <div class="icon-wrap"><img src="./sv-94-32.png" width="48" height="48" alt="" /></div>
+      </div>
+      </div>
+      <div class="tab-row">
+        <div class="tab"><img src="./sv-94-16.png" width="16" height="16" alt="" />StageVerify</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234285f4'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+        <div class="tab ref"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%2334a853'/%3E%3C/svg%3E" width="16" height="16" alt="" />Reference</div>
+      </div>
+    </section>
+  </body>
+</html>
