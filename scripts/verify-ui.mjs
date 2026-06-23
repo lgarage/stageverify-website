@@ -42,14 +42,23 @@ function fail(msg) {
   console.error(`  ✗ ${msg}`);
 }
 
-/** Minimum fill ratios for favicon mark vs canvas (guards against tiny padded icons). */
-const FAVICON_MIN_HEIGHT_FILL = 0.85;
-const FAVICON_MIN_WIDTH_FILL = 0.85;
-const FAVICON_MIN_INK_RATIO = 0.1;
+/** Balanced fill ratios: mark should occupy ~70–80% of canvas, not edge-to-edge. */
+const FAVICON_MIN_HEIGHT_FILL = 0.38;
+const FAVICON_MIN_WIDTH_FILL = 0.55;
+const FAVICON_MAX_HEIGHT_FILL = 0.82;
+const FAVICON_MAX_WIDTH_FILL = 0.82;
+const FAVICON_MIN_INK_RATIO = 0.08;
 
 async function analyzeIconPixels(page, url) {
   return page.evaluate(
-    async ({ iconUrl, minHeightFill, minWidthFill, minInkRatio }) => {
+    async ({
+      iconUrl,
+      minHeightFill,
+      minWidthFill,
+      maxHeightFill,
+      maxWidthFill,
+      minInkRatio,
+    }) => {
       const isBackground = (r, g, b) => {
         if (r >= 248 && g >= 248 && b >= 248) return true;
         if (r <= 20 && g <= 45 && b <= 65) return true;
@@ -97,12 +106,13 @@ async function analyzeIconPixels(page, url) {
       }
 
       if (ink === 0) {
-        return { width, height, heightFill: 0, widthFill: 0, inkRatio: 0 };
+        return { width, height, heightFill: 0, widthFill: 0, inkRatio: 0, ok: false };
       }
 
       const heightFill = (maxY - minY + 1) / height;
       const widthFill = (maxX - minX + 1) / width;
       const inkRatio = ink / (width * height);
+      const maxFill = Math.max(heightFill, widthFill);
 
       return {
         width,
@@ -110,9 +120,14 @@ async function analyzeIconPixels(page, url) {
         heightFill,
         widthFill,
         inkRatio,
+        maxFill,
         ok:
           heightFill >= minHeightFill &&
           widthFill >= minWidthFill &&
+          heightFill <= maxHeightFill &&
+          widthFill <= maxWidthFill &&
+          maxFill >= 0.65 &&
+          maxFill <= 0.82 &&
           inkRatio >= minInkRatio,
       };
     },
@@ -120,6 +135,8 @@ async function analyzeIconPixels(page, url) {
       iconUrl: url,
       minHeightFill: FAVICON_MIN_HEIGHT_FILL,
       minWidthFill: FAVICON_MIN_WIDTH_FILL,
+      maxHeightFill: FAVICON_MAX_HEIGHT_FILL,
+      maxWidthFill: FAVICON_MAX_WIDTH_FILL,
       minInkRatio: FAVICON_MIN_INK_RATIO,
     },
   );
@@ -136,14 +153,12 @@ async function checkFavicons(page) {
   );
 
   const png32 = links.find((l) => l.sizes === "32x32");
-  const png48 = links.find((l) => l.sizes === "48x48");
   const png16 = links.find((l) => l.sizes === "16x16");
   const svgIcon = links.find((l) => l.type === "image/svg+xml");
-  const shortcut = links.find((l) => l.rel === "shortcut icon");
   const apple = links.find((l) => l.rel === "apple-touch-icon");
 
-  if (svgIcon && png48 && png32 && png16 && shortcut && apple) {
-    pass("[favicon] Head links for SVG, 48/32/16, shortcut, and apple-touch");
+  if (svgIcon && png32 && png16 && apple) {
+    pass("[favicon] Head links for SVG, 32/16 PNG, and apple-touch");
   } else {
     fail("[favicon] Missing expected head icon links");
   }
@@ -155,10 +170,8 @@ async function checkFavicons(page) {
   }
 
   const assets = [
-    { label: "favicon-48x48.png", url: png48?.href, expected: 48 },
     { label: "favicon-32x32.png", url: png32?.href, expected: 32 },
     { label: "favicon-16x16.png", url: png16?.href, expected: 16 },
-    { label: "favicon.ico", url: shortcut?.href },
     { label: "apple-touch-icon.png", url: apple?.href, expected: 180 },
   ];
 
@@ -172,8 +185,8 @@ async function checkFavicons(page) {
     else fail(`[favicon] ${asset.label} failed (${res.status()})`);
   }
 
-  for (const size of [32, 48]) {
-    const link = size === 32 ? png32 : png48;
+  for (const size of [16, 32]) {
+    const link = size === 32 ? png32 : png16;
     if (!link?.href) continue;
 
     const metrics = await analyzeIconPixels(page, link.href);
@@ -189,14 +202,19 @@ async function checkFavicons(page) {
 
     if (metrics.ok) {
       pass(
-        `[favicon] ${size}x${size} mark fill height ${pct(metrics.heightFill)}, width ${pct(metrics.widthFill)}, ink ${pct(metrics.inkRatio)}`,
+        `[favicon] ${size}x${size} mark fill height ${pct(metrics.heightFill)}, width ${pct(metrics.widthFill)}, max ${pct(metrics.maxFill)}, ink ${pct(metrics.inkRatio)}`,
       );
     } else {
       fail(
-        `[favicon] ${size}x${size} mark too small — height ${pct(metrics.heightFill)}, width ${pct(metrics.widthFill)}, ink ${pct(metrics.inkRatio)} (need ≥${pct(FAVICON_MIN_HEIGHT_FILL)} fill)`,
+        `[favicon] ${size}x${size} mark out of balance — height ${pct(metrics.heightFill)}, width ${pct(metrics.widthFill)}, max ${pct(metrics.maxFill)}, ink ${pct(metrics.inkRatio)} (target max 65–82%)`,
       );
     }
   }
+
+  const previewUrl = `${baseUrl}/favicon-preview.html`;
+  const previewRes = await page.request.get(previewUrl);
+  if (previewRes.ok()) pass("[favicon] favicon-preview.html loads (200)");
+  else fail(`[favicon] favicon-preview.html failed (${previewRes.status()})`);
 }
 
 async function checkViewport(browser, { name, width, height }) {
