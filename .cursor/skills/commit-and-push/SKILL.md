@@ -87,8 +87,9 @@ Report to the user: commit hash, branch, and that push succeeded.
 When UI changed:
 
 1. Build and run Playwright (`ui-playwright-verify` skill) — fix until green
-2. **Then** commit and push (this skill)
-3. Optionally verify live GitHub Pages URL after deploy completes
+2. **Session cleanup** (`session-cleanup` skill) — stop preview/dev servers
+3. **Then** commit and push (this skill)
+4. Optionally verify live GitHub Pages URL after deploy completes
 
 ## Related files
 
