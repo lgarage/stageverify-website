@@ -15,6 +15,7 @@ const {
   description = site.description,
 } = Astro.props;
 
+const faviconSvg = publicAsset("favicon.svg");
 const favicon16 = publicAsset("images/favicon-16x16.png");
 const favicon32 = publicAsset("images/favicon-32x32.png");
 const favicon48 = publicAsset("images/favicon-48x48.png");
@@ -29,6 +30,7 @@ const appleIcon = publicAsset("images/apple-touch-icon.png");
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={faviconSvg} />
     <link rel="icon" type="image/png" sizes="48x48" href={favicon48} />
     <link rel="icon" type="image/png" sizes="32x32" href={favicon32} />
     <link rel="icon" type="image/png" sizes="16x16" href={favicon16} />

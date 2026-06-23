@@ -50,6 +50,12 @@ const FAVICON_MIN_INK_RATIO = 0.1;
 async function analyzeIconPixels(page, url) {
   return page.evaluate(
     async ({ iconUrl, minHeightFill, minWidthFill, minInkRatio }) => {
+      const isBackground = (r, g, b) => {
+        if (r >= 248 && g >= 248 && b >= 248) return true;
+        if (r <= 20 && g <= 45 && b <= 65) return true;
+        return false;
+      };
+
       const img = new Image();
       img.decoding = "sync";
       img.src = iconUrl;
@@ -80,7 +86,7 @@ async function analyzeIconPixels(page, url) {
           const b = data[i + 2];
           const a = data[i + 3];
           if (a < 16) continue;
-          if (r >= 248 && g >= 248 && b >= 248) continue;
+          if (isBackground(r, g, b)) continue;
 
           ink++;
           minX = Math.min(minX, x);
@@ -132,13 +138,20 @@ async function checkFavicons(page) {
   const png32 = links.find((l) => l.sizes === "32x32");
   const png48 = links.find((l) => l.sizes === "48x48");
   const png16 = links.find((l) => l.sizes === "16x16");
+  const svgIcon = links.find((l) => l.type === "image/svg+xml");
   const shortcut = links.find((l) => l.rel === "shortcut icon");
   const apple = links.find((l) => l.rel === "apple-touch-icon");
 
-  if (png48 && png32 && png16 && shortcut && apple) {
-    pass("[favicon] Head links for 48/32/16, shortcut, and apple-touch");
+  if (svgIcon && png48 && png32 && png16 && shortcut && apple) {
+    pass("[favicon] Head links for SVG, 48/32/16, shortcut, and apple-touch");
   } else {
     fail("[favicon] Missing expected head icon links");
+  }
+
+  if (svgIcon?.href) {
+    const svgRes = await page.request.get(svgIcon.href);
+    if (svgRes.ok()) pass("[favicon] favicon.svg loads (200)");
+    else fail(`[favicon] favicon.svg failed (${svgRes.status()})`);
   }
 
   const assets = [
