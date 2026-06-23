@@ -20,7 +20,7 @@ const sections = [
   { id: "features", heading: "Shop staging control without a full warehouse system." },
   { id: "who-its-for", heading: "Built for trade contractors." },
   { id: "scale", heading: "Start with one shop. Expand to every branch." },
-  { id: "demo", heading: "Put your material handoff on a silver platter." },
+  { id: "demo", heading: "Give operations a clear material trail" },
 ];
 
 const viewports = [

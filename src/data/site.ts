@@ -48,8 +48,9 @@ export const sectionCopy = {
   },
   demo: {
     eyebrow: "Request a demo",
+    title: "Give operations a clear material trail",
     intro:
-      "See how StageVerify gives operations a clear trail from vendor delivery to technician pickup.",
+      "See how StageVerify tracks vendor delivery, shop staging, readiness, and technician pickup in one simple flow.",
     reassurance: "No platform contract required to see how it works.",
   },
 } as const;
@@ -117,8 +118,9 @@ export const features = [
     description: "Start with one shop and grow into multiple branches.",
   },
   {
-    title: "Built for real users",
-    description: "Simple enough for vendors, dispatch, shop staff, and technicians.",
+    title: "Simple field workflow",
+    description:
+      "Vendors, dispatch, shop staff, and technicians each see only what they need to keep materials moving.",
   },
 ] as const;
 
