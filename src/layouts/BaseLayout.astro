@@ -33,6 +33,22 @@ const appleIcon = publicAsset("apple-touch-icon.png");
     <link rel="icon" type="image/png" sizes="16x16" href={favicon16} />
     <link rel="apple-touch-icon" sizes="180x180" href={appleIcon} />
     <title>{title}</title>
+    <script is:inline>
+      (function () {
+        if (window.location.hash) return;
+        if ("scrollRestoration" in history) {
+          history.scrollRestoration = "manual";
+        }
+        function resetScroll() {
+          window.scrollTo(0, 0);
+        }
+        resetScroll();
+        document.addEventListener("DOMContentLoaded", resetScroll, { once: true });
+        window.addEventListener("pageshow", function () {
+          if (!window.location.hash) resetScroll();
+        });
+      })();
+    </script>
   </head>
   <body class="min-h-screen antialiased">
     <a

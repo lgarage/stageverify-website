@@ -27,10 +27,15 @@ const sections = [
 ];
 
 const viewports = [
-  { name: "mobile", width: 375, height: 812 },
-  { name: "tablet", width: 768, height: 1024 },
-  { name: "desktop", width: 1280, height: 800 },
+  { name: "mobile", width: 375, height: 812, full: true },
+  { name: "mobile-390", width: 390, height: 844 },
+  { name: "mobile-414", width: 414, height: 896 },
+  { name: "mobile-430", width: 430, height: 932 },
+  { name: "tablet", width: 768, height: 1024, full: true },
+  { name: "desktop", width: 1280, height: 800, full: true },
 ];
+
+const HEADER_OFFSET = { min: 56, max: 120 };
 
 const failures = [];
 const passes = [];
@@ -236,7 +241,7 @@ async function checkFavicons(page) {
     );
 }
 
-async function checkViewport(browser, { name, width, height }) {
+async function checkViewport(browser, { name, width, height, full = false }) {
   const context = await browser.newContext({ viewport: { width, height } });
   const page = await context.newPage();
 
@@ -247,6 +252,18 @@ async function checkViewport(browser, { name, width, height }) {
       return;
     }
     pass(`[${name}] Page loads`);
+
+    const scrollWidth = await page.evaluate(
+      () => document.documentElement.scrollWidth,
+    );
+    const clientWidth = await page.evaluate(
+      () => document.documentElement.clientWidth,
+    );
+    if (scrollWidth <= clientWidth + 1) pass(`[${name}] No horizontal scroll`);
+    else
+      fail(`[${name}] Horizontal scroll (${scrollWidth}px > ${clientWidth}px)`);
+
+    if (!full) return;
 
     const h1 = page.locator("h1");
     const h1Text = (await h1.textContent())?.trim();
@@ -261,16 +278,6 @@ async function checkViewport(browser, { name, width, height }) {
     const h1Count = await page.locator("h1").count();
     if (h1Count === 1) pass(`[${name}] Single H1`);
     else fail(`[${name}] Expected 1 H1, found ${h1Count}`);
-
-    const scrollWidth = await page.evaluate(
-      () => document.documentElement.scrollWidth,
-    );
-    const clientWidth = await page.evaluate(
-      () => document.documentElement.clientWidth,
-    );
-    if (scrollWidth <= clientWidth + 1) pass(`[${name}] No horizontal scroll`);
-    else
-      fail(`[${name}] Horizontal scroll (${scrollWidth}px > ${clientWidth}px)`);
 
     for (const { id, heading } of sections) {
       const section = page.locator(`#${id}`);
@@ -326,7 +333,8 @@ async function checkViewport(browser, { name, width, height }) {
     if (hasHowItWorksDetail > 0) pass(`[${name}] How It Works steps present`);
     else fail(`[${name}] How It Works content missing`);
 
-    if (name === "desktop") {
+    const isWideLayout = name === "desktop" || name === "tablet";
+    if (isWideLayout) {
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(300);
       await page.locator('header a[href="#demo"]').first().click();
@@ -341,9 +349,108 @@ async function checkViewport(browser, { name, width, height }) {
       );
       pass(`[${name}] Request Demo scrolls to #demo`);
     }
+
+    if (name === "mobile") {
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(200);
+      await page.locator('summary[aria-label="Open menu"]').click();
+      await page
+        .locator('header details nav a')
+        .filter({ hasText: "Request Demo" })
+        .click();
+      await page.waitForFunction(
+        () => {
+          const el = document.getElementById("demo");
+          if (!el) return false;
+          const rect = el.getBoundingClientRect();
+          return rect.top < window.innerHeight * 0.9 && rect.bottom > 60;
+        },
+        { timeout: 3000 },
+      );
+      pass(`[${name}] Mobile menu Request Demo scrolls to #demo`);
+    }
   } finally {
     await context.close();
   }
+}
+
+async function sectionTop(page, id) {
+  return page.evaluate((sectionId) => {
+    const el = document.getElementById(sectionId);
+    if (!el) return null;
+    return el.getBoundingClientRect().top;
+  }, id);
+}
+
+async function waitForSectionAnchor(page, id) {
+  await page.waitForFunction(
+    ({ sectionId, min, max }) => {
+      const el = document.getElementById(sectionId);
+      if (!el) return false;
+      const top = el.getBoundingClientRect().top;
+      return top >= min && top <= max;
+    },
+    { sectionId: id, ...HEADER_OFFSET },
+    { timeout: 4000 },
+  );
+}
+
+async function checkScrollBehavior(browser) {
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 800 },
+  });
+  const page = await context.newPage();
+
+  try {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.evaluate(() => window.scrollTo(0, 1400));
+    await page.reload({ waitUntil: "networkidle" });
+    await page.waitForTimeout(200);
+    const reloadScrollY = await page.evaluate(() => window.scrollY);
+    if (reloadScrollY <= 8) pass("[scroll] Root reload starts at top");
+    else fail(`[scroll] Root reload scrollY=${reloadScrollY} (expected top)`);
+
+    await page.goto(`${baseUrl}/#how-it-works`, { waitUntil: "networkidle" });
+    await waitForSectionAnchor(page, "how-it-works");
+    pass("[scroll] Hash #how-it-works lands under header");
+
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page
+      .locator('header nav[aria-label="Main navigation"] a[href="#problem"]')
+      .click();
+    await waitForSectionAnchor(page, "problem");
+    pass("[scroll] Header nav scrolls to #problem");
+
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.locator('section a[href="#how-it-works"]').first().click();
+    await waitForSectionAnchor(page, "how-it-works");
+    pass("[scroll] Hero CTA scrolls to #how-it-works");
+  } finally {
+    await context.close();
+  }
+}
+
+async function captureMobileScreenshots(browser) {
+  const dir = "public/ui-preview";
+  const fs = await import("node:fs/promises");
+  await fs.mkdir(dir, { recursive: true });
+
+  for (const width of [375, 390, 414, 430]) {
+    const context = await browser.newContext({
+      viewport: { width, height: 812 },
+    });
+    const page = await context.newPage();
+    try {
+      await page.goto(baseUrl, { waitUntil: "networkidle" });
+      await page.screenshot({
+        path: `${dir}/mobile-${width}.png`,
+        fullPage: true,
+      });
+    } finally {
+      await context.close();
+    }
+  }
+  pass("[mobile] Captured preview screenshots in public/ui-preview/");
 }
 
 async function main() {
@@ -361,9 +468,17 @@ async function main() {
 
   for (const vp of viewports) {
     console.log(`${vp.name} (${vp.width}×${vp.height})`);
-    await checkViewport(browser, vp);
+    await checkViewport(browser, { ...vp, full: vp.full ?? false });
     console.log("");
   }
+
+  console.log("scroll");
+  await checkScrollBehavior(browser);
+  console.log("");
+
+  console.log("mobile-screenshots");
+  await captureMobileScreenshots(browser);
+  console.log("");
 
   console.log("favicon");
   const favPage = await browser.newPage();

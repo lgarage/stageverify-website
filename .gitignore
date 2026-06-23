@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# generated UI preview screenshots (local verify artifacts)
+public/ui-preview/
