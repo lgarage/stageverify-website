@@ -22,7 +22,7 @@ After any UI change:
 
 1. `npm run build`
 2. `npm run preview`
-3. `npm run verify:ui -- http://localhost:PORT/stageverify-website`
+3. `npm run verify:ui -- http://localhost:PORT`
 4. Fix failures and re-run until all pass
 5. Only then report ready to the user
 

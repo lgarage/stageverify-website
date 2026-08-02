@@ -29,7 +29,7 @@ Do not skip because the build passed. `npm run build` does not catch layout, cop
 ```bash
 npm run build
 npm run preview
-npm run verify:ui -- http://localhost:PORT/stageverify-website
+npm run verify:ui -- http://localhost:PORT
 ```
 
 Playwright is a dev dependency (`npm install` includes it). One-time browser install:
@@ -83,7 +83,7 @@ Extend `scripts/verify-ui.mjs` when new critical UI behavior is added.
 After push to GitHub Pages, optionally re-run against production:
 
 ```bash
-node scripts/verify-ui.mjs https://lgarage.github.io/stageverify-website
+node scripts/verify-ui.mjs https://www.stageverify.com
 ```
 
 ## Related files

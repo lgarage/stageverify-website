@@ -77,10 +77,10 @@ python scripts/prepare-logo.py
 
 ## Deployment
 
-Hosted on **GitHub Pages**:
+Hosted on **GitHub Pages** with custom domain:
 
-**Live site:** https://lgarage.github.io/stageverify-website/
+**Live site:** https://www.stageverify.com
 
 Pushes to `master` deploy automatically via `.github/workflows/deploy.yml`.
 
-Future target domain: **stageverify.com**
+Custom domain is set via `public/CNAME` (`www.stageverify.com`). Astro `site` / `base` are configured for the root domain in `astro.config.mjs`.

@@ -2,13 +2,12 @@
 /**
  * Ephemeral UI smoke test for StageVerify marketing site.
  * Usage: node scripts/verify-ui.mjs [baseUrl]
- * Default: http://localhost:4321/stageverify-website (production build preview)
+ * Default: http://localhost:4321 (production build preview)
  */
 import { chromium, devices } from "playwright";
 
 const baseUrl =
-  process.argv[2]?.replace(/\/$/, "") ||
-  "http://localhost:4322/stageverify-website";
+  process.argv[2]?.replace(/\/$/, "") || "http://localhost:4321";
 
 const HEADLINE = "Stop Losing Job Materials Between Delivery and Pickup";
 const DESCRIPTION =
