@@ -90,4 +90,4 @@ Custom domain is set via `public/CNAME` (`www.stageverify.com`). Astro `site` / 
 - Meta, Open Graph, Twitter, and geo tags in `src/layouts/BaseLayout.astro`
 - JSON-LD (Organization, SoftwareApplication, FAQPage) in `src/components/seo/JsonLd.astro`
 - `public/sitemap.xml`, `public/robots.txt`, and `public/llms.txt`
-- Local market signals for Green Bay / Northeast Wisconsin in footer + schema
+- Company location: Green Bay, Wisconsin; product market: trade contractors nationwide (footer, FAQ, schema)

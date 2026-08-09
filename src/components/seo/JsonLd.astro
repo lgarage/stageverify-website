@@ -13,20 +13,10 @@ const organization = {
   logo: logoUrl,
   image: ogImageUrl,
   description: site.seoDescription,
-  areaServed: [
-    {
-      "@type": "City",
-      name: site.geo.city,
-      containedInPlace: {
-        "@type": "State",
-        name: site.geo.regionName,
-      },
-    },
-    {
-      "@type": "AdministrativeArea",
-      name: "Northeast Wisconsin",
-    },
-  ],
+  areaServed: {
+    "@type": "Country",
+    name: "United States",
+  },
   address: {
     "@type": "PostalAddress",
     addressLocality: site.geo.city,
@@ -59,6 +49,10 @@ const software = {
   audience: {
     "@type": "Audience",
     audienceType: "Trade contractors",
+  },
+  areaServed: {
+    "@type": "Country",
+    name: "United States",
   },
 };
 

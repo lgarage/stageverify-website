@@ -1,13 +1,12 @@
 export const site = {
   name: "StageVerify",
-  title:
-    "StageVerify — Material Staging & Pickup for Trade Contractors | Green Bay, WI",
+  title: "StageVerify | Material Staging & Delivery Tracking for Trade Contractors",
   /** Approved hero subheadline — do not change without explicit approval. */
   description:
     "StageVerify helps trade contractors know what arrived, what is ready, what is missing, and what was picked up.",
-  /** Meta / Open Graph / schema description (includes local GEO signal). */
+  /** Meta / Open Graph / schema description — product-first, nationwide. */
   seoDescription:
-    "StageVerify helps trade contractors in Green Bay, Wisconsin and beyond know what arrived, what is ready, what is missing, and what was picked up. Material staging and pickup verification for shops that send crews to the field.",
+    "StageVerify helps trade contractors know what arrived, what is ready, what is missing, and what was picked up. Material staging and pickup verification for shops that send crews to the field.",
   positioning: "Stop sending technicians to pickups that are not actually ready.",
   headline: "Stop Losing Job Materials Between Delivery and Pickup",
   footerDescription:
@@ -19,7 +18,8 @@ export const site = {
     region: "WI",
     regionName: "Wisconsin",
     country: "US",
-    areaServed: "Green Bay, Wisconsin and Northeast Wisconsin",
+    /** Business location only — not a primary product-market claim. */
+    locationLine: "Based in Green Bay, Wisconsin. Serving trade contractors nationwide.",
     latitude: 44.5133,
     longitude: -88.0133,
   },
@@ -29,8 +29,7 @@ export const site = {
     "shop staging pickup verification",
     "vendor delivery tracking",
     "job material readiness",
-    "Green Bay Wisconsin contractors",
-    "Northeast Wisconsin construction materials",
+    "delivery to pickup visibility",
   ],
 } as const;
 
@@ -88,7 +87,7 @@ export const sectionCopy = {
     eyebrow: "Common questions",
     title: "Clear answers for operations teams.",
     intro:
-      "Built in Green Bay, Wisconsin for contractors who need a clean material trail — not another complex system.",
+      "For contractors who need a clean material trail — not another complex system.",
   },
 } as const;
 
@@ -210,7 +209,7 @@ export const faqItems = [
   {
     question: "Where is StageVerify based?",
     answer:
-      "StageVerify is based in Green Bay, Wisconsin and supports trade contractors in Northeast Wisconsin and multi-shop operations beyond the region.",
+      "StageVerify is based in Green Bay, Wisconsin and serves trade contractors across the United States.",
   },
   {
     question: "How do vendors and technicians use StageVerify?",

@@ -1,7 +1,7 @@
 # StageVerify
 
 > Material staging and pickup verification for trade contractors.
-> Based in Green Bay, Wisconsin.
+> Nationwide SaaS product based in Green Bay, Wisconsin.
 
 ## Summary
 
@@ -14,11 +14,11 @@ It tracks the material handoff from vendor delivery through shop staging to tech
 - Operations managers, dispatchers, shop staff, and field crews
 - Contractors who stage job materials in a shop before sending crews to the field
 
-## Geographic focus
+## Geographic positioning
 
-- Headquarters / home market: Green Bay, Wisconsin
-- Regional focus: Northeast Wisconsin
-- Also supports multi-shop / multi-branch contractor operations
+- Product market: trade contractors across the United States
+- Company location: Green Bay, Wisconsin
+- Not a Green Bay-only or Northeast Wisconsin-only service
 
 ## Core value
 

@@ -425,31 +425,42 @@ async function checkSeo(browser) {
       pass("[seo] Canonical points to stageverify.com");
     else fail(`[seo] Canonical missing/wrong: ${meta.canonical}`);
 
-    if (meta.description.toLowerCase().includes("green bay"))
-      pass("[seo] Meta description includes Green Bay");
-    else fail("[seo] Meta description missing Green Bay");
+    if (
+      meta.description.toLowerCase().includes("trade contractors") &&
+      !meta.description.toLowerCase().includes("green bay")
+    ) {
+      pass("[seo] Meta description is product-first (no Green Bay market claim)");
+    } else {
+      fail("[seo] Meta description should focus on product, not local market");
+    }
 
-    if (meta.geoRegion === "US-WI" && meta.geoPlace.includes("Green Bay"))
-      pass("[seo] Geo meta tags set for Green Bay, WI");
-    else fail(`[seo] Geo meta wrong: ${meta.geoRegion} / ${meta.geoPlace}`);
-
-    if (meta.ogTitle.includes("StageVerify"))
-      pass("[seo] Open Graph title present");
-    else fail("[seo] Open Graph title missing");
+    if (meta.ogTitle.includes("StageVerify") && !meta.ogTitle.includes("Green Bay"))
+      pass("[seo] Open Graph title is product-first");
+    else fail("[seo] Open Graph title missing or still Green Bay-heavy");
 
     if (
       meta.jsonLd.includes("FAQPage") &&
       meta.jsonLd.includes("Organization") &&
-      meta.jsonLd.includes("Green Bay")
+      meta.jsonLd.includes("Green Bay") &&
+      meta.jsonLd.includes("United States")
     ) {
-      pass("[seo] JSON-LD includes Organization, FAQ, and Green Bay");
+      pass("[seo] JSON-LD includes Organization, FAQ, Green Bay location, US areaServed");
     } else {
       fail("[seo] JSON-LD incomplete");
     }
 
-    if (meta.body.includes("Green Bay") && meta.body.includes("Wisconsin"))
-      pass("[seo] Visible GEO copy includes Green Bay, Wisconsin");
-    else fail("[seo] Visible GEO copy missing");
+    if (
+      meta.body.includes("Based in Green Bay, Wisconsin") &&
+      meta.body.includes("nationwide")
+    ) {
+      pass("[seo] Visible location line is nationwide + Green Bay HQ");
+    } else {
+      fail("[seo] Visible nationwide / Green Bay HQ copy missing");
+    }
+
+    if (meta.jsonLd.includes("across the United States"))
+      pass("[seo] FAQ schema states nationwide service");
+    else fail("[seo] FAQ schema nationwide wording missing");
 
     for (const path of ["/robots.txt", "/sitemap.xml", "/llms.txt"]) {
       const res = await page.request.get(`${baseUrl}${path}`);
