@@ -1,0 +1,106 @@
+---
+import { faqItems, site } from "../../data/site";
+
+const canonical = site.url;
+const logoUrl = new URL("/images/svlogo_full.png", canonical).href;
+const ogImageUrl = new URL("/images/logo-dark.png", canonical).href;
+
+const organization = {
+  "@type": "Organization",
+  "@id": `${canonical}/#organization`,
+  name: site.name,
+  url: canonical,
+  logo: logoUrl,
+  image: ogImageUrl,
+  description: site.seoDescription,
+  areaServed: [
+    {
+      "@type": "City",
+      name: site.geo.city,
+      containedInPlace: {
+        "@type": "State",
+        name: site.geo.regionName,
+      },
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "Northeast Wisconsin",
+    },
+  ],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: site.geo.city,
+    addressRegion: site.geo.region,
+    addressCountry: site.geo.country,
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: site.geo.latitude,
+    longitude: site.geo.longitude,
+  },
+};
+
+const software = {
+  "@type": "SoftwareApplication",
+  "@id": `${canonical}/#software`,
+  name: site.name,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description: site.seoDescription,
+  url: canonical,
+  offers: {
+    "@type": "Offer",
+    availability: "https://schema.org/OnlineOnly",
+    price: "0",
+    priceCurrency: "USD",
+    description: "Request a demo to see how StageVerify works for your shop.",
+  },
+  provider: { "@id": `${canonical}/#organization` },
+  audience: {
+    "@type": "Audience",
+    audienceType: "Trade contractors",
+  },
+};
+
+const webPage = {
+  "@type": "WebPage",
+  "@id": `${canonical}/#webpage`,
+  url: canonical,
+  name: site.title,
+  description: site.seoDescription,
+  inLanguage: "en-US",
+  isPartOf: { "@id": `${canonical}/#website` },
+  about: { "@id": `${canonical}/#software` },
+  primaryImageOfPage: ogImageUrl,
+};
+
+const webSite = {
+  "@type": "WebSite",
+  "@id": `${canonical}/#website`,
+  url: canonical,
+  name: site.name,
+  description: site.seoDescription,
+  publisher: { "@id": `${canonical}/#organization` },
+  inLanguage: "en-US",
+};
+
+const faqPage = {
+  "@type": "FAQPage",
+  "@id": `${canonical}/#faq`,
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [organization, software, webSite, webPage, faqPage],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

@@ -1,0 +1,56 @@
+# StageVerify
+
+> Material staging and pickup verification for trade contractors.
+> Based in Green Bay, Wisconsin.
+
+## Summary
+
+StageVerify helps trade contractors know what arrived, what is ready, what is missing, and what was picked up.
+It tracks the material handoff from vendor delivery through shop staging to technician pickup — without a full warehouse system.
+
+## Primary audience
+
+- Trade contractors (mechanical, electrical, plumbing, HVAC, fire protection, controls, facility service, self-perform)
+- Operations managers, dispatchers, shop staff, and field crews
+- Contractors who stage job materials in a shop before sending crews to the field
+
+## Geographic focus
+
+- Headquarters / home market: Green Bay, Wisconsin
+- Regional focus: Northeast Wisconsin
+- Also supports multi-shop / multi-branch contractor operations
+
+## Core value
+
+Stop sending technicians to pickups that are not actually ready.
+Give operations a clear material trail across delivery, staging readiness, and pickup confirmation.
+
+## Product capabilities
+
+- Vendor delivery tracking
+- Staging location visibility
+- Readiness status (ready, partial, missing, needs review)
+- Pickup verification
+- QR-based workflow for vendors and technicians
+- Delivery / pickup history
+- Multi-shop readiness
+
+## Important clarifications
+
+- StageVerify does not replace a full WMS or ERP.
+- Vendors do not decide readiness; StageVerify helps operations see readiness based on delivery and order context.
+- The marketing site is informational; request a demo for product walkthrough.
+
+## Key URLs
+
+- Website: https://www.stageverify.com/
+- Problem: https://www.stageverify.com/#problem
+- How it works: https://www.stageverify.com/#how-it-works
+- Capabilities: https://www.stageverify.com/#features
+- Who it's for: https://www.stageverify.com/#who-its-for
+- FAQ: https://www.stageverify.com/#faq
+- Request demo: https://www.stageverify.com/#demo
+
+## Contact intent
+
+Use the Request Demo call to action on https://www.stageverify.com/#demo.

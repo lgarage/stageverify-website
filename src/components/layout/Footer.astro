@@ -15,6 +15,9 @@ import { navLinks, site } from "../../data/site";
         <p class="mt-4 max-w-sm text-sm leading-relaxed text-white/65">
           Clear visibility from delivery to pickup — for dispatch, vendors, and field crews.
         </p>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-white/65">
+          Based in {site.geo.city}, {site.geo.regionName}. Serving {site.geo.areaServed}.
+        </p>
         <div class="mt-6">
           <Button href="#demo" variant="primary" size="sm">
             Request Demo
@@ -51,7 +54,7 @@ import { navLinks, site } from "../../data/site";
 
     <div class="mt-12 flex flex-col gap-2 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
       <p class="text-xs text-white/45">
-        &copy; {new Date().getFullYear()} StageVerify. All rights reserved.
+        &copy; {new Date().getFullYear()} StageVerify. {site.geo.city}, {site.geo.region}. All rights reserved.
       </p>
       <p class="text-xs text-white/45">Material handoff visibility from delivery to pickup.</p>
     </div>

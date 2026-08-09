@@ -84,3 +84,10 @@ Hosted on **GitHub Pages** with custom domain:
 Pushes to `master` deploy automatically via `.github/workflows/deploy.yml`.
 
 Custom domain is set via `public/CNAME` (`www.stageverify.com`). Astro `site` / `base` are configured for the root domain in `astro.config.mjs`.
+
+### SEO / AEO / GEO
+
+- Meta, Open Graph, Twitter, and geo tags in `src/layouts/BaseLayout.astro`
+- JSON-LD (Organization, SoftwareApplication, FAQPage) in `src/components/seo/JsonLd.astro`
+- `public/sitemap.xml`, `public/robots.txt`, and `public/llms.txt`
+- Local market signals for Green Bay / Northeast Wisconsin in footer + schema

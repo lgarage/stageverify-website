@@ -1,6 +1,7 @@
 ---
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
+import JsonLd from "../components/seo/JsonLd.astro";
 import { site } from "../data/site";
 import { publicAsset } from "../utils/publicAsset";
 import "../styles/global.css";
@@ -12,27 +13,57 @@ interface Props {
 
 const {
   title = site.title,
-  description = site.description,
+  description = site.seoDescription,
 } = Astro.props;
 
+const canonical = site.url;
+const ogImage = new URL("/images/logo-dark.png", canonical).href;
 const faviconSvg = publicAsset("favicon.svg");
 const favicon32 = publicAsset("favicon-32x32.png");
 const favicon16 = publicAsset("favicon-16x16.png");
 const appleIcon = publicAsset("apple-touch-icon.png");
+const keywords = site.keywords.join(", ");
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content={site.name} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonical} />
+
+    <meta name="geo.region" content={`${site.geo.country}-${site.geo.region}`} />
+    <meta name="geo.placename" content={`${site.geo.city}, ${site.geo.regionName}`} />
+    <meta name="geo.position" content={`${site.geo.latitude};${site.geo.longitude}`} />
+    <meta name="ICBM" content={`${site.geo.latitude}, ${site.geo.longitude}`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={`${site.name} logo`} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <link rel="icon" type="image/svg+xml" href={faviconSvg} />
     <link rel="icon" type="image/png" sizes="32x32" href={favicon32} />
     <link rel="icon" type="image/png" sizes="16x16" href={favicon16} />
     <link rel="apple-touch-icon" sizes="180x180" href={appleIcon} />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <title>{title}</title>
+    <JsonLd />
     <script is:inline>
       (function () {
         if (window.location.hash) return;

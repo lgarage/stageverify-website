@@ -22,6 +22,7 @@ const sections = [
   },
   { id: "who-its-for", heading: "Built for trade contractors." },
   { id: "scale", heading: "Start with one shop. Expand to every branch." },
+  { id: "faq", heading: "Clear answers for operations teams." },
   { id: "demo", heading: "Give operations a clear material trail" },
 ];
 
@@ -394,6 +395,72 @@ async function waitForSectionAnchor(page, id) {
   );
 }
 
+async function checkSeo(browser) {
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 800 },
+  });
+  const page = await context.newPage();
+
+  try {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+
+    const meta = await page.evaluate(() => {
+      const get = (sel) => document.querySelector(sel)?.getAttribute("content") || "";
+      const canonical = document.querySelector('link[rel="canonical"]')?.href || "";
+      const jsonLd = [...document.querySelectorAll('script[type="application/ld+json"]')]
+        .map((el) => el.textContent || "")
+        .join("\n");
+      return {
+        description: get('meta[name="description"]'),
+        ogTitle: get('meta[property="og:title"]'),
+        geoRegion: get('meta[name="geo.region"]'),
+        geoPlace: get('meta[name="geo.placename"]'),
+        canonical,
+        jsonLd,
+        body: document.body.innerText,
+      };
+    });
+
+    if (meta.canonical.includes("stageverify.com"))
+      pass("[seo] Canonical points to stageverify.com");
+    else fail(`[seo] Canonical missing/wrong: ${meta.canonical}`);
+
+    if (meta.description.toLowerCase().includes("green bay"))
+      pass("[seo] Meta description includes Green Bay");
+    else fail("[seo] Meta description missing Green Bay");
+
+    if (meta.geoRegion === "US-WI" && meta.geoPlace.includes("Green Bay"))
+      pass("[seo] Geo meta tags set for Green Bay, WI");
+    else fail(`[seo] Geo meta wrong: ${meta.geoRegion} / ${meta.geoPlace}`);
+
+    if (meta.ogTitle.includes("StageVerify"))
+      pass("[seo] Open Graph title present");
+    else fail("[seo] Open Graph title missing");
+
+    if (
+      meta.jsonLd.includes("FAQPage") &&
+      meta.jsonLd.includes("Organization") &&
+      meta.jsonLd.includes("Green Bay")
+    ) {
+      pass("[seo] JSON-LD includes Organization, FAQ, and Green Bay");
+    } else {
+      fail("[seo] JSON-LD incomplete");
+    }
+
+    if (meta.body.includes("Green Bay") && meta.body.includes("Wisconsin"))
+      pass("[seo] Visible GEO copy includes Green Bay, Wisconsin");
+    else fail("[seo] Visible GEO copy missing");
+
+    for (const path of ["/robots.txt", "/sitemap.xml", "/llms.txt"]) {
+      const res = await page.request.get(`${baseUrl}${path}`);
+      if (res.ok()) pass(`[seo] ${path} loads (${res.status()})`);
+      else fail(`[seo] ${path} failed (${res.status()})`);
+    }
+  } finally {
+    await context.close();
+  }
+}
+
 async function checkScrollBehavior(browser) {
   const context = await browser.newContext({
     viewport: { width: 1280, height: 800 },
@@ -470,6 +537,10 @@ async function main() {
     await checkViewport(browser, { ...vp, full: vp.full ?? false });
     console.log("");
   }
+
+  console.log("seo");
+  await checkSeo(browser);
+  console.log("");
 
   console.log("scroll");
   await checkScrollBehavior(browser);

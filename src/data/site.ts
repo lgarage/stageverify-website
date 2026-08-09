@@ -1,12 +1,37 @@
 export const site = {
   name: "StageVerify",
-  title: "StageVerify — Material Staging & Pickup Verification",
+  title:
+    "StageVerify — Material Staging & Pickup for Trade Contractors | Green Bay, WI",
+  /** Approved hero subheadline — do not change without explicit approval. */
   description:
     "StageVerify helps trade contractors know what arrived, what is ready, what is missing, and what was picked up.",
+  /** Meta / Open Graph / schema description (includes local GEO signal). */
+  seoDescription:
+    "StageVerify helps trade contractors in Green Bay, Wisconsin and beyond know what arrived, what is ready, what is missing, and what was picked up. Material staging and pickup verification for shops that send crews to the field.",
   positioning: "Stop sending technicians to pickups that are not actually ready.",
   headline: "Stop Losing Job Materials Between Delivery and Pickup",
   footerDescription:
     "Material staging and pickup verification for trade contractors.",
+  url: "https://www.stageverify.com",
+  locale: "en_US",
+  geo: {
+    city: "Green Bay",
+    region: "WI",
+    regionName: "Wisconsin",
+    country: "US",
+    areaServed: "Green Bay, Wisconsin and Northeast Wisconsin",
+    latitude: 44.5133,
+    longitude: -88.0133,
+  },
+  keywords: [
+    "material staging software",
+    "trade contractor material tracking",
+    "shop staging pickup verification",
+    "vendor delivery tracking",
+    "job material readiness",
+    "Green Bay Wisconsin contractors",
+    "Northeast Wisconsin construction materials",
+  ],
 } as const;
 
 export const navLinks = [
@@ -58,6 +83,12 @@ export const sectionCopy = {
     intro:
       "See what arrived, what is ready, what is missing, and what was picked up.",
     reassurance: "No platform contract required to see how it works.",
+  },
+  faq: {
+    eyebrow: "Common questions",
+    title: "Clear answers for operations teams.",
+    intro:
+      "Built in Green Bay, Wisconsin for contractors who need a clean material trail — not another complex system.",
   },
 } as const;
 
@@ -159,3 +190,31 @@ export const problemCallout = {
   lead: "Most systems track the job or PO. ",
   emphasis: "StageVerify tracks whether the material is actually ready for pickup.",
 } as const;
+
+export const faqItems = [
+  {
+    question: "What problem does StageVerify solve?",
+    answer:
+      "StageVerify helps trade contractors stop losing job materials between vendor delivery, shop staging, and field pickup by showing what arrived, what is ready, what is missing, and what was picked up.",
+  },
+  {
+    question: "Who is StageVerify for?",
+    answer:
+      "StageVerify is built for trade contractors — including mechanical, electrical, plumbing, HVAC, fire protection, and related self-perform teams — that stage job materials in a shop before sending crews to the field.",
+  },
+  {
+    question: "Does StageVerify replace a full warehouse system?",
+    answer:
+      "No. StageVerify focuses on shop staging control and the material handoff from delivery to pickup, without requiring a full warehouse management system.",
+  },
+  {
+    question: "Where is StageVerify based?",
+    answer:
+      "StageVerify is based in Green Bay, Wisconsin and supports trade contractors in Northeast Wisconsin and multi-shop operations beyond the region.",
+  },
+  {
+    question: "How do vendors and technicians use StageVerify?",
+    answer:
+      "StageVerify uses a simple QR-based workflow with links and scans, so vendors and technicians can confirm delivery and pickup without needing extra accounts.",
+  },
+] as const;
