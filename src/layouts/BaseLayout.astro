@@ -1,6 +1,7 @@
 ---
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
+import ComingSoonDialog from "../components/ui/ComingSoonDialog.astro";
 import JsonLd from "../components/seo/JsonLd.astro";
 import { site } from "../data/site";
 import { publicAsset } from "../utils/publicAsset";
@@ -93,5 +94,6 @@ const keywords = site.keywords.join(", ");
       <slot />
     </main>
     <Footer />
+    <ComingSoonDialog />
   </body>
 </html>

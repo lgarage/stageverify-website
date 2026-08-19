@@ -1,0 +1,58 @@
+---
+import { sectionCopy } from "../../data/site";
+---
+
+<dialog
+  id="coming-soon-dialog"
+  class="w-[min(22rem,calc(100vw-2rem))] rounded-2xl border border-white/10 bg-navy p-6 text-center text-white shadow-2xl backdrop:bg-navy-dark/70"
+  aria-labelledby="coming-soon-title"
+>
+  <div class="dialog-panel">
+    <p class="text-xs font-semibold uppercase tracking-widest text-sv-cyan">
+      {sectionCopy.demo.eyebrow}
+    </p>
+    <h2 id="coming-soon-title" class="mt-2 text-2xl font-bold tracking-tight">
+      {sectionCopy.demo.comingSoon}
+    </h2>
+    <p class="mt-3 text-sm leading-relaxed text-white/70">
+      {sectionCopy.demo.reassurance}
+    </p>
+    <button
+      type="button"
+      data-coming-soon-close
+      class="mt-6 inline-flex min-w-[8rem] items-center justify-center rounded-lg bg-sv-blue px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#185bb8]"
+    >
+      Close
+    </button>
+  </div>
+</dialog>
+
+<script is:inline>
+  (function () {
+    var dialog = document.getElementById("coming-soon-dialog");
+    if (!dialog || typeof dialog.showModal !== "function") return;
+
+    function openDialog(event) {
+      event.preventDefault();
+      var menu = event.currentTarget.closest("details");
+      if (menu) menu.removeAttribute("open");
+      dialog.showModal();
+    }
+
+    function closeDialog() {
+      if (dialog.open) dialog.close();
+    }
+
+    document.querySelectorAll("[data-demo-cta]").forEach(function (el) {
+      el.addEventListener("click", openDialog);
+    });
+
+    document.querySelectorAll("[data-coming-soon-close]").forEach(function (el) {
+      el.addEventListener("click", closeDialog);
+    });
+
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) closeDialog();
+    });
+  })();
+</script>

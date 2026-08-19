@@ -341,21 +341,19 @@ async function checkViewport(browser, { name, width, height, full = false }) {
         `[${name}] Expected Coming soon notes beside demo CTAs, found ${comingSoonCount}`,
       );
 
+    const comingSoonDialog = page.locator("#coming-soon-dialog");
+
     const isWideLayout = name === "desktop" || name === "tablet";
     if (isWideLayout) {
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(300);
-      await page.locator('header a[href="#demo"]').first().click();
-      await page.waitForFunction(
-        () => {
-          const el = document.getElementById("demo");
-          if (!el) return false;
-          const rect = el.getBoundingClientRect();
-          return rect.top < window.innerHeight * 0.85 && rect.bottom > 80;
-        },
-        { timeout: 3000 },
-      );
-      pass(`[${name}] Request Demo scrolls to #demo`);
+      await page.locator("header [data-demo-cta]").first().click();
+      await comingSoonDialog.waitFor({ state: "visible", timeout: 3000 });
+      const dialogTitle = (await comingSoonDialog.locator("h2").textContent())?.trim();
+      if (dialogTitle === "Coming soon")
+        pass(`[${name}] Request Demo shows Coming soon`);
+      else fail(`[${name}] Request Demo dialog title was "${dialogTitle}"`);
+      await comingSoonDialog.locator("[data-coming-soon-close]").click();
     }
 
     if (name === "mobile") {
@@ -363,19 +361,18 @@ async function checkViewport(browser, { name, width, height, full = false }) {
       await page.waitForTimeout(200);
       await page.locator('summary[aria-label="Open menu"]').click();
       await page
-        .locator('header details nav a')
+        .locator("header details nav [data-demo-cta]")
         .filter({ hasText: "Request Demo" })
         .click();
-      await page.waitForFunction(
-        () => {
-          const el = document.getElementById("demo");
-          if (!el) return false;
-          const rect = el.getBoundingClientRect();
-          return rect.top < window.innerHeight * 0.9 && rect.bottom > 60;
-        },
-        { timeout: 3000 },
-      );
-      pass(`[${name}] Mobile menu Request Demo scrolls to #demo`);
+      await comingSoonDialog.waitFor({ state: "visible", timeout: 3000 });
+      const dialogTitle = (await comingSoonDialog.locator("h2").textContent())?.trim();
+      if (dialogTitle === "Coming soon")
+        pass(`[${name}] Mobile menu Request Demo shows Coming soon`);
+      else
+        fail(
+          `[${name}] Mobile Request Demo dialog title was "${dialogTitle}"`,
+        );
+      await comingSoonDialog.locator("[data-coming-soon-close]").click();
     }
   } finally {
     await context.close();
