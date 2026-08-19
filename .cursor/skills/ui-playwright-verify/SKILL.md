@@ -75,6 +75,7 @@ Follow [.cursor/skills/commit-and-push/SKILL.md](../commit-and-push/SKILL.md). D
 | Feature descriptions present | Not title-only cards |
 | Favicon links + fill metrics | Tab icon loads and fills square (not tiny padded mark) |
 | Request Demo → `#demo` (desktop) | CTA behavior |
+| "Coming soon" beside demo CTAs | Demo intake is not live |
 
 Extend `scripts/verify-ui.mjs` when new critical UI behavior is added.
 

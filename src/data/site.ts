@@ -81,7 +81,9 @@ export const sectionCopy = {
     title: "Give operations a clear material trail",
     intro:
       "See what arrived, what is ready, what is missing, and what was picked up.",
-    reassurance: "No platform contract required to see how it works.",
+    comingSoon: "Coming soon",
+    reassurance:
+      "Demo scheduling is not open yet. No platform contract required when it is.",
   },
   faq: {
     eyebrow: "Common questions",

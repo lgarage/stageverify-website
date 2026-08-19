@@ -1,6 +1,6 @@
 ---
 import Logo from "../ui/Logo.astro";
-import Button from "../ui/Button.astro";
+import DemoCta from "../ui/DemoCta.astro";
 import { navLinks, site } from "../../data/site";
 ---
 
@@ -19,9 +19,7 @@ import { navLinks, site } from "../../data/site";
           {site.geo.locationLine}
         </p>
         <div class="mt-6">
-          <Button href="#demo" variant="primary" size="sm">
-            Request Demo
-          </Button>
+          <DemoCta variant="primary" size="sm" />
         </div>
       </div>
 

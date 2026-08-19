@@ -1,7 +1,7 @@
 ---
 import SectionShell from "../ui/SectionShell.astro";
 import SectionHeader from "../ui/SectionHeader.astro";
-import Button from "../ui/Button.astro";
+import DemoCta from "../ui/DemoCta.astro";
 import { sectionCopy } from "../../data/site";
 ---
 
@@ -15,9 +15,11 @@ import { sectionCopy } from "../../data/site";
     />
 
     <div class="mt-12 flex flex-col items-center gap-3 md:mt-14">
-      <Button href="#demo" variant="primary" size="lg" class="min-w-[220px] shadow-lg shadow-sv-blue/25">
-        Request Demo
-      </Button>
+      <DemoCta
+        variant="primary"
+        size="lg"
+        buttonClass="min-w-[220px] shadow-lg shadow-sv-blue/25"
+      />
       <p class="text-xs text-white/50">{sectionCopy.demo.reassurance}</p>
     </div>
   </div>

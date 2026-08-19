@@ -333,6 +333,14 @@ async function checkViewport(browser, { name, width, height, full = false }) {
     if (hasHowItWorksDetail > 0) pass(`[${name}] How It Works steps present`);
     else fail(`[${name}] How It Works content missing`);
 
+    const comingSoonCount = await page.getByText("Coming soon", { exact: true }).count();
+    if (comingSoonCount >= 3)
+      pass(`[${name}] Coming soon note shown beside demo CTAs`);
+    else
+      fail(
+        `[${name}] Expected Coming soon notes beside demo CTAs, found ${comingSoonCount}`,
+      );
+
     const isWideLayout = name === "desktop" || name === "tablet";
     if (isWideLayout) {
       await page.evaluate(() => window.scrollTo(0, 0));

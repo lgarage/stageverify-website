@@ -1,0 +1,34 @@
+---
+import Button from "./Button.astro";
+import { sectionCopy } from "../../data/site";
+
+interface Props {
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md" | "lg";
+  class?: string;
+  buttonClass?: string;
+  noteClass?: string;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  class: className = "",
+  buttonClass = "",
+  noteClass = "",
+} = Astro.props;
+---
+
+<span class:list={["inline-flex flex-wrap items-center gap-2.5", className]}>
+  <Button href="#demo" variant={variant} size={size} class={buttonClass}>
+    Request Demo
+  </Button>
+  <span
+    class:list={[
+      "whitespace-nowrap text-xs font-semibold uppercase tracking-wider text-sv-cyan",
+      noteClass,
+    ]}
+  >
+    {sectionCopy.demo.comingSoon}
+  </span>
+</span>

@@ -1,7 +1,7 @@
 ---
 import Logo from "../ui/Logo.astro";
-import Button from "../ui/Button.astro";
-import { navLinks } from "../../data/site";
+import DemoCta from "../ui/DemoCta.astro";
+import { navLinks, sectionCopy } from "../../data/site";
 ---
 
 <header
@@ -24,9 +24,11 @@ import { navLinks } from "../../data/site";
     </nav>
 
     <div class="flex items-center gap-3">
-      <Button href="#demo" variant="primary" size="sm" class="hidden sm:inline-flex">
-        Request Demo
-      </Button>
+      <DemoCta
+        variant="primary"
+        size="sm"
+        class="hidden sm:inline-flex"
+      />
 
       <details class="relative md:hidden">
         <summary
@@ -51,12 +53,17 @@ import { navLinks } from "../../data/site";
                 </a>
               ))
             }
-            <a
-              href="#demo"
-              class="mt-2 rounded-lg bg-sv-blue px-3 py-2 text-center text-sm font-semibold text-white"
-            >
-              Request Demo
-            </a>
+            <div class="mt-2 flex items-center gap-2">
+              <a
+                href="#demo"
+                class="flex-1 rounded-lg bg-sv-blue px-3 py-2 text-center text-sm font-semibold text-white"
+              >
+                Request Demo
+              </a>
+              <span class="whitespace-nowrap text-[11px] font-semibold uppercase tracking-wider text-sv-cyan">
+                {sectionCopy.demo.comingSoon}
+              </span>
+            </div>
           </nav>
         </div>
       </details>
