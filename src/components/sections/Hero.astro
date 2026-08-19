@@ -1,5 +1,6 @@
 ---
 import Button from "../ui/Button.astro";
+import DemoCta from "../ui/DemoCta.astro";
 import HeroMockup from "../ui/HeroMockup.astro";
 import { site } from "../../data/site";
 ---
@@ -39,9 +40,11 @@ import { site } from "../../data/site";
         <Button href="#how-it-works" variant="primary" size="lg" class="w-full shadow-lg shadow-sv-blue/20 sm:w-auto">
           See How It Works
         </Button>
-        <Button href="#demo" variant="secondary" size="lg" class="w-full sm:w-auto">
-          Request Demo
-        </Button>
+        <DemoCta
+          variant="secondary"
+          size="lg"
+          class="justify-center sm:justify-start"
+        />
       </div>
     </div>
 

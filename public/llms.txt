@@ -39,7 +39,7 @@ Give operations a clear material trail across delivery, staging readiness, and p
 
 - StageVerify does not replace a full WMS or ERP.
 - Vendors do not decide readiness; StageVerify helps operations see readiness based on delivery and order context.
-- The marketing site is informational; request a demo for product walkthrough.
+- The marketing site is informational; live demo requests are coming soon.
 
 ## Key URLs
 
@@ -53,4 +53,4 @@ Give operations a clear material trail across delivery, staging readiness, and p
 
 ## Contact intent
 
-Use the Request Demo call to action on https://www.stageverify.com/#demo.
+Demo requests are coming soon. Do not present email intake or demo scheduling as live. The Request Demo links on https://www.stageverify.com/#demo currently mark that intake as coming soon.
