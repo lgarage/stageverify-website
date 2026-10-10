@@ -1,27 +1,49 @@
 ---
 import SectionShell from "../ui/SectionShell.astro";
 import SectionHeader from "../ui/SectionHeader.astro";
-import { howItWorksSteps, sectionCopy } from "../../data/site";
+import { howItWorksSteps, sectionCopy, workflowRoles } from "../../data/site";
 ---
 
-<SectionShell id="how-it-works" variant="steel">
+<SectionShell id="how-it-works" variant="steel" class="!py-12 md:!py-16">
   <SectionHeader
     eyebrow={sectionCopy.howItWorks.eyebrow}
     title={sectionCopy.howItWorks.title}
     description={sectionCopy.howItWorks.intro}
   />
 
-  <ol class="mt-10 grid gap-4 sm:gap-5 md:mt-14 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+  <ol class="mt-7 grid gap-3 sm:grid-cols-2 md:mt-9">
     {
       howItWorksSteps.map((item) => (
-        <li class="group relative flex flex-col rounded-2xl border border-sv-border-light bg-white p-5 shadow-sm transition-shadow hover:shadow-md sm:p-6">
-          <span class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-sv-blue text-sm font-bold text-white shadow-sm">
-            {item.step}
-          </span>
-          <h3 class="text-base font-semibold text-navy">{item.title}</h3>
-          <p class="mt-2 flex-1 text-sm leading-relaxed text-gray-text">{item.description}</p>
+        <li class="rounded-xl border border-sv-border-light bg-white px-4 py-3 shadow-sm">
+          <div class="flex items-start gap-3">
+            <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sv-blue text-xs font-bold text-white">
+              {item.step}
+            </span>
+            <div>
+              <h3 class="text-sm font-semibold text-navy">{item.title}</h3>
+              <p class="mt-1 text-sm leading-snug text-gray-text">{item.description}</p>
+            </div>
+          </div>
         </li>
       ))
     }
   </ol>
+
+  <div class="mt-7 md:mt-9">
+    <p class="mb-3 text-sm font-semibold text-navy">Who’s on the trail</p>
+    <div class="grid gap-3 sm:grid-cols-3">
+      {
+        workflowRoles.map((item) => (
+          <div class="rounded-xl border border-sv-border-light bg-white/80 px-4 py-3">
+            <h3 class="text-sm font-semibold text-navy">{item.role}</h3>
+            <div class="mt-1.5 space-y-0.5 text-sm leading-snug text-gray-text">
+              {item.steps.map((step) => (
+                <p>{step}</p>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
 </SectionShell>

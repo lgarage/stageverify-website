@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "verify:ui": "node scripts/verify-ui.mjs",
+    "verify:calculator": "node scripts/verify-calculator.mjs",
     "astro": "astro"
   },
   "dependencies": {
