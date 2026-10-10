@@ -1,0 +1,385 @@
+---
+import SectionShell from "../ui/SectionShell.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
+import { sectionCopy } from "../../data/site";
+import {
+  CALCULATOR_DEFAULTS,
+  STAGEVERIFY_FOUNDING_PRICE,
+  calculateMaterialProcessCost,
+  formatCurrency,
+  formatHours,
+} from "../../utils/costCalculator.js";
+
+const initial = calculateMaterialProcessCost(CALCULATOR_DEFAULTS);
+const annualFoundingCost = STAGEVERIFY_FOUNDING_PRICE * 12;
+
+const formatCeilingCurrency = (value) =>
+  value === 0
+    ? formatCurrency(0, { minimumFractionDigits: 0 })
+    : formatCurrency(value);
+
+const techFields = [
+  {
+    id: "calc-technicians",
+    name: "technicians",
+    label: "Number of technicians",
+    value: CALCULATOR_DEFAULTS.technicians,
+    step: "1",
+    colStart: "sm:col-start-1",
+  },
+  {
+    id: "calc-tech-wage",
+    name: "techWage",
+    label: "Technician hourly wage",
+    value: CALCULATOR_DEFAULTS.techWage,
+    step: "0.01",
+    prefix: "$",
+    colStart: "sm:col-start-2",
+  },
+  {
+    id: "calc-tech-minutes",
+    name: "techMinutesPerDay",
+    label: "Minutes hunting parts per workday",
+    value: CALCULATOR_DEFAULTS.techMinutesPerDay,
+    step: "0.5",
+    colStart: "sm:col-start-3",
+  },
+] as const;
+
+const supportRoles = [
+  {
+    legend: "Office / admin",
+    wage: {
+      id: "calc-office-wage",
+      name: "officeWage",
+      label: "Hourly wage",
+      value: CALCULATOR_DEFAULTS.officeWage,
+      step: "0.01",
+    },
+    minutes: {
+      id: "calc-office-minutes",
+      name: "officeMinutesPerWeek",
+      label: "Minutes receiving or sorting deliveries per week",
+      value: CALCULATOR_DEFAULTS.officeMinutesPerWeek,
+      step: "1",
+    },
+  },
+  {
+    legend: "Dispatcher",
+    wage: {
+      id: "calc-dispatcher-wage",
+      name: "dispatcherWage",
+      label: "Hourly wage",
+      value: CALCULATOR_DEFAULTS.dispatcherWage,
+      step: "0.01",
+    },
+    minutes: {
+      id: "calc-dispatcher-minutes",
+      name: "dispatcherMinutesPerWeek",
+      label: "Minutes checking or coordinating material per week",
+      value: CALCULATOR_DEFAULTS.dispatcherMinutesPerWeek,
+      step: "1",
+    },
+  },
+  {
+    legend: "Manager / shop manager",
+    wage: {
+      id: "calc-manager-wage",
+      name: "managerWage",
+      label: "Hourly wage",
+      value: CALCULATOR_DEFAULTS.managerWage,
+      step: "0.01",
+    },
+    minutes: {
+      id: "calc-manager-minutes",
+      name: "managerMinutesPerWeek",
+      label: "Minutes receiving, checking, or sorting per week",
+      value: CALCULATOR_DEFAULTS.managerMinutesPerWeek,
+      step: "1",
+    },
+  },
+] as const;
+
+const currentProcessRows = [
+  { key: "techMonthlyHours", label: "Monthly technician hours hunting parts", kind: "hours" },
+  { key: "techMonthlyCost", label: "Monthly technician wages hunting parts", kind: "money" },
+  { key: "officeMonthlyCost", label: "Monthly office/admin wages receiving deliveries", kind: "money" },
+  { key: "dispatcherMonthlyCost", label: "Monthly dispatcher wages checking material", kind: "money" },
+  { key: "managerMonthlyCost", label: "Monthly manager wages receiving or sorting", kind: "money" },
+] as const;
+
+const inputClass =
+  "block w-full min-w-0 max-w-full scroll-mt-[72px] rounded-lg border border-sv-border-light bg-white py-2.5 text-base text-navy shadow-sm focus:border-sv-blue focus:outline-none focus:ring-2 focus:ring-sv-blue/30";
+---
+
+<SectionShell id="cost-calculator" variant="white" class="!py-12 md:!py-16">
+  <SectionHeader
+    eyebrow={sectionCopy.costCalculator.eyebrow}
+    title={sectionCopy.costCalculator.title}
+    description={sectionCopy.costCalculator.intro}
+  />
+
+  <form
+    id="cost-calculator-form"
+    class="mx-auto mt-7 grid gap-5 md:mt-9 lg:grid-cols-12 lg:gap-8"
+    novalidate
+  >
+    <div class="min-w-0 space-y-3 lg:col-span-7">
+      <fieldset class="min-w-0 rounded-xl border border-sv-border-light bg-steel/40 p-3 sm:p-4">
+        <legend class="px-1 text-sm font-semibold text-navy">Technicians</legend>
+        <div class="mt-2 grid gap-3 sm:grid-cols-3 sm:grid-rows-[auto_auto] sm:gap-x-3 sm:gap-y-1.5">
+          {
+            techFields.map((field) => (
+              <div class="min-w-0 sm:contents">
+                <label
+                  for={field.id}
+                  class:list={[
+                    "block text-xs font-medium leading-snug text-navy",
+                    field.colStart,
+                    "sm:row-start-1",
+                  ]}
+                >
+                  {field.label}
+                </label>
+                <div
+                  class:list={[
+                    "relative mt-1.5 min-w-0 max-w-full sm:mt-0",
+                    field.colStart,
+                    "sm:row-start-2",
+                  ]}
+                >
+                  {"prefix" in field && field.prefix ? (
+                    <span class="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-sm text-gray-muted" aria-hidden="true">
+                      {field.prefix}
+                    </span>
+                  ) : null}
+                  <input
+                    id={field.id}
+                    name={field.name}
+                    type="number"
+                    inputmode="decimal"
+                    min="0"
+                    step={field.step}
+                    value={field.value}
+                    class:list={[
+                      inputClass,
+                      "prefix" in field && field.prefix ? "pl-6 pr-2.5" : "px-2.5",
+                    ]}
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <div class="grid gap-3">
+        {
+          supportRoles.map((role) => (
+            <fieldset class="min-w-0 rounded-xl border border-sv-border-light bg-steel/40 p-3 sm:p-4">
+              <legend class="px-1 text-sm font-semibold text-navy">{role.legend}</legend>
+              <div class="mt-2 grid gap-3 sm:grid-cols-2">
+                <div class="min-w-0">
+                  <label for={role.wage.id} class="block text-xs font-medium leading-snug text-navy">
+                    {role.wage.label}
+                  </label>
+                  <div class="relative mt-1.5 min-w-0 max-w-full">
+                    <span class="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-sm text-gray-muted" aria-hidden="true">$</span>
+                    <input
+                      id={role.wage.id}
+                      name={role.wage.name}
+                      type="number"
+                      inputmode="decimal"
+                      min="0"
+                      step={role.wage.step}
+                      value={role.wage.value}
+                      class={`${inputClass} pl-6 pr-2.5`}
+                    />
+                  </div>
+                </div>
+                <div class="min-w-0">
+                  <label for={role.minutes.id} class="block text-xs font-medium leading-snug text-navy">
+                    {role.minutes.label}
+                  </label>
+                  <div class="mt-1.5 min-w-0 max-w-full">
+                    <input
+                      id={role.minutes.id}
+                      name={role.minutes.name}
+                      type="number"
+                      inputmode="decimal"
+                      min="0"
+                      step={role.minutes.step}
+                      value={role.minutes.value}
+                      class={`${inputClass} px-2.5`}
+                    />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="min-w-0 lg:col-span-5">
+      <div class="rounded-xl border border-sv-border-light bg-steel/50 p-4 shadow-sm lg:sticky lg:top-24">
+        <div class="space-y-4" data-calc-results>
+          <div data-calc-group="current-process">
+            <h3 class="text-sm font-semibold text-navy">CURRENT PROCESS</h3>
+            <dl class="mt-2 space-y-2">
+              {
+                currentProcessRows.map((row) => (
+                  <div class="flex items-start justify-between gap-3 border-b border-sv-border-light/80 pb-2">
+                    <dt class="text-xs leading-snug text-gray-text sm:text-sm">{row.label}</dt>
+                    <dd
+                      class="shrink-0 text-right text-xs font-semibold tabular-nums text-navy sm:text-sm"
+                      data-calc-out={row.key}
+                    >
+                      {row.kind === "hours"
+                        ? formatHours(initial[row.key])
+                        : formatCurrency(initial[row.key])}
+                    </dd>
+                  </div>
+                ))
+              }
+              <div class="flex items-start justify-between gap-3 pt-1">
+                <dt class="text-sm font-semibold text-navy">Estimated monthly wages out the door</dt>
+                <dd class="shrink-0 text-right text-base font-bold tabular-nums text-navy" data-calc-out="monthlyTotal">
+                  {formatCurrency(initial.monthlyTotal)}
+                </dd>
+              </div>
+              <div class="flex items-start justify-between gap-3">
+                <dt class="text-sm font-semibold text-navy">Estimated annual wages out the door</dt>
+                <dd class="shrink-0 text-right text-base font-bold tabular-nums text-navy" data-calc-out="annualTotal">
+                  {formatCurrency(initial.annualTotal)}
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div data-calc-group="stageverify-cost">
+            <h3 class="text-sm font-semibold text-navy">STAGEVERIFY COST</h3>
+            <dl class="mt-2">
+              <div class="flex items-start justify-between gap-3 border-b border-sv-border-light/80 pb-2">
+                <dt class="text-xs leading-snug text-gray-text sm:text-sm">Founding Customer Program</dt>
+                <dd class="shrink-0 text-right text-xs font-semibold tabular-nums text-navy sm:text-sm">
+                  {formatCurrency(STAGEVERIFY_FOUNDING_PRICE)}/month for the first 12 months
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div data-calc-group="potential-savings-ceiling">
+            <h3 class="text-sm font-semibold text-navy">MOST YOU COULD KEEP (CEILING)</h3>
+            <div class="mt-2 space-y-3">
+              <div
+                class="rounded-lg border border-sv-border-light/80 bg-white/60 px-3 py-2.5 text-xs tabular-nums text-navy sm:text-sm"
+                data-calc-equation="monthly"
+              >
+                <p>
+                  <span class="font-semibold" data-calc-out="monthlyTotal">
+                    {formatCurrency(initial.monthlyTotal)}
+                  </span>{" "}
+                  current monthly direct wage cost
+                </p>
+                <p class="mt-1">
+                  <span aria-hidden="true">−</span>{" "}
+                  <span class="font-semibold" data-calc-sv-monthly>
+                    {formatCurrency(STAGEVERIFY_FOUNDING_PRICE)}
+                  </span>{" "}
+                  StageVerify
+                </p>
+                <p class="mt-1 font-semibold">
+                  <span aria-hidden="true">=</span>{" "}
+                  <span data-calc-out="monthlySavingsCeiling">{formatCeilingCurrency(initial.monthlySavingsCeiling)}</span>/month
+                </p>
+              </div>
+              <div
+                class="rounded-lg border border-sv-border-light/80 bg-white/60 px-3 py-2.5 text-xs tabular-nums text-navy sm:text-sm"
+                data-calc-equation="annual"
+              >
+                <p>
+                  <span class="font-semibold" data-calc-out="annualTotal">
+                    {formatCurrency(initial.annualTotal)}
+                  </span>{" "}
+                  current annual direct wage cost
+                </p>
+                <p class="mt-1">
+                  <span aria-hidden="true">−</span>{" "}
+                  <span class="font-semibold" data-calc-sv-annual>
+                    {formatCurrency(annualFoundingCost)}
+                  </span>{" "}
+                  StageVerify annual founding cost
+                </p>
+                <p class="mt-1 font-semibold">
+                  <span aria-hidden="true">=</span>{" "}
+                  <span data-calc-out="annualSavingsCeiling">{formatCeilingCurrency(initial.annualSavingsCeiling)}</span>/year
+                </p>
+              </div>
+            </div>
+            <p class="mt-2 text-xs leading-relaxed text-gray-text">
+              This is the most you could keep if StageVerify removed all of the paid time you entered, after the StageVerify subscription. It is a ceiling, not a forecast; the actual amount depends on how much receiving and parts-hunting time StageVerify cuts.
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-4 text-xs leading-relaxed text-gray-muted" data-calc-disclaimer>
+          {sectionCopy.costCalculator.disclaimer}
+        </p>
+      </div>
+    </div>
+  </form>
+</SectionShell>
+
+<script>
+  import {
+    calculateMaterialProcessCost,
+    formatCurrency,
+    formatHours,
+  } from "../../utils/costCalculator.js";
+
+  const form = document.getElementById("cost-calculator-form");
+  if (form instanceof HTMLFormElement) {
+    const hourKeys = new Set(["techMonthlyHours"]);
+    const ceilingKeys = new Set(["monthlySavingsCeiling", "annualSavingsCeiling"]);
+
+    const formatCeilingCurrency = (value) =>
+      value === 0
+        ? formatCurrency(0, { minimumFractionDigits: 0 })
+        : formatCurrency(value);
+
+    const readInputs = () => {
+      const data = new FormData(form);
+      return {
+        technicians: data.get("technicians"),
+        techWage: data.get("techWage"),
+        techMinutesPerDay: data.get("techMinutesPerDay"),
+        officeWage: data.get("officeWage"),
+        officeMinutesPerWeek: data.get("officeMinutesPerWeek"),
+        dispatcherWage: data.get("dispatcherWage"),
+        dispatcherMinutesPerWeek: data.get("dispatcherMinutesPerWeek"),
+        managerWage: data.get("managerWage"),
+        managerMinutesPerWeek: data.get("managerMinutesPerWeek"),
+      };
+    };
+
+    const render = () => {
+      const result = calculateMaterialProcessCost(readInputs());
+      form.querySelectorAll("[data-calc-out]").forEach((node) => {
+        const key = node.getAttribute("data-calc-out");
+        if (!key || !(key in result)) return;
+        const value = result[key];
+        if (hourKeys.has(key)) {
+          node.textContent = formatHours(value);
+        } else if (ceilingKeys.has(key)) {
+          node.textContent = formatCeilingCurrency(value);
+        } else {
+          node.textContent = formatCurrency(value);
+        }
+      });
+    };
+
+    form.addEventListener("input", render);
+    form.addEventListener("change", render);
+  }
+</script>

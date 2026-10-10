@@ -1,8 +1,13 @@
 ---
 import SectionShell from "../ui/SectionShell.astro";
 import SectionHeader from "../ui/SectionHeader.astro";
-import DemoCta from "../ui/DemoCta.astro";
 import { sectionCopy } from "../../data/site";
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID ?? "";
+
+const inputClass =
+  "block w-full min-w-0 rounded-lg border border-white/20 bg-white px-3 py-2.5 text-base text-navy shadow-sm placeholder:text-gray-500 focus:border-sv-cyan focus:outline-none focus:ring-2 focus:ring-sv-cyan/40";
+const labelClass = "block text-sm font-medium text-white/90";
 ---
 
 <SectionShell id="demo" variant="navy" containerClass="text-center">
@@ -14,13 +19,201 @@ import { sectionCopy } from "../../data/site";
       dark
     />
 
-    <div class="mt-12 flex flex-col items-center gap-3 md:mt-14">
-      <DemoCta
-        variant="primary"
-        size="lg"
-        buttonClass="min-w-[220px] shadow-lg shadow-sv-blue/25"
-      />
-      <p class="text-xs text-white/50">{sectionCopy.demo.reassurance}</p>
-    </div>
+    <form
+      id="demo-request-form"
+      class="mx-auto mt-10 max-w-xl text-left md:mt-12"
+      novalidate
+    >
+      <div class="grid gap-4 sm:grid-cols-2 sm:gap-5">
+        <div class="sm:col-span-2">
+          <label for="demo-name" class={labelClass}>Name</label>
+          <input
+            id="demo-name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            class={`${inputClass} mt-1.5`}
+          />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="demo-email" class={labelClass}>Work email</label>
+          <input
+            id="demo-email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            class={`${inputClass} mt-1.5`}
+          />
+        </div>
+
+        <div>
+          <label for="demo-company" class={labelClass}>Company</label>
+          <input
+            id="demo-company"
+            name="company"
+            type="text"
+            required
+            autocomplete="organization"
+            class={`${inputClass} mt-1.5`}
+          />
+        </div>
+
+        <div>
+          <label for="demo-phone" class={labelClass}>Phone</label>
+          <input
+            id="demo-phone"
+            name="phone"
+            type="tel"
+            required
+            autocomplete="tel"
+            class={`${inputClass} mt-1.5`}
+          />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="demo-location" class={labelClass}>City / State</label>
+          <input
+            id="demo-location"
+            name="cityState"
+            type="text"
+            required
+            autocomplete="address-level2"
+            class={`${inputClass} mt-1.5`}
+          />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="demo-message" class={labelClass}>Message</label>
+          <textarea
+            id="demo-message"
+            name="message"
+            rows="4"
+            placeholder="Anything we should know before we follow up?"
+            class={`${inputClass} mt-1.5 resize-y`}
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-col items-center gap-4">
+        <button
+          type="submit"
+          id="demo-submit"
+          class="inline-flex min-w-[220px] items-center justify-center rounded-lg bg-sv-blue px-6 py-3 text-base font-semibold text-white shadow-lg shadow-sv-blue/25 transition-colors hover:bg-[#185bb8] focus:outline-none focus:ring-2 focus:ring-sv-cyan focus:ring-offset-2 focus:ring-offset-navy disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {sectionCopy.demo.submit}
+        </button>
+
+        <p class="text-center text-sm text-white/60">
+          Or email
+          <a
+            href="mailto:info@stageverify.com"
+            class="text-sv-cyan underline decoration-sv-cyan/40 underline-offset-2 hover:text-white hover:decoration-white/60"
+          >
+            info@stageverify.com
+          </a>
+        </p>
+      </div>
+
+      <div
+        id="demo-form-status"
+        role="status"
+        aria-live="polite"
+        class="mt-4 text-center text-sm empty:hidden"
+      ></div>
+    </form>
   </div>
 </SectionShell>
+
+<script define:vars={{ formspreeId, successMessage: sectionCopy.demo.success, errorMessage: sectionCopy.demo.error }}>
+  (function () {
+    var form = document.getElementById("demo-request-form");
+    if (!form) return;
+
+    var submitBtn = document.getElementById("demo-submit");
+    var statusEl = document.getElementById("demo-form-status");
+    var pending = false;
+
+    function setStatus(type, message) {
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.className =
+        "mt-4 text-center text-sm " +
+        (type === "success" ? "text-sv-cyan" : "text-red-300");
+    }
+
+    function clearStatus() {
+      if (!statusEl) return;
+      statusEl.textContent = "";
+      statusEl.className = "mt-4 text-center text-sm empty:hidden";
+    }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (pending) return;
+
+      clearStatus();
+
+      if (!formspreeId) {
+        setStatus("error", errorMessage);
+        return;
+      }
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      var nameInput = form.querySelector('[name="name"]');
+      var emailInput = form.querySelector('[name="email"]');
+      var companyInput = form.querySelector('[name="company"]');
+      var phoneInput = form.querySelector('[name="phone"]');
+      var locationInput = form.querySelector('[name="cityState"]');
+      var messageInput = form.querySelector('[name="message"]');
+
+      var name = nameInput ? nameInput.value.trim() : "";
+      var email = emailInput ? emailInput.value.trim() : "";
+      var company = companyInput ? companyInput.value.trim() : "";
+      var phone = phoneInput ? phoneInput.value.trim() : "";
+      var cityState = locationInput ? locationInput.value.trim() : "";
+      var message = messageInput ? messageInput.value.trim() : "";
+
+      var payload = new FormData();
+      payload.append("_replyto", email);
+      payload.append("_subject", "StageVerify demo request — " + company + " — " + name);
+      payload.append("name", name);
+      payload.append("email", email);
+      payload.append("company", company);
+      payload.append("phone", phone);
+      payload.append("cityState", cityState);
+      if (message) payload.append("message", message);
+      payload.append("submittedAt", new Date().toISOString());
+
+      pending = true;
+      if (submitBtn) submitBtn.disabled = true;
+
+      fetch("https://formspree.io/f/" + formspreeId, {
+        method: "POST",
+        body: payload,
+        headers: { Accept: "application/json" },
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error("Request failed");
+          return response.json();
+        })
+        .then(function () {
+          setStatus("success", successMessage);
+          form.reset();
+        })
+        .catch(function () {
+          setStatus("error", errorMessage);
+        })
+        .finally(function () {
+          pending = false;
+          if (submitBtn) submitBtn.disabled = false;
+        });
+    });
+  })();
+</script>

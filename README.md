@@ -23,6 +23,12 @@ npm run dev
 
 Open [http://localhost:4321](http://localhost:4321) in your browser.
 
+## Request Demo (Formspree)
+
+The static site submits Request Demo form data through [Formspree](https://formspree.io/). Dan must create and configure the Formspree form with destination email `info@stageverify.com`.
+
+Set `PUBLIC_FORMSPREE_ID` to the form hash only (for example `xyzabc`), not the full URL. For local development, add the same key to a `.env` file (see `.env.example`). Any production build must expose the same public build-time variable.
+
 ## Build
 
 ```bash

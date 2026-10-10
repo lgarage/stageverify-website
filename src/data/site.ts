@@ -2,13 +2,15 @@ export const site = {
   name: "StageVerify",
   title: "StageVerify | Material Staging & Delivery Tracking for Trade Contractors",
   /** Approved hero subheadline — do not change without explicit approval. */
-  description:
-    "StageVerify helps trade contractors know what arrived, what is ready, what is missing, and what was picked up.",
+  description: "Stop wasting labor looking for job materials.",
+  supportingDescription:
+    "StageVerify tracks vendor deliveries from shop arrival to field pickup. See what arrived, where it was staged, what is missing, and what is ready.",
   /** Meta / Open Graph / schema description — product-first, nationwide. */
   seoDescription:
-    "StageVerify helps trade contractors know what arrived, what is ready, what is missing, and what was picked up. Material staging and pickup verification for shops that send crews to the field.",
-  positioning: "Stop sending technicians to pickups that are not actually ready.",
-  headline: "Stop Losing Job Materials Between Delivery and Pickup",
+    "StageVerify tracks vendor deliveries from shop arrival to field pickup. See what arrived, where it was staged, what is missing, and what is ready.",
+  positioning:
+    "Know what is ready before dispatch sends a technician to pick it up.",
+  headline: "The material may not be lost. Your labor is.",
   footerDescription:
     "Material staging and pickup verification for trade contractors.",
   url: "https://www.stageverify.com",
@@ -34,188 +36,248 @@ export const site = {
 } as const;
 
 export const navLinks = [
-  { label: "Problem", href: "#problem" },
   { label: "How It Works", href: "#how-it-works" },
+  { label: "Capabilities", href: "#features" },
   { label: "Who It's For", href: "#who-its-for" },
-  { label: "Demo", href: "#demo" },
-] as const;
-
-export const problemCards = [
-  { title: "Vendor says it was dropped off" },
-  { title: "Order is only partially complete" },
-  { title: "Dispatch thinks it is ready" },
-  { title: "Technician shows up missing material" },
+  { label: "Pricing", href: "#pricing" },
 ] as const;
 
 export const sectionCopy = {
-  problem: {
-    eyebrow: "The problem",
-    title: "The handoff is where materials get lost.",
-    intro: "Know what is actually ready before you send the tech.",
-  },
   howItWorks: {
     eyebrow: "The workflow",
     title: "One clear trail from delivery to pickup.",
     intro:
-      "StageVerify keeps the shop trail clear from vendor drop-off to technician pickup.",
+      "StageVerify keeps the material handoff clear from vendor delivery to technician pickup.",
   },
   features: {
     eyebrow: "Capabilities",
-    title: "Shop staging control without a full warehouse system.",
+    title: "Four ways to spend less paid time on job material.",
   },
   whoItsFor: {
     eyebrow: "Who it's for",
-    title: "Built for trade contractors.",
-    intro:
-      "For contractors who stage job materials in a shop before sending crews to the field.",
+    title:
+      "Built for HVAC service shops that receive and stage job materials before field pickup — especially shops that stage by job.",
+    intro: "It is not a full warehouse WMS.",
+    secondary:
+      "Also fits other trades with the same workflow: electrical, plumbing, mechanical, controls, and fire protection.",
   },
-  scale: {
-    eyebrow: "Grow with you",
-    title: "Start with one shop. Expand to every branch.",
+  laborCost: {
+    eyebrow: "Hidden labor",
+    title: "Receiving a delivery still costs money.",
+    receivingCost:
+      "Receiving isn't free: figuring out which job a delivery belongs to and staging it is paid office, shop, or manager time—even when someone is there to receive it.",
+    productScope:
+      "StageVerify reduces the paid time spent figuring out what arrived, where it is, what is missing, and what is ready for the repair or install—not just the time it takes to find one part.",
+    calculatorLeadIn:
+      "Add the time spent receiving deliveries and hunting parts below to see how much direct wage money may be going out the door.",
+  },
+  costCalculator: {
+    eyebrow: "Paid time",
+    title: "How Much Paid Time Goes Into Receiving Deliveries and Hunting for Parts?",
     intro:
-      "Start with one staging area. Add more zones, branches, and material workflows as the operation grows.",
-    note: "Grounded in contractor shops — not massive automated warehouses.",
+      "Enter your shop's wages and receiving time to estimate how much that work may be costing your company.",
+    disclaimer:
+      "Estimates are based on the time and wage assumptions you enter. They do not include payroll burden, vehicle costs, return trips, overtime, lost billable capacity, customer delays, or the value of additional technician capacity.",
+  },
+  catchAll: {
+    title: "UPS, FedEx, and USPS drops still need a clear path.",
+    body:
+      "Catch-All keeps unexpected carrier drops visible until shop staff identify the job and stage the material.",
+  },
+  qualification: {
+    title: "StageVerify makes the most sense when…",
+    customerFit:
+      "Use your own wages and workflow to decide whether StageVerify makes sense for your shop. It fits best when paid time is disappearing into receiving drops, sorting material to jobs, checking readiness, or hunting parts.",
+  },
+  proveValue: {
+    eyebrow: "See the work",
+    title: "See whether the shop is spending less time on material.",
+    intro:
+      "Track deliveries, pickups, backorders, missing items, and estimated paid time so managers can compare shop activity with their own wages and the StageVerify subscription.",
+  },
+  pricing: {
+    title: "Founding Customer Program",
+    foundingPrice: "$199",
+    foundingPeriod: "/month for the first 12 months",
+    standardLabel: "Planned standard price",
+    standardPrice: "$399",
+    standardPeriod: "/month",
+    availability: "Coming Soon",
   },
   demo: {
     eyebrow: "Request a demo",
-    title: "Give operations a clear material trail",
-    intro:
-      "See what arrived, what is ready, what is missing, and what was picked up.",
-    comingSoon: "Coming soon",
-    reassurance:
-      "Demo scheduling is not open yet. No platform contract required when it is.",
+    title: "Request a demo",
+    intro: "Tell us how to reach you. We’ll follow up to schedule.",
+    submit: "Send request",
+    success: "Thanks — we’ll follow up to schedule your demo.",
+    error:
+      "Something went wrong sending that. Email info@stageverify.com and we’ll get you scheduled.",
   },
   faq: {
     eyebrow: "Common questions",
-    title: "Clear answers for operations teams.",
+    title: "Straight answers for the shop.",
     intro:
-      "For contractors who need a clean material trail — not another complex system.",
+      "For shops that need a clear material trail—not another complex system.",
   },
 } as const;
 
 export const howItWorksSteps = [
   {
     step: 1,
-    title: "Dispatch assigns it",
-    description: "Job, vendor, PO, and location set before delivery.",
+    title: "Material arrives",
+    description:
+      "Delivered material stays connected to the job and staged correctly.",
   },
   {
     step: 2,
-    title: "Vendor drops it off",
-    description: "The driver confirms delivery at the assigned location.",
+    title: "The office stays informed",
+    description:
+      "Delivery status, missing items, and readiness stay visible without relying on phone calls or memory.",
   },
   {
     step: 3,
-    title: "StageVerify checks readiness",
-    description: "See what is ready, partial, missing, backordered, or needs review.",
+    title: "Technicians know where to go",
+    description:
+      "Technicians get clear pickup guidance for material assigned to their jobs.",
   },
   {
     step: 4,
-    title: "Pickup info is sent",
-    description: "The technician gets the pickup link and locations.",
-  },
-  {
-    step: 5,
-    title: "Pickup is confirmed",
-    description: "StageVerify records what left the shop and what remains.",
-  },
-] as const;
-
-export const features = [
-  {
-    title: "Vendor delivery tracking",
-    description: "Know which vendor dropped off, for which job and PO.",
-  },
-  {
-    title: "Staging location visibility",
-    description: "See where material is staged before anyone goes looking.",
-  },
-  {
-    title: "Readiness status",
+    title: "Pickup closes the loop",
     description:
-      "See what is ready, partial, missing, or needs review before pickup.",
-  },
-  {
-    title: "Pickup verification",
-    description: "Record when material leaves the shop with the technician.",
-  },
-  {
-    title: "QR-based workflow",
-    description: "Simple links and scans — no extra accounts for vendors or techs.",
-  },
-  {
-    title: "Delivery history",
-    description: "Pull up the record when a delivery or pickup gets questioned.",
-  },
-  {
-    title: "Multi-shop ready",
-    description: "Start with one shop and grow into multiple branches.",
-  },
-  {
-    title: "Simple field workflow",
-    description: "Each role sees only what they need to keep materials moving.",
+      "Pickup is recorded so material status stays current and the shop stays organized.",
   },
 ] as const;
 
-export const industries = [
-  "Mechanical",
-  "Electrical",
-  "Plumbing",
-  "HVAC",
-  "Fire Protection",
-  "Controls",
-  "Facility Service",
-  "Self-Perform Contractors",
-] as const;
-
-export const scaleStages = [
+export const workflowRoles = [
   {
-    title: "One staging area",
-    description: "One location to start. Same workflow every delivery.",
+    role: "Vendor",
+    steps: ["Check in the delivery. No app."],
   },
   {
-    title: "Multiple zones",
-    description: "Add bays, racks, ground stacks, and will-call areas.",
+    role: "Technician",
+    steps: ["Get pickup guidance for the job. No app."],
   },
   {
-    title: "Multiple branches",
-    description: "Run the same process at every shop.",
-  },
-  {
-    title: "Larger material operation",
-    description: "More control across locations — without a warehouse overhaul.",
+    role: "Office",
+    steps: ["See what arrived, what’s missing, what’s ready."],
   },
 ] as const;
 
-export const problemCallout = {
-  lead: "Most systems track the job or PO. ",
-  emphasis: "StageVerify tracks whether the material is actually ready for pickup.",
+export const laborExclusions = [
+  "payroll burden",
+  "vehicle costs",
+  "return trips",
+  "overtime",
+  "lost productive or billable capacity",
+  "customer delays",
+] as const;
+
+export const qualificationSignals = [
+  "vendors regularly deliver job materials to your shop",
+  "your shop stages material by job before field pickup",
+  "technicians spend time hunting parts or asking where material was staged",
+  "jobs involve multiple deliveries, vendors, missing items, or backorders",
+  "expensive office, shop, manager, or technician time is spent receiving, locating, checking, or sorting material to jobs",
+] as const;
+
+export const managementPreview = {
+  labels: {
+    illustrative: "Illustrative example",
+    snapshot: "Example monthly value snapshot",
+  },
+  summaryMetrics: [
+    { value: "48", label: "Deliveries processed" },
+    { value: "37", label: "Pickups completed" },
+    { value: "6", label: "Backorders identified" },
+    {
+      value: "9.4 hrs",
+      label: "Estimated receiving and parts-hunt time",
+      supportingText: "Based on example labor assumptions",
+    },
+  ],
+  lineChart: {
+    title: "Receiving and parts-hunt time",
+    data: [
+      { month: "Jan", value: 16.2 },
+      { month: "Feb", value: 14.8 },
+      { month: "Mar", value: 13.1 },
+      { month: "Apr", value: 11.7 },
+      { month: "May", value: 10.3 },
+      { month: "Jun", value: 9.4 },
+    ],
+  },
+  barChart: {
+    title: "Material issues identified",
+    data: [
+      { category: "Backorders", value: 6 },
+      { category: "Incomplete deliveries", value: 3 },
+      { category: "Other material issues", value: 4 },
+    ],
+  },
+  previewNote:
+    "Illustrative example only. This is not customer data and does not represent a customer claim or promised result.",
 } as const;
+
+export const pricingIncludes = [
+  "Up to 30 configurable staging locations",
+  "Configure multiple ground and shelf staging locations around how your shop handles job material",
+  "Additional staging capacity available as your needs grow",
+  "No long-term commitment",
+  "Cancel anytime",
+] as const;
+
+export const primaryCapabilities = [
+  {
+    title: "Delivery and staging visibility",
+    description:
+      "See what arrived, which job it belongs to, and where it was staged.",
+  },
+  {
+    title: "Job readiness, missing items, and backorders",
+    description:
+      "Know what is ready for pickup and what still needs attention before the repair or install.",
+  },
+  {
+    title: "Guided technician pickup",
+    description:
+      "Send technicians to the right staged material without a hunt through the shop.",
+  },
+  {
+    title: "Catch-All for unexpected carriers",
+    description:
+      "Keep UPS, FedEx, USPS, and other unexpected drops visible until they are identified and staged.",
+  },
+] as const;
+
+export const secondaryCapabilities = [
+  "Multiple vendors and deliveries tied to the same job",
+  "Vendor updates kept with the material trail",
+  "Pickup verification that closes the handoff",
+] as const;
 
 export const faqItems = [
   {
-    question: "What problem does StageVerify solve?",
+    question: "What is StageVerify?",
     answer:
-      "StageVerify helps trade contractors stop losing job materials between vendor delivery, shop staging, and field pickup by showing what arrived, what is ready, what is missing, and what was picked up.",
+      "StageVerify tracks vendor deliveries from shop drop-off through staging and technician pickup.",
   },
   {
-    question: "Who is StageVerify for?",
+    question: "Does it replace my current field-service software?",
     answer:
-      "StageVerify is built for trade contractors — including mechanical, electrical, plumbing, HVAC, fire protection, and related self-perform teams — that stage job materials in a shop before sending crews to the field.",
+      "No. It works alongside your current field-service software and focuses on material staging and pickup.",
   },
   {
-    question: "Does StageVerify replace a full warehouse system?",
-    answer:
-      "No. StageVerify focuses on shop staging control and the material handoff from delivery to pickup, without requiring a full warehouse management system.",
+    question: "Do vendors or technicians need accounts or apps?",
+    answer: "No. Vendors and technicians do not need to install an app.",
   },
   {
-    question: "Where is StageVerify based?",
+    question: "What happens with UPS/FedEx/USPS deliveries?",
     answer:
-      "StageVerify is based in Green Bay, Wisconsin and serves trade contractors across the United States.",
+      "UPS, FedEx, USPS, and other unexpected deliveries can be seen and handled through the Catch-All workflow.",
   },
   {
-    question: "How do vendors and technicians use StageVerify?",
+    question: "Who is StageVerify best for?",
     answer:
-      "StageVerify uses a simple QR-based workflow with links and scans, so vendors and technicians can confirm delivery and pickup without needing extra accounts.",
+      "Trade contractors that receive and stage job materials before technicians pick them up.",
   },
 ] as const;
