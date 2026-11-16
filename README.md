@@ -49,7 +49,7 @@ npm run preview
 src/
 ├── components/
 │   ├── layout/       # Header, Footer
-│   ├── sections/     # Page sections (Hero, Problem, etc.)
+│   ├── sections/     # Page sections (Hero, HowItWorks, etc.)
 │   └── ui/           # Reusable UI (Button, Card, Logo, HeroMockup)
 ├── data/site.ts      # Copy and navigation constants
 ├── layouts/          # BaseLayout

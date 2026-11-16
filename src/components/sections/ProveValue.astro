@@ -65,7 +65,7 @@ const barMax = Math.max(...barChart.data.map((item) => item.value));
             <p class="text-2xl font-bold tabular-nums text-navy">{metric.value}</p>
             <p class="mt-1 text-sm font-medium leading-snug text-navy">{metric.label}</p>
             {"supportingText" in metric && metric.supportingText ? (
-              <p class="mt-1 text-xs text-gray-muted">{metric.supportingText}</p>
+              <p class="mt-1 text-xs text-gray-text">{metric.supportingText}</p>
             ) : null}
           </div>
         ))

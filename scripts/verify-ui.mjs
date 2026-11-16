@@ -1582,9 +1582,16 @@ async function checkContentAssertions(page, name) {
     pass(`[${name}] Demo form reflects Formspree configuration state`);
   else fail(`[${name}] Demo submit should be enabled when Formspree is configured`);
 
-  if ((await page.locator("#demo").getByText("We use what you submit only to schedule your demo").count()) > 0)
-    pass(`[${name}] Demo privacy notice present`);
-  else fail(`[${name}] Demo privacy notice missing`);
+  const demoUnconfigured = (await page.locator("[data-demo-unconfigured]").count()) > 0;
+  const privacyPresent =
+    (await page.locator("#demo").getByText("We use what you submit only to schedule your demo").count()) > 0;
+  if (demoUnconfigured && !privacyPresent)
+    pass(`[${name}] Demo privacy hidden when Formspree unconfigured`);
+  else if (!demoUnconfigured && privacyPresent)
+    pass(`[${name}] Demo privacy present when Formspree configured`);
+  else if (!demoUnconfigured && !privacyPresent)
+    fail(`[${name}] Demo privacy missing though Formspree appears configured`);
+  else fail(`[${name}] Demo privacy should not show when Formspree unconfigured`);
 
   if ((await page.locator('[data-calc-below-monthly]').count()) > 0)
     pass(`[${name}] Calculator below-subscription monthly note present`);

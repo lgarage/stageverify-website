@@ -116,9 +116,13 @@ const labelClass = "block text-sm font-medium text-white/90";
           ) : null
         }
 
-        <p class="max-w-md text-center text-xs leading-relaxed text-white/70">
-          {sectionCopy.demo.privacy}
-        </p>
+        {
+          demoConfigured ? (
+            <p class="max-w-md text-center text-xs leading-relaxed text-white/70">
+              {sectionCopy.demo.privacy}
+            </p>
+          ) : null
+        }
 
         <p class="text-center text-sm text-white/60">
           Or email
@@ -195,6 +199,11 @@ const labelClass = "block text-sm font-medium text-white/90";
         return;
       }
 
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
       var payload = new FormData();
       payload.append("_replyto", email);
       payload.append("_subject", "StageVerify demo request — " + company + " — " + name);
@@ -225,6 +234,7 @@ const labelClass = "block text-sm font-medium text-white/90";
         })
         .catch(function () {
           setStatus("error", errorMessage);
+          if (statusEl) statusEl.focus();
         })
         .finally(function () {
           pending = false;
