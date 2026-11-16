@@ -7,7 +7,9 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   CALCULATOR_DEFAULTS,
-  STAGEVERIFY_FOUNDING_PRICE,
+  STAGEVERIFY_MONTHLY_PRICE,
+  STAGEVERIFY_ANNUAL_RECURRING,
+  STAGEVERIFY_FIRST_YEAR_COST,
   WORKDAYS_PER_MONTH,
   WEEKS_PER_MONTH,
   calculateMaterialProcessCost,
@@ -52,9 +54,21 @@ assert(
 );
 
 assert(
-  STAGEVERIFY_FOUNDING_PRICE === 199,
-  "STAGEVERIFY_FOUNDING_PRICE === 199",
-  `STAGEVERIFY_FOUNDING_PRICE was ${STAGEVERIFY_FOUNDING_PRICE}, expected 199`,
+  STAGEVERIFY_MONTHLY_PRICE === 79,
+  "STAGEVERIFY_MONTHLY_PRICE === 79",
+  `STAGEVERIFY_MONTHLY_PRICE was ${STAGEVERIFY_MONTHLY_PRICE}, expected 79`,
+);
+
+assert(
+  STAGEVERIFY_ANNUAL_RECURRING === 948,
+  "STAGEVERIFY_ANNUAL_RECURRING === 948",
+  `STAGEVERIFY_ANNUAL_RECURRING was ${STAGEVERIFY_ANNUAL_RECURRING}, expected 948`,
+);
+
+assert(
+  STAGEVERIFY_FIRST_YEAR_COST === 1098,
+  "STAGEVERIFY_FIRST_YEAR_COST === 1098",
+  `STAGEVERIFY_FIRST_YEAR_COST was ${STAGEVERIFY_FIRST_YEAR_COST}, expected 1098`,
 );
 
 assert(
@@ -106,27 +120,27 @@ assert(
 );
 
 assert(
-  approx(defaults.monthlySavingsCeiling, 281.6479166666667),
-  "default monthlySavingsCeiling ≈ 281.6479166666667",
-  `default monthlySavingsCeiling was ${defaults.monthlySavingsCeiling}, expected ≈ 281.6479166666667`,
+  approx(defaults.monthlySavingsCeiling, 401.6479166666667),
+  "default monthlySavingsCeiling ≈ 401.6479166666667",
+  `default monthlySavingsCeiling was ${defaults.monthlySavingsCeiling}, expected ≈ 401.6479166666667`,
 );
 
 assert(
-  approx(defaults.annualSavingsCeiling, 3379.775),
-  "default annualSavingsCeiling ≈ 3379.775",
-  `default annualSavingsCeiling was ${defaults.annualSavingsCeiling}, expected ≈ 3379.775`,
+  approx(defaults.annualSavingsCeiling, 4669.775),
+  "default annualSavingsCeiling ≈ 4669.775",
+  `default annualSavingsCeiling was ${defaults.annualSavingsCeiling}, expected ≈ 4669.775`,
 );
 
 assert(
-  approx(defaults.monthlySavingsCeiling, Math.max(0, defaults.monthlyTotal - 199)),
-  "monthlySavingsCeiling follows Math.max(0, monthlyTotal - 199)",
-  `monthlySavingsCeiling was ${defaults.monthlySavingsCeiling}, expected Math.max(0, ${defaults.monthlyTotal} - 199)`,
+  approx(defaults.monthlySavingsCeiling, Math.max(0, defaults.monthlyTotal - 79)),
+  "monthlySavingsCeiling follows Math.max(0, monthlyTotal - 79)",
+  `monthlySavingsCeiling was ${defaults.monthlySavingsCeiling}, expected Math.max(0, ${defaults.monthlyTotal} - 79)`,
 );
 
 assert(
-  approx(defaults.annualSavingsCeiling, Math.max(0, defaults.annualTotal - 2388)),
-  "annualSavingsCeiling follows Math.max(0, annualTotal - 2388)",
-  `annualSavingsCeiling was ${defaults.annualSavingsCeiling}, expected Math.max(0, ${defaults.annualTotal} - 2388)`,
+  approx(defaults.annualSavingsCeiling, Math.max(0, defaults.annualTotal - 1098)),
+  "annualSavingsCeiling follows Math.max(0, annualTotal - 1098)",
+  `annualSavingsCeiling was ${defaults.annualSavingsCeiling}, expected Math.max(0, ${defaults.annualTotal} - 1098)`,
 );
 
 const belowSubscription = calculateMaterialProcessCost({
@@ -138,9 +152,9 @@ const belowSubscription = calculateMaterialProcessCost({
   managerMinutesPerWeek: 0,
 });
 assert(
-  belowSubscription.monthlyTotal < STAGEVERIFY_FOUNDING_PRICE,
-  "below-subscription fixture has monthlyTotal < 199",
-  `below-subscription monthlyTotal was ${belowSubscription.monthlyTotal}, expected < 199`,
+  belowSubscription.monthlyTotal < STAGEVERIFY_MONTHLY_PRICE,
+  "below-subscription fixture has monthlyTotal < 79",
+  `below-subscription monthlyTotal was ${belowSubscription.monthlyTotal}, expected < 79`,
 );
 assert(
   belowSubscription.monthlySavingsCeiling === 0,
@@ -167,9 +181,9 @@ assert(
 );
 
 assert(
-  formatCurrency(281.6479166666667) === "$282",
+  formatCurrency(401.6479166666667) === "$402",
   "formatCurrency unchanged for nonzero ceiling values",
-  `formatCurrency(281.6479166666667) was "${formatCurrency(281.6479166666667)}", expected "$282"`,
+  `formatCurrency(401.6479166666667) was "${formatCurrency(401.6479166666667)}", expected "$402"`,
 );
 
 const wageSum =
@@ -356,8 +370,10 @@ const requiredCalcSourceLabels = [
   "Monthly manager wages receiving or sorting",
   "Estimated monthly wages out the door",
   "Estimated annual wages out the door",
-  "Founding Customer Program",
-  "{formatCurrency(STAGEVERIFY_FOUNDING_PRICE)}/month for the first 12 months",
+  "Monthly recurring subscription",
+  "Annual recurring subscription",
+  "One-time on-site setup",
+  "First-year StageVerify cost",
   "MOST YOU COULD KEEP (CEILING)",
   'data-calc-group="potential-savings-ceiling"',
   'data-calc-equation="monthly"',
@@ -366,7 +382,8 @@ const requiredCalcSourceLabels = [
   "annualSavingsCeiling",
   "current monthly direct wage cost",
   "current annual direct wage cost",
-  "StageVerify annual founding cost",
+  "first-year StageVerify cost",
+  "StageVerify monthly subscription",
   "/month",
   "/year",
   "This is the most you could keep if StageVerify removed all of the paid time you entered, after the StageVerify subscription. It is a ceiling, not a forecast; the actual amount depends on how much receiving and parts-hunting time StageVerify cuts.",

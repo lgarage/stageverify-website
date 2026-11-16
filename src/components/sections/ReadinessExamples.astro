@@ -1,0 +1,68 @@
+---
+import SectionShell from "../ui/SectionShell.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
+import { readinessExampleCards, sectionCopy } from "../../data/site";
+
+const statusSymbol = (status: "received" | "backordered") =>
+  status === "received" ? "✓" : "○";
+---
+
+<SectionShell id="readiness-examples" variant="white" class="!py-12 md:!py-16">
+  <SectionHeader
+    eyebrow={sectionCopy.readinessExamples.eyebrow}
+    title={sectionCopy.readinessExamples.title}
+    description={sectionCopy.readinessExamples.note}
+  />
+
+  <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 md:mt-9">
+    {
+      readinessExampleCards.map((example) => (
+        <article
+          class="flex min-w-0 flex-col rounded-xl border border-sv-border-light bg-white p-4 shadow-sm sm:p-5"
+          data-readiness-example
+        >
+          <p class="text-[10px] font-semibold uppercase tracking-widest text-sv-blue">
+            {example.trade}
+          </p>
+          <h3 class="mt-1 text-sm font-semibold text-navy sm:text-base">
+            {example.job}
+          </h3>
+
+          <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-muted">
+            Required material
+          </p>
+          <ul class="mt-2 space-y-1.5 text-sm text-gray-text">
+            {example.materials.map((item) => (
+              <li class="flex gap-2">
+                <span
+                  class:list={[
+                    "shrink-0 font-semibold tabular-nums",
+                    item.status === "received" ? "text-emerald-600" : "text-amber-600",
+                  ]}
+                  aria-hidden="true"
+                >
+                  {statusSymbol(item.status)}
+                </span>
+                <span>
+                  {item.label}
+                  {item.status === "backordered" ? " — backordered" : " — received"}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <p
+            class="mt-4 rounded-md border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-center text-[11px] font-bold uppercase tracking-wide text-amber-900"
+            data-readiness-status
+          >
+            {example.pickupStatus}
+          </p>
+
+          <p class="mt-3 text-xs leading-relaxed text-gray-text sm:text-sm">
+            {example.supporting}
+          </p>
+        </article>
+      ))
+    }
+  </div>
+</SectionShell>

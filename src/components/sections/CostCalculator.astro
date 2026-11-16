@@ -4,14 +4,19 @@ import SectionHeader from "../ui/SectionHeader.astro";
 import { sectionCopy } from "../../data/site";
 import {
   CALCULATOR_DEFAULTS,
-  STAGEVERIFY_FOUNDING_PRICE,
+  STAGEVERIFY_ANNUAL_RECURRING,
+  STAGEVERIFY_FIRST_YEAR_COST,
+  STAGEVERIFY_MONTHLY_PRICE,
+  STAGEVERIFY_SETUP_FEE,
   calculateMaterialProcessCost,
   formatCurrency,
   formatHours,
 } from "../../utils/costCalculator.js";
 
 const initial = calculateMaterialProcessCost(CALCULATOR_DEFAULTS);
-const annualFoundingCost = STAGEVERIFY_FOUNDING_PRICE * 12;
+
+const formatWholeDollars = (value) =>
+  formatCurrency(value, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
 const formatCeilingCurrency = (value) =>
   value === 0
@@ -110,6 +115,8 @@ const currentProcessRows = [
 
 const inputClass =
   "block w-full min-w-0 max-w-full scroll-mt-[72px] rounded-lg border border-sv-border-light bg-white py-2.5 text-base text-navy shadow-sm focus:border-sv-blue focus:outline-none focus:ring-2 focus:ring-sv-blue/30";
+
+const calculatorDisclaimer = `${sectionCopy.costCalculator.disclaimer} ${sectionCopy.costCalculator.disclaimerExclusions}`;
 ---
 
 <SectionShell id="cost-calculator" variant="white" class="!py-12 md:!py-16">
@@ -259,11 +266,32 @@ const inputClass =
 
           <div data-calc-group="stageverify-cost">
             <h3 class="text-sm font-semibold text-navy">STAGEVERIFY COST</h3>
-            <dl class="mt-2">
+            <p class="mt-1 text-[11px] leading-snug text-gray-muted">
+              Default: one location, up to 15 staging spots
+            </p>
+            <dl class="mt-2 space-y-2">
               <div class="flex items-start justify-between gap-3 border-b border-sv-border-light/80 pb-2">
-                <dt class="text-xs leading-snug text-gray-text sm:text-sm">Founding Customer Program</dt>
+                <dt class="text-xs leading-snug text-gray-text sm:text-sm">Monthly recurring subscription</dt>
                 <dd class="shrink-0 text-right text-xs font-semibold tabular-nums text-navy sm:text-sm">
-                  {formatCurrency(STAGEVERIFY_FOUNDING_PRICE)}/month for the first 12 months
+                  {formatWholeDollars(STAGEVERIFY_MONTHLY_PRICE)}/month
+                </dd>
+              </div>
+              <div class="flex items-start justify-between gap-3 border-b border-sv-border-light/80 pb-2">
+                <dt class="text-xs leading-snug text-gray-text sm:text-sm">Annual recurring subscription</dt>
+                <dd class="shrink-0 text-right text-xs font-semibold tabular-nums text-navy sm:text-sm">
+                  {formatCurrency(STAGEVERIFY_ANNUAL_RECURRING)}/year
+                </dd>
+              </div>
+              <div class="flex items-start justify-between gap-3 border-b border-sv-border-light/80 pb-2">
+                <dt class="text-xs leading-snug text-gray-text sm:text-sm">One-time on-site setup</dt>
+                <dd class="shrink-0 text-right text-xs font-semibold tabular-nums text-navy sm:text-sm">
+                  {formatWholeDollars(STAGEVERIFY_SETUP_FEE)}
+                </dd>
+              </div>
+              <div class="flex items-start justify-between gap-3">
+                <dt class="text-xs leading-snug text-gray-text sm:text-sm">First-year StageVerify cost</dt>
+                <dd class="shrink-0 text-right text-xs font-semibold tabular-nums text-navy sm:text-sm">
+                  {formatCurrency(STAGEVERIFY_FIRST_YEAR_COST)}
                 </dd>
               </div>
             </dl>
@@ -285,9 +313,9 @@ const inputClass =
                 <p class="mt-1">
                   <span aria-hidden="true">−</span>{" "}
                   <span class="font-semibold" data-calc-sv-monthly>
-                    {formatCurrency(STAGEVERIFY_FOUNDING_PRICE)}
+                    {formatWholeDollars(STAGEVERIFY_MONTHLY_PRICE)}
                   </span>{" "}
-                  StageVerify
+                  StageVerify monthly subscription
                 </p>
                 <p class="mt-1 font-semibold">
                   <span aria-hidden="true">=</span>{" "}
@@ -307,9 +335,12 @@ const inputClass =
                 <p class="mt-1">
                   <span aria-hidden="true">−</span>{" "}
                   <span class="font-semibold" data-calc-sv-annual>
-                    {formatCurrency(annualFoundingCost)}
+                    {formatCurrency(STAGEVERIFY_FIRST_YEAR_COST)}
                   </span>{" "}
-                  StageVerify annual founding cost
+                  first-year StageVerify cost
+                </p>
+                <p class="mt-1 text-[11px] leading-snug text-gray-muted">
+                  ({formatCurrency(STAGEVERIFY_ANNUAL_RECURRING)}/year recurring after year one, plus {formatWholeDollars(STAGEVERIFY_SETUP_FEE)} setup in year one)
                 </p>
                 <p class="mt-1 font-semibold">
                   <span aria-hidden="true">=</span>{" "}
@@ -324,7 +355,7 @@ const inputClass =
         </div>
 
         <p class="mt-4 text-xs leading-relaxed text-gray-muted" data-calc-disclaimer>
-          {sectionCopy.costCalculator.disclaimer}
+          {calculatorDisclaimer}
         </p>
       </div>
     </div>

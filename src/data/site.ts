@@ -60,6 +60,8 @@ export const sectionCopy = {
     intro: "It is not a full warehouse WMS.",
     secondary:
       "Also fits other trades with the same workflow: electrical, plumbing, mechanical, controls, and fire protection.",
+    multiLocation:
+      "Contractors with multiple shop or branch locations can use StageVerify at each location. Pricing and setup apply per physical location.",
   },
   laborCost: {
     eyebrow: "Hidden labor",
@@ -77,17 +79,25 @@ export const sectionCopy = {
     intro:
       "Enter your shop's wages and receiving time to estimate how much that work may be costing your company.",
     disclaimer:
-      "Estimates are based on the time and wage assumptions you enter. They do not include payroll burden, vehicle costs, return trips, overtime, lost billable capacity, customer delays, or the value of additional technician capacity.",
+      "Estimates are based on the time and wage assumptions you enter and are provided for illustrative purposes only. Actual results will vary. StageVerify does not guarantee any specific labor savings, cost savings, productivity improvement, or financial result.",
+    disclaimerExclusions:
+      "This estimate does not include payroll burden, vehicle costs, return trips, overtime, lost billable capacity, customer delays, or the value of additional technician capacity.",
   },
   catchAll: {
-    title: "UPS, FedEx, and USPS drops still need a clear path.",
+    title: "UPS, FedEx, and USPS deliveries still need a clear path.",
     body:
-      "Catch-All keeps unexpected carrier drops visible until shop staff identify the job and stage the material.",
+      "Catch-All keeps unexpected carrier deliveries visible until shop staff identify the job and stage the material.",
   },
   qualification: {
     title: "StageVerify makes the most sense when…",
     customerFit:
-      "Use your own wages and workflow to decide whether StageVerify makes sense for your shop. It fits best when paid time is disappearing into receiving drops, sorting material to jobs, checking readiness, or hunting parts.",
+      "Use your own wages and workflow to decide whether StageVerify makes sense for your shop. It fits best when paid time is disappearing into receiving deliveries, sorting material to jobs, checking readiness, or hunting parts.",
+  },
+  readinessExamples: {
+    eyebrow: "Illustrative examples",
+    title: "What readiness looks like",
+    note:
+      "Illustrative material-readiness examples only — not customer case studies.",
   },
   proveValue: {
     eyebrow: "See the work",
@@ -96,13 +106,20 @@ export const sectionCopy = {
       "Track deliveries, pickups, backorders, missing items, and estimated paid time so managers can compare shop activity with their own wages and the StageVerify subscription.",
   },
   pricing: {
-    title: "Founding Customer Program",
-    foundingPrice: "$199",
-    foundingPeriod: "/month for the first 12 months",
-    standardLabel: "Planned standard price",
-    standardPrice: "$399",
-    standardPeriod: "/month",
-    availability: "Coming Soon",
+    title: "Simple per-location pricing",
+    monthlyPrice: "$79",
+    monthlyPeriod: "/month per location",
+    includedSpots: "Includes up to 15 staging spots.",
+    additionalCapacity:
+      "+$20/month per additional block of 5 staging spots.",
+    setupLabel: "One-time on-site setup",
+    setupPrice: "$150 per location for up to 15 staging spots.",
+    setupAboveFifteen:
+      "Additional setup fees may apply for locations with more than 15 staging spots.",
+    perLocationNote:
+      "Each physical shop or branch requires its own StageVerify subscription, on-site setup, and included staging capacity.",
+    setupSummary:
+      "Physical staging areas are mapped, marked, and labeled during setup so each StageVerify location has a clearly defined place for material.",
   },
   demo: {
     eyebrow: "Request a demo",
@@ -219,11 +236,47 @@ export const managementPreview = {
 } as const;
 
 export const pricingIncludes = [
-  "Up to 30 configurable staging locations",
-  "Configure multiple ground and shelf staging locations around how your shop handles job material",
-  "Additional staging capacity available as your needs grow",
   "No long-term commitment",
   "Cancel anytime",
+] as const;
+
+export const readinessExampleCards = [
+  {
+    trade: "HVAC",
+    job: "Compressor repair",
+    materials: [
+      { label: "Compressor", status: "received" as const },
+      { label: "Contactor", status: "received" as const },
+      { label: "Filter-drier", status: "backordered" as const },
+    ],
+    pickupStatus: "NOT READY FOR PICKUP",
+    supporting:
+      "Dispatch can see that the repair is still missing material before sending the technician to the shop.",
+  },
+  {
+    trade: "Electrical",
+    job: "Breaker panel replacement",
+    materials: [
+      { label: "Replacement breaker panel", status: "received" as const },
+      { label: "(2) 25-amp breakers", status: "received" as const },
+      { label: "(1) 50-amp breaker", status: "backordered" as const },
+    ],
+    pickupStatus: "NOT READY FOR PICKUP",
+    supporting:
+      "The panel and two 25-amp breakers are on site, but the job is still missing the 50-amp breaker. Dispatch can see that the pickup is incomplete before sending the electrician.",
+  },
+  {
+    trade: "Plumbing",
+    job: "Commercial pump replacement",
+    materials: [
+      { label: "Replacement pump", status: "received" as const },
+      { label: "Flange kit", status: "received" as const },
+      { label: "Isolation valve", status: "backordered" as const },
+    ],
+    pickupStatus: "NOT READY FOR PICKUP",
+    supporting:
+      "The job material stays marked incomplete until the required parts are there and ready for the technician.",
+  },
 ] as const;
 
 export const primaryCapabilities = [
@@ -245,7 +298,7 @@ export const primaryCapabilities = [
   {
     title: "Catch-All for unexpected carriers",
     description:
-      "Keep UPS, FedEx, USPS, and other unexpected drops visible until they are identified and staged.",
+      "Keep UPS, FedEx, USPS, and other unexpected carrier deliveries visible until they are identified and staged.",
   },
 ] as const;
 
@@ -259,7 +312,7 @@ export const faqItems = [
   {
     question: "What is StageVerify?",
     answer:
-      "StageVerify tracks vendor deliveries from shop drop-off through staging and technician pickup.",
+      "StageVerify tracks vendor deliveries from shop arrival through staging and technician pickup.",
   },
   {
     question: "Does it replace my current field-service software?",
@@ -279,5 +332,10 @@ export const faqItems = [
     question: "Who is StageVerify best for?",
     answer:
       "Trade contractors that receive and stage job materials before technicians pick them up.",
+  },
+  {
+    question: "What does on-site setup include?",
+    answer:
+      "On-site setup walks your shop, maps staging areas in StageVerify, configures initial staging spots, and marks and labels physical staging areas so material stays separated by spot. Additional setup fees may apply when more than 15 staging spots are needed.",
   },
 ] as const;

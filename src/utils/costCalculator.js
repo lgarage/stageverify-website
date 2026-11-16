@@ -5,7 +5,13 @@
 
 export const WORKDAYS_PER_MONTH = 22;
 export const WEEKS_PER_MONTH = 4.33;
-export const STAGEVERIFY_FOUNDING_PRICE = 199;
+
+/** One location, base staging capacity (up to 15 spots). */
+export const STAGEVERIFY_MONTHLY_PRICE = 79;
+export const STAGEVERIFY_ANNUAL_RECURRING = 948;
+export const STAGEVERIFY_SETUP_FEE = 150;
+export const STAGEVERIFY_FIRST_YEAR_COST =
+  STAGEVERIFY_ANNUAL_RECURRING + STAGEVERIFY_SETUP_FEE;
 
 export const CALCULATOR_DEFAULTS = {
   technicians: 5,
@@ -80,8 +86,11 @@ export function calculateMaterialProcessCost(inputs = {}) {
     dispatcherMonthlyCost +
     managerMonthlyCost;
   const annualTotal = monthlyTotal * 12;
-  const monthlySavingsCeiling = Math.max(0, monthlyTotal - STAGEVERIFY_FOUNDING_PRICE);
-  const annualSavingsCeiling = Math.max(0, annualTotal - STAGEVERIFY_FOUNDING_PRICE * 12);
+  const monthlySavingsCeiling = Math.max(0, monthlyTotal - STAGEVERIFY_MONTHLY_PRICE);
+  const annualSavingsCeiling = Math.max(
+    0,
+    annualTotal - STAGEVERIFY_FIRST_YEAR_COST,
+  );
 
   const result = {
     techMonthlyHours,

@@ -7,7 +7,8 @@
 import { chromium, devices } from "playwright";
 import {
   CALCULATOR_DEFAULTS,
-  STAGEVERIFY_FOUNDING_PRICE,
+  STAGEVERIFY_MONTHLY_PRICE,
+  STAGEVERIFY_FIRST_YEAR_COST,
   calculateMaterialProcessCost,
   formatCurrency,
 } from "../src/utils/costCalculator.js";
@@ -31,9 +32,10 @@ const sections = [
     heading: "How Much Paid Time Goes Into Receiving Deliveries and Hunting for Parts?",
   },
   { id: "how-it-works", heading: "One clear trail from delivery to pickup." },
+  { id: "readiness-examples", heading: "What readiness looks like" },
   {
     id: "catch-all",
-    heading: "UPS, FedEx, and USPS drops still need a clear path.",
+    heading: "UPS, FedEx, and USPS deliveries still need a clear path.",
   },
   {
     id: "features",
@@ -45,7 +47,7 @@ const sections = [
       "Built for HVAC service shops that receive and stage job materials before field pickup — especially shops that stage by job.",
   },
   { id: "prove-value", heading: "See whether the shop is spending less time on material." },
-  { id: "pricing", heading: "Founding Customer Program" },
+  { id: "pricing", heading: "Simple per-location pricing" },
   { id: "faq", heading: "Straight answers for the shop." },
   { id: "demo", heading: "Request a demo" },
 ];
@@ -140,7 +142,7 @@ const primaryCapabilityDescriptions = [
   "See what arrived, which job it belongs to, and where it was staged.",
   "Know what is ready for pickup and what still needs attention before the repair or install.",
   "Send technicians to the right staged material without a hunt through the shop.",
-  "Keep UPS, FedEx, USPS, and other unexpected drops visible until they are identified and staged.",
+  "Keep UPS, FedEx, USPS, and other unexpected carrier deliveries visible until they are identified and staged.",
 ];
 
 const secondaryCapabilityItems = [
@@ -181,7 +183,7 @@ const laborCalculatorLeadInParagraph =
   "Add the time spent receiving deliveries and hunting parts below to see how much direct wage money may be going out the door.";
 
 const customerFitParagraph =
-  "Use your own wages and workflow to decide whether StageVerify makes sense for your shop. It fits best when paid time is disappearing into receiving drops, sorting material to jobs, checking readiness, or hunting parts.";
+  "Use your own wages and workflow to decide whether StageVerify makes sense for your shop. It fits best when paid time is disappearing into receiving deliveries, sorting material to jobs, checking readiness, or hunting parts.";
 
 const exclusionConcepts = [
   "payroll burden",
@@ -196,7 +198,7 @@ const proveValueIntro =
   "Track deliveries, pickups, backorders, missing items, and estimated paid time so managers can compare shop activity with their own wages and the StageVerify subscription.";
 
 const calculatorDisclaimer =
-  "Estimates are based on the time and wage assumptions you enter. They do not include payroll burden, vehicle costs, return trips, overtime, lost billable capacity, customer delays, or the value of additional technician capacity.";
+  "Estimates are based on the time and wage assumptions you enter and are provided for illustrative purposes only. Actual results will vary. StageVerify does not guarantee any specific labor savings, cost savings, productivity improvement, or financial result. This estimate does not include payroll burden, vehicle costs, return trips, overtime, lost billable capacity, customer delays, or the value of additional technician capacity.";
 
 const managementPreviewLabels = [
   "Illustrative example",
@@ -261,10 +263,13 @@ const alignmentViewports = [
 const techAlignInputIds = ["calc-technicians", "calc-tech-wage", "calc-tech-minutes"];
 
 const pricingValues = [
-  "Coming Soon",
-  "$199/month for the first 12 months",
-  "Planned standard price: $399/month",
-  "Up to 30 configurable staging locations",
+  "$79",
+  "/month per location",
+  "Includes up to 15 staging spots.",
+  "+$20/month per additional block of 5 staging spots.",
+  "One-time on-site setup",
+  "$150 per location for up to 15 staging spots.",
+  "Additional setup fees may apply for locations with more than 15 staging spots.",
   "No long-term commitment",
   "Cancel anytime",
 ];
@@ -275,6 +280,7 @@ const faqQuestions = [
   "Do vendors or technicians need accounts or apps?",
   "What happens with UPS/FedEx/USPS deliveries?",
   "Who is StageVerify best for?",
+  "What does on-site setup include?",
 ];
 
 const calcInputIds = [
@@ -673,7 +679,7 @@ async function checkMobileHeader(browser, { name, width, height }) {
 const ceilingExplanation =
   "This is the most you could keep if StageVerify removed all of the paid time you entered, after the StageVerify subscription. It is a ceiling, not a forecast; the actual amount depends on how much receiving and parts-hunting time StageVerify cuts.";
 
-const annualFoundingCost = STAGEVERIFY_FOUNDING_PRICE * 12;
+const stageverifyFirstYearCost = STAGEVERIFY_FIRST_YEAR_COST;
 
 const formatCeilingCurrency = (value) =>
   value === 0
@@ -787,7 +793,8 @@ async function checkCalculatorDefaults(page, name) {
   const requiredCalcLabels = [
     "Estimated monthly wages out the door",
     "Estimated annual wages out the door",
-    "Founding Customer Program",
+    "Monthly recurring subscription",
+    "First-year StageVerify cost",
     "MOST YOU COULD KEEP (CEILING)",
     "current monthly direct wage cost",
     "current annual direct wage cost",
@@ -862,18 +869,18 @@ async function checkCalculatorDefaults(page, name) {
       `[${name}] Default monthly labor operand expected $481, got "${defaultMonthlyLaborOperand}"`,
     );
 
-  if (defaultMonthlySvOperand.includes("$199"))
-    pass(`[${name}] Default monthly StageVerify operand contains $199`);
+  if (defaultMonthlySvOperand.includes("$79"))
+    pass(`[${name}] Default monthly StageVerify operand contains $79`);
   else
     fail(
-      `[${name}] Default monthly StageVerify operand expected $199, got "${defaultMonthlySvOperand}"`,
+      `[${name}] Default monthly StageVerify operand expected $79, got "${defaultMonthlySvOperand}"`,
     );
 
-  if (defaultMonthlyCeiling.includes("$282"))
-    pass(`[${name}] Default monthly ceiling result contains $282`);
+  if (defaultMonthlyCeiling.includes("$402"))
+    pass(`[${name}] Default monthly ceiling result contains $402`);
   else
     fail(
-      `[${name}] Default monthly ceiling result expected $282, got "${defaultMonthlyCeiling}"`,
+      `[${name}] Default monthly ceiling result expected $402, got "${defaultMonthlyCeiling}"`,
     );
 
   if (defaultAnnualLaborOperand.includes("$5,768"))
@@ -883,18 +890,18 @@ async function checkCalculatorDefaults(page, name) {
       `[${name}] Default annual labor operand expected $5,768, got "${defaultAnnualLaborOperand}"`,
     );
 
-  if (defaultAnnualSvOperand.includes("$2,388"))
-    pass(`[${name}] Default annual StageVerify operand contains $2,388`);
+  if (defaultAnnualSvOperand.includes("$1,098"))
+    pass(`[${name}] Default annual StageVerify operand contains $1,098`);
   else
     fail(
-      `[${name}] Default annual StageVerify operand expected $2,388, got "${defaultAnnualSvOperand}"`,
+      `[${name}] Default annual StageVerify operand expected $1,098, got "${defaultAnnualSvOperand}"`,
     );
 
-  if (defaultAnnualCeiling.includes("$3,380"))
-    pass(`[${name}] Default annual ceiling result contains $3,380`);
+  if (defaultAnnualCeiling.includes("$4,670"))
+    pass(`[${name}] Default annual ceiling result contains $4,670`);
   else
     fail(
-      `[${name}] Default annual ceiling result expected $3,380, got "${defaultAnnualCeiling}"`,
+      `[${name}] Default annual ceiling result expected $4,670, got "${defaultAnnualCeiling}"`,
     );
 
   if (defaultMonthlyEquation.includes("−") && defaultMonthlyEquation.includes("="))
@@ -946,9 +953,17 @@ async function checkCalculatorDefaults(page, name) {
     pass(`[${name}] Calculator disclaimer exact`);
   else fail(`[${name}] Calculator disclaimer missing or incorrect`);
 
-  if (calcBody.includes("$199/month for the first 12 months"))
-    pass(`[${name}] $199/month for the first 12 months present in calculator`);
-  else fail(`[${name}] $199/month for the first 12 months missing from calculator`);
+  if (calcBody.includes("$79/month"))
+    pass(`[${name}] $79/month recurring present in calculator`);
+  else fail(`[${name}] $79/month recurring missing from calculator`);
+
+  if (calcBody.includes("$948/year"))
+    pass(`[${name}] $948/year recurring present in calculator`);
+  else fail(`[${name}] $948/year recurring missing from calculator`);
+
+  if (calcBody.includes("First-year StageVerify cost"))
+    pass(`[${name}] First-year StageVerify cost label present in calculator`);
+  else fail(`[${name}] First-year StageVerify cost label missing from calculator`);
 
   const groupOrder = await page.locator("[data-calc-group]").evaluateAll((nodes) =>
     nodes.map((node) => node.getAttribute("data-calc-group")),
@@ -972,7 +987,7 @@ async function checkCalculatorDefaults(page, name) {
     "Selected reduction scenario",
     "Potential monthly labor saved",
     "Potential annual labor saved",
-    "Approx. reduction needed to cover $199/month",
+    "Approx. reduction needed to cover $79/month",
   ];
   for (const label of obsoleteCalcLabels) {
     if (!calcBody.includes(label))
@@ -1056,10 +1071,10 @@ async function checkCalculatorDefaults(page, name) {
   const expectedFiveMonthly = formatCurrency(expectedFive.monthlyTotal);
   const expectedFiveAnnual = formatCurrency(expectedFive.annualTotal);
   const expectedFiveMonthlyCeiling = formatCeilingCurrency(
-    Math.max(0, expectedFive.monthlyTotal - STAGEVERIFY_FOUNDING_PRICE),
+    Math.max(0, expectedFive.monthlyTotal - STAGEVERIFY_MONTHLY_PRICE),
   );
   const expectedFiveAnnualCeiling = formatCeilingCurrency(
-    Math.max(0, expectedFive.annualTotal - annualFoundingCost),
+    Math.max(0, expectedFive.annualTotal - stageverifyFirstYearCost),
   );
 
   if (fiveTechMonthlyLaborOperand === expectedFiveMonthly)
@@ -1123,10 +1138,10 @@ async function checkCalculatorDefaults(page, name) {
     managerMinutesPerWeek: 0,
   });
   const expectedTenMonthlyCeiling = formatCeilingCurrency(
-    Math.max(0, expectedTen.monthlyTotal - STAGEVERIFY_FOUNDING_PRICE),
+    Math.max(0, expectedTen.monthlyTotal - STAGEVERIFY_MONTHLY_PRICE),
   );
   const expectedTenAnnualCeiling = formatCeilingCurrency(
-    Math.max(0, expectedTen.annualTotal - annualFoundingCost),
+    Math.max(0, expectedTen.annualTotal - stageverifyFirstYearCost),
   );
 
   if (approx(tenMonthlyNum, fiveMonthlyNum * 2))
@@ -1165,17 +1180,21 @@ async function checkCalculatorDefaults(page, name) {
     fail(
       `[${name}] Tech-only 10 technicians annual ceiling expected "${expectedTenAnnualCeiling}", got "${tenTechAnnualCeiling}"`,
     );
-  if (tenTechMonthlySv === formatCurrency(STAGEVERIFY_FOUNDING_PRICE))
-    pass(`[${name}] Tech-only 10 technicians: monthly subscription operand remains $199`);
+  const expectedMonthlySv = formatCurrency(STAGEVERIFY_MONTHLY_PRICE, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+  if (tenTechMonthlySv === expectedMonthlySv)
+    pass(`[${name}] Tech-only 10 technicians: monthly subscription operand remains $79`);
   else
     fail(
-      `[${name}] Tech-only 10 technicians monthly subscription operand expected "${formatCurrency(STAGEVERIFY_FOUNDING_PRICE)}", got "${tenTechMonthlySv}"`,
+      `[${name}] Tech-only 10 technicians monthly subscription operand expected "${expectedMonthlySv}", got "${tenTechMonthlySv}"`,
     );
-  if (tenTechAnnualSv === formatCurrency(annualFoundingCost))
-    pass(`[${name}] Tech-only 10 technicians: annual subscription operand remains $2,388`);
+  if (tenTechAnnualSv === formatCurrency(stageverifyFirstYearCost))
+    pass(`[${name}] Tech-only 10 technicians: first-year cost operand remains $1,098`);
   else
     fail(
-      `[${name}] Tech-only 10 technicians annual subscription operand expected "${formatCurrency(annualFoundingCost)}", got "${tenTechAnnualSv}"`,
+      `[${name}] Tech-only 10 technicians first-year cost operand expected "${formatCurrency(stageverifyFirstYearCost)}", got "${tenTechAnnualSv}"`,
     );
 
   await page.locator("#calc-technicians").fill("0");
@@ -1286,9 +1305,9 @@ async function checkContentAssertions(page, name) {
 
   const catchAll = page.locator("#catch-all");
   const catchAllText = (await catchAll.innerText()).replace(/\s+/g, " ").trim();
-  const catchAllHeading = "UPS, FedEx, and USPS drops still need a clear path.";
+  const catchAllHeading = "UPS, FedEx, and USPS deliveries still need a clear path.";
   const catchAllBody =
-    "Catch-All keeps unexpected carrier drops visible until shop staff identify the job and stage the material.";
+    "Catch-All keeps unexpected carrier deliveries visible until shop staff identify the job and stage the material.";
   if (catchAllText.includes(catchAllHeading) && catchAllText.includes(catchAllBody))
     pass(`[${name}] Catch-All heading and body present`);
   else fail(`[${name}] Catch-All content mismatch`);
@@ -1296,6 +1315,47 @@ async function checkContentAssertions(page, name) {
   if (!catchAllText.includes("The point is visibility"))
     pass(`[${name}] Catch-All extra paragraph removed`);
   else fail(`[${name}] Catch-All still has extra paragraph`);
+
+  const readinessSection = page.locator("#readiness-examples");
+  if ((await readinessSection.count()) > 0)
+    pass(`[${name}] Readiness examples section present`);
+  else fail(`[${name}] Missing #readiness-examples`);
+
+  const readinessCards = await readinessSection.locator("[data-readiness-example]").count();
+  if (readinessCards === 3)
+    pass(`[${name}] Three readiness example cards`);
+  else fail(`[${name}] Expected 3 readiness cards, found ${readinessCards}`);
+
+  const readinessStatuses = await readinessSection
+    .locator("[data-readiness-status]")
+    .allTextContents();
+  if (
+    readinessStatuses.length === 3 &&
+    readinessStatuses.every((text) => text.trim() === "NOT READY FOR PICKUP")
+  )
+    pass(`[${name}] All readiness cards show NOT READY FOR PICKUP`);
+  else fail(`[${name}] Readiness status mismatch: ${JSON.stringify(readinessStatuses)}`);
+
+  const readinessTexts = [
+    "HVAC",
+    "Compressor repair",
+    "Filter-drier",
+    "Electrical",
+    "Breaker panel replacement",
+    "(1) 50-amp breaker",
+    "Plumbing",
+    "Commercial pump replacement",
+    "Isolation valve",
+  ];
+  await readinessSection.scrollIntoViewIfNeeded();
+  const readinessBody = (
+    await readinessSection.evaluate((el) => el.textContent ?? "")
+  ).replace(/\s+/g, " ");
+  for (const text of readinessTexts) {
+    if (readinessBody.includes(text))
+      pass(`[${name}] Readiness example content: ${text}`);
+    else fail(`[${name}] Missing readiness example content: ${text}`);
+  }
 
   const primaryCapabilityCount = await page.locator("[data-primary-capability]").count();
   if (primaryCapabilityCount === 4)
@@ -1534,9 +1594,9 @@ async function checkContentAssertions(page, name) {
 
   const faqDetails = page.locator("#faq details");
   const faqCount = await faqDetails.count();
-  if (faqCount === 5)
-    pass(`[${name}] Exactly five FAQ disclosure items`);
-  else fail(`[${name}] Expected 5 FAQ items, found ${faqCount}`);
+  if (faqCount === 6)
+    pass(`[${name}] Exactly six FAQ disclosure items`);
+  else fail(`[${name}] Expected 6 FAQ items, found ${faqCount}`);
 
   for (const question of faqQuestions) {
     if ((await page.locator("#faq").getByText(question, { exact: true }).count()) > 0)
