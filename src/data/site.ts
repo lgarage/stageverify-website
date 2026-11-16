@@ -51,7 +51,7 @@ export const sectionCopy = {
   },
   features: {
     eyebrow: "Capabilities",
-    title: "Four ways to spend less paid time on job material.",
+    title: "Four capabilities across delivery, staging, and pickup.",
   },
   whoItsFor: {
     eyebrow: "Who it's for",
@@ -69,7 +69,7 @@ export const sectionCopy = {
     receivingCost:
       "Receiving isn't free: figuring out which job a delivery belongs to and staging it is paid office, shop, or manager time—even when someone is there to receive it.",
     productScope:
-      "StageVerify reduces the paid time spent figuring out what arrived, where it is, what is missing, and what is ready for the repair or install—not just the time it takes to find one part.",
+      "StageVerify helps your team see what arrived, where it is, what is missing, and what is ready for the repair or install—not just the time it takes to find one part.",
     calculatorLeadIn:
       "Add the time spent receiving deliveries and hunting parts below to see how much direct wage money may be going out the door.",
   },
@@ -82,6 +82,8 @@ export const sectionCopy = {
       "Estimates are based on the time and wage assumptions you enter and are provided for illustrative purposes only. Actual results will vary. StageVerify does not guarantee any specific labor savings, cost savings, productivity improvement, or financial result.",
     disclaimerExclusions:
       "This estimate does not include payroll burden, vehicle costs, return trips, overtime, lost billable capacity, customer delays, or the value of additional technician capacity.",
+    ceilingNote:
+      "Monthly comparison subtracts only the recurring subscription. The annual comparison subtracts first-year subscription plus one-time setup for one location with up to 15 staging spots.",
   },
   catchAll: {
     title: "UPS, FedEx, and USPS deliveries still need a clear path.",
@@ -101,7 +103,7 @@ export const sectionCopy = {
   },
   proveValue: {
     eyebrow: "See the work",
-    title: "See whether the shop is spending less time on material.",
+    title: "Example shop activity you could track in StageVerify.",
     intro:
       "Track deliveries, pickups, backorders, missing items, and estimated paid time so managers can compare shop activity with their own wages and the StageVerify subscription.",
   },
@@ -111,7 +113,7 @@ export const sectionCopy = {
     monthlyPeriod: "/month per location",
     includedSpots: "Includes up to 15 staging spots.",
     additionalCapacity:
-      "+$20/month per additional block of 5 staging spots.",
+      "$20/month per additional block of 5 staging spots.",
     setupLabel: "One-time on-site setup",
     setupPrice: "$150 per location for up to 15 staging spots.",
     setupAboveFifteen:
@@ -129,6 +131,10 @@ export const sectionCopy = {
     success: "Thanks — we’ll follow up to schedule your demo.",
     error:
       "Something went wrong sending that. Email info@stageverify.com and we’ll get you scheduled.",
+    privacy:
+      "We use what you submit only to schedule your demo. Submissions are delivered through Formspree.",
+    unconfigured:
+      "Online demo requests are not configured on this build yet. Email info@stageverify.com to schedule.",
   },
   faq: {
     eyebrow: "Common questions",
@@ -143,7 +149,7 @@ export const howItWorksSteps = [
     step: 1,
     title: "Material arrives",
     description:
-      "Delivered material stays connected to the job and staged correctly.",
+      "Vendor deliveries are tied to the job. Shop staff stage identified material to the right spots.",
   },
   {
     step: 2,
@@ -185,8 +191,9 @@ export const laborExclusions = [
   "vehicle costs",
   "return trips",
   "overtime",
-  "lost productive or billable capacity",
+  "lost billable capacity",
   "customer delays",
+  "value of additional technician capacity",
 ] as const;
 
 export const qualificationSignals = [
@@ -200,7 +207,7 @@ export const qualificationSignals = [
 export const managementPreview = {
   labels: {
     illustrative: "Illustrative example",
-    snapshot: "Example monthly value snapshot",
+    snapshot: "Example monthly shop activity snapshot",
   },
   summaryMetrics: [
     { value: "48", label: "Deliveries processed" },
@@ -337,5 +344,10 @@ export const faqItems = [
     question: "What does on-site setup include?",
     answer:
       "On-site setup walks your shop, maps staging areas in StageVerify, configures initial staging spots, and marks and labels physical staging areas so material stays separated by spot. Additional setup fees may apply when more than 15 staging spots are needed.",
+  },
+  {
+    question: "Is there a long-term contract?",
+    answer:
+      "No long-term commitment is required. Subscriptions are month to month and you can cancel anytime. On-site setup is a separate one-time fee per location.",
   },
 ] as const;

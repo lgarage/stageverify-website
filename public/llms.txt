@@ -37,8 +37,8 @@ Give operations a clear material trail across delivery, staging readiness, and p
 ## Important clarifications
 
 - StageVerify does not replace a full WMS or ERP.
-- Vendors do not decide readiness; StageVerify helps operations see readiness based on delivery and order context.
-- Pricing is per physical location: $79/month per location (up to 15 staging spots included).
+- Vendors check in deliveries; they do not get a full dashboard trail.
+- Pricing is per physical location: $79/month (up to 15 staging spots), +$20/month per additional block of 5 spots, $150 one-time on-site setup per location for up to 15 spots.
 
 ## Key URLs
 
@@ -51,4 +51,4 @@ Give operations a clear material trail across delivery, staging readiness, and p
 
 ## Contact intent
 
-Visitors can submit a demo request form at https://www.stageverify.com/#demo or email info@stageverify.com.
+Visitors can submit a demo request form at https://www.stageverify.com/#demo when the site build includes a Formspree form ID. Otherwise email info@stageverify.com.

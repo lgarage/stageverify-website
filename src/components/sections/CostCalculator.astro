@@ -266,7 +266,7 @@ const calculatorDisclaimer = `${sectionCopy.costCalculator.disclaimer} ${section
 
           <div data-calc-group="stageverify-cost">
             <h3 class="text-sm font-semibold text-navy">STAGEVERIFY COST</h3>
-            <p class="mt-1 text-[11px] leading-snug text-gray-muted">
+            <p class="mt-1 text-xs leading-snug text-gray-text">
               Default: one location, up to 15 staging spots
             </p>
             <dl class="mt-2 space-y-2">
@@ -311,15 +311,28 @@ const calculatorDisclaimer = `${sectionCopy.costCalculator.disclaimer} ${section
                   current monthly direct wage cost
                 </p>
                 <p class="mt-1">
-                  <span aria-hidden="true">−</span>{" "}
+                  <span class="sr-only">Subtract </span>
+                  <span aria-hidden="true">− </span>
                   <span class="font-semibold" data-calc-sv-monthly>
                     {formatWholeDollars(STAGEVERIFY_MONTHLY_PRICE)}
                   </span>{" "}
                   StageVerify monthly subscription
                 </p>
                 <p class="mt-1 font-semibold">
-                  <span aria-hidden="true">=</span>{" "}
+                  <span class="sr-only">Equals </span>
+                  <span aria-hidden="true">= </span>
                   <span data-calc-out="monthlySavingsCeiling">{formatCeilingCurrency(initial.monthlySavingsCeiling)}</span>/month
+                  {" "}
+                  <span class="font-normal text-gray-text">ceiling</span>
+                </p>
+                <p
+                  class:list={[
+                    "mt-2 text-[11px] leading-snug text-gray-text",
+                    initial.monthlyWagesBelowSubscription ? "" : "hidden",
+                  ]}
+                  data-calc-below-monthly
+                >
+                  At these inputs, estimated wages are below the monthly subscription, so the ceiling is $0. This is not a shortfall on your books.
                 </p>
               </div>
               <div
@@ -333,28 +346,41 @@ const calculatorDisclaimer = `${sectionCopy.costCalculator.disclaimer} ${section
                   current annual direct wage cost
                 </p>
                 <p class="mt-1">
-                  <span aria-hidden="true">−</span>{" "}
+                  <span class="sr-only">Subtract </span>
+                  <span aria-hidden="true">− </span>
                   <span class="font-semibold" data-calc-sv-annual>
                     {formatCurrency(STAGEVERIFY_FIRST_YEAR_COST)}
                   </span>{" "}
                   first-year StageVerify cost
                 </p>
-                <p class="mt-1 text-[11px] leading-snug text-gray-muted">
+                <p class="mt-1 text-xs leading-snug text-gray-text">
                   ({formatCurrency(STAGEVERIFY_ANNUAL_RECURRING)}/year recurring after year one, plus {formatWholeDollars(STAGEVERIFY_SETUP_FEE)} setup in year one)
                 </p>
                 <p class="mt-1 font-semibold">
-                  <span aria-hidden="true">=</span>{" "}
+                  <span class="sr-only">Equals </span>
+                  <span aria-hidden="true">= </span>
                   <span data-calc-out="annualSavingsCeiling">{formatCeilingCurrency(initial.annualSavingsCeiling)}</span>/year
+                  {" "}
+                  <span class="font-normal text-gray-text">ceiling (first-year cost basis)</span>
+                </p>
+                <p
+                  class:list={[
+                    "mt-2 text-[11px] leading-snug text-gray-text",
+                    initial.annualWagesBelowFirstYearCost ? "" : "hidden",
+                  ]}
+                  data-calc-below-annual
+                >
+                  At these inputs, estimated wages are below the first-year StageVerify cost, so the ceiling is $0.
                 </p>
               </div>
             </div>
             <p class="mt-2 text-xs leading-relaxed text-gray-text">
-              This is the most you could keep if StageVerify removed all of the paid time you entered, after the StageVerify subscription. It is a ceiling, not a forecast; the actual amount depends on how much receiving and parts-hunting time StageVerify cuts.
+              {sectionCopy.costCalculator.ceilingNote} This is the most you could keep if StageVerify removed all of the paid time you entered, after those StageVerify costs. It is a ceiling, not a forecast; the actual amount depends on how much receiving and parts-hunting time StageVerify cuts.
             </p>
           </div>
         </div>
 
-        <p class="mt-4 text-xs leading-relaxed text-gray-muted" data-calc-disclaimer>
+        <p class="mt-4 text-xs leading-relaxed text-gray-text" data-calc-disclaimer>
           {calculatorDisclaimer}
         </p>
       </div>
@@ -394,8 +420,17 @@ const calculatorDisclaimer = `${sectionCopy.costCalculator.disclaimer} ${section
       };
     };
 
+    const belowMonthly = form.querySelector("[data-calc-below-monthly]");
+    const belowAnnual = form.querySelector("[data-calc-below-annual]");
+
     const render = () => {
       const result = calculateMaterialProcessCost(readInputs());
+      if (belowMonthly instanceof HTMLElement) {
+        belowMonthly.classList.toggle("hidden", !result.monthlyWagesBelowSubscription);
+      }
+      if (belowAnnual instanceof HTMLElement) {
+        belowAnnual.classList.toggle("hidden", !result.annualWagesBelowFirstYearCost);
+      }
       form.querySelectorAll("[data-calc-out]").forEach((node) => {
         const key = node.getAttribute("data-calc-out");
         if (!key || !(key in result)) return;

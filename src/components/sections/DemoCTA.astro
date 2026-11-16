@@ -4,6 +4,7 @@ import SectionHeader from "../ui/SectionHeader.astro";
 import { sectionCopy } from "../../data/site";
 
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID ?? "";
+const demoConfigured = Boolean(formspreeId.trim());
 
 const inputClass =
   "block w-full min-w-0 rounded-lg border border-white/20 bg-white px-3 py-2.5 text-base text-navy shadow-sm placeholder:text-gray-500 focus:border-sv-cyan focus:outline-none focus:ring-2 focus:ring-sv-cyan/40";
@@ -101,10 +102,23 @@ const labelClass = "block text-sm font-medium text-white/90";
         <button
           type="submit"
           id="demo-submit"
+          disabled={!demoConfigured}
           class="inline-flex min-w-[220px] items-center justify-center rounded-lg bg-sv-blue px-6 py-3 text-base font-semibold text-white shadow-lg shadow-sv-blue/25 transition-colors hover:bg-[#185bb8] focus:outline-none focus:ring-2 focus:ring-sv-cyan focus:ring-offset-2 focus:ring-offset-navy disabled:cursor-not-allowed disabled:opacity-60"
         >
           {sectionCopy.demo.submit}
         </button>
+
+        {
+          !demoConfigured ? (
+            <p class="max-w-md text-center text-sm text-amber-200/90" data-demo-unconfigured>
+              {sectionCopy.demo.unconfigured}
+            </p>
+          ) : null
+        }
+
+        <p class="max-w-md text-center text-xs leading-relaxed text-white/70">
+          {sectionCopy.demo.privacy}
+        </p>
 
         <p class="text-center text-sm text-white/60">
           Or email
@@ -121,13 +135,14 @@ const labelClass = "block text-sm font-medium text-white/90";
         id="demo-form-status"
         role="status"
         aria-live="polite"
+        tabindex="-1"
         class="mt-4 text-center text-sm empty:hidden"
       ></div>
     </form>
   </div>
 </SectionShell>
 
-<script define:vars={{ formspreeId, successMessage: sectionCopy.demo.success, errorMessage: sectionCopy.demo.error }}>
+<script define:vars={{ formspreeId, successMessage: sectionCopy.demo.success, errorMessage: sectionCopy.demo.error, unconfiguredMessage: sectionCopy.demo.unconfigured }}>
   (function () {
     var form = document.getElementById("demo-request-form");
     if (!form) return;
@@ -157,12 +172,7 @@ const labelClass = "block text-sm font-medium text-white/90";
       clearStatus();
 
       if (!formspreeId) {
-        setStatus("error", errorMessage);
-        return;
-      }
-
-      if (!form.checkValidity()) {
-        form.reportValidity();
+        setStatus("error", unconfiguredMessage);
         return;
       }
 
@@ -179,6 +189,11 @@ const labelClass = "block text-sm font-medium text-white/90";
       var phone = phoneInput ? phoneInput.value.trim() : "";
       var cityState = locationInput ? locationInput.value.trim() : "";
       var message = messageInput ? messageInput.value.trim() : "";
+
+      if (!name || !email || !company || !phone || !cityState) {
+        form.reportValidity();
+        return;
+      }
 
       var payload = new FormData();
       payload.append("_replyto", email);
@@ -206,6 +221,7 @@ const labelClass = "block text-sm font-medium text-white/90";
         .then(function () {
           setStatus("success", successMessage);
           form.reset();
+          if (statusEl) statusEl.focus();
         })
         .catch(function () {
           setStatus("error", errorMessage);

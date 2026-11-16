@@ -39,14 +39,14 @@ const sections = [
   },
   {
     id: "features",
-    heading: "Four ways to spend less paid time on job material.",
+    heading: "Four capabilities across delivery, staging, and pickup.",
   },
   {
     id: "who-its-for",
     heading:
       "Built for HVAC service shops that receive and stage job materials before field pickup — especially shops that stage by job.",
   },
-  { id: "prove-value", heading: "See whether the shop is spending less time on material." },
+  { id: "prove-value", heading: "Example shop activity you could track in StageVerify." },
   { id: "pricing", heading: "Simple per-location pricing" },
   { id: "faq", heading: "Straight answers for the shop." },
   { id: "demo", heading: "Request a demo" },
@@ -105,7 +105,7 @@ const howItWorksTitles = [
 ];
 
 const howItWorksDescriptions = [
-  "Delivered material stays connected to the job and staged correctly.",
+  "Vendor deliveries are tied to the job. Shop staff stage identified material to the right spots.",
   "Delivery status, missing items, and readiness stay visible without relying on phone calls or memory.",
   "Technicians get clear pickup guidance for material assigned to their jobs.",
   "Pickup is recorded so material status stays current and the shop stays organized.",
@@ -130,6 +130,9 @@ const supersededRoleCardTexts = [
   "Clear pickup guidance.",
   "Office login — vendors and techs don’t need an app.",
 ];
+
+const featuresSectionHeading =
+  "Four capabilities across delivery, staging, and pickup.";
 
 const primaryCapabilityTitles = [
   "Delivery and staging visibility",
@@ -177,7 +180,7 @@ const laborReceivingCostParagraph =
   "Receiving isn't free: figuring out which job a delivery belongs to and staging it is paid office, shop, or manager time—even when someone is there to receive it.";
 
 const laborProductScopeParagraph =
-  "StageVerify reduces the paid time spent figuring out what arrived, where it is, what is missing, and what is ready for the repair or install—not just the time it takes to find one part.";
+  "StageVerify helps your team see what arrived, where it is, what is missing, and what is ready for the repair or install—not just the time it takes to find one part.";
 
 const laborCalculatorLeadInParagraph =
   "Add the time spent receiving deliveries and hunting parts below to see how much direct wage money may be going out the door.";
@@ -190,8 +193,9 @@ const exclusionConcepts = [
   "vehicle costs",
   "return trips",
   "overtime",
-  "lost productive or billable capacity",
+  "lost billable capacity",
   "customer delays",
+  "value of additional technician capacity",
 ];
 
 const proveValueIntro =
@@ -202,7 +206,7 @@ const calculatorDisclaimer =
 
 const managementPreviewLabels = [
   "Illustrative example",
-  "Example monthly value snapshot",
+  "Example monthly shop activity snapshot",
   "Based on example labor assumptions",
 ];
 
@@ -266,7 +270,7 @@ const pricingValues = [
   "$79",
   "/month per location",
   "Includes up to 15 staging spots.",
-  "+$20/month per additional block of 5 staging spots.",
+  "$20/month per additional block of 5 staging spots.",
   "One-time on-site setup",
   "$150 per location for up to 15 staging spots.",
   "Additional setup fees may apply for locations with more than 15 staging spots.",
@@ -281,6 +285,7 @@ const faqQuestions = [
   "What happens with UPS/FedEx/USPS deliveries?",
   "Who is StageVerify best for?",
   "What does on-site setup include?",
+  "Is there a long-term contract?",
 ];
 
 const calcInputIds = [
@@ -677,7 +682,7 @@ async function checkMobileHeader(browser, { name, width, height }) {
 }
 
 const ceilingExplanation =
-  "This is the most you could keep if StageVerify removed all of the paid time you entered, after the StageVerify subscription. It is a ceiling, not a forecast; the actual amount depends on how much receiving and parts-hunting time StageVerify cuts.";
+  "It is a ceiling, not a forecast; the actual amount depends on how much receiving and parts-hunting time StageVerify cuts.";
 
 const stageverifyFirstYearCost = STAGEVERIFY_FIRST_YEAR_COST;
 
@@ -1564,10 +1569,31 @@ async function checkContentAssertions(page, name) {
   const lineChartDesc = await page.locator("[data-line-chart] desc").textContent();
   if (
     lineChartDesc &&
-    lineChartDesc.toLowerCase().includes("example paid hours spent receiving and hunting parts")
+    lineChartDesc.toLowerCase().includes("illustrative line chart") &&
+    lineChartDesc.toLowerCase().includes("not a customer trend")
   )
     pass(`[${name}] Line chart accessible description updated`);
   else fail(`[${name}] Line chart accessible description missing or incorrect`);
+
+  if (
+    (await page.locator('[data-demo-unconfigured]').count()) > 0 ||
+    (await page.locator("#demo-request-form button[type='submit']:not([disabled])").count()) > 0
+  )
+    pass(`[${name}] Demo form reflects Formspree configuration state`);
+  else fail(`[${name}] Demo submit should be enabled when Formspree is configured`);
+
+  if ((await page.locator("#demo").getByText("We use what you submit only to schedule your demo").count()) > 0)
+    pass(`[${name}] Demo privacy notice present`);
+  else fail(`[${name}] Demo privacy notice missing`);
+
+  if ((await page.locator('[data-calc-below-monthly]').count()) > 0)
+    pass(`[${name}] Calculator below-subscription monthly note present`);
+  else fail(`[${name}] Missing data-calc-below-monthly`);
+
+  const footerText = (await page.locator("footer").innerText()).toLowerCase();
+  if (footerText.includes("vendors check in deliveries") && !footerText.includes("for dispatch, vendors, and field crews"))
+    pass(`[${name}] Footer vendor visibility wording updated`);
+  else fail(`[${name}] Footer vendor visibility wording incorrect`);
 
   if ((await page.locator("[data-management-preview]").count()) > 0)
     pass(`[${name}] Management preview container present`);
@@ -1594,9 +1620,9 @@ async function checkContentAssertions(page, name) {
 
   const faqDetails = page.locator("#faq details");
   const faqCount = await faqDetails.count();
-  if (faqCount === 6)
-    pass(`[${name}] Exactly six FAQ disclosure items`);
-  else fail(`[${name}] Expected 6 FAQ items, found ${faqCount}`);
+  if (faqCount === 7)
+    pass(`[${name}] Exactly seven FAQ disclosure items`);
+  else fail(`[${name}] Expected 7 FAQ items, found ${faqCount}`);
 
   for (const question of faqQuestions) {
     if ((await page.locator("#faq").getByText(question, { exact: true }).count()) > 0)

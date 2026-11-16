@@ -9,6 +9,7 @@ import {
   CALCULATOR_DEFAULTS,
   STAGEVERIFY_MONTHLY_PRICE,
   STAGEVERIFY_ANNUAL_RECURRING,
+  STAGEVERIFY_SETUP_FEE,
   STAGEVERIFY_FIRST_YEAR_COST,
   WORKDAYS_PER_MONTH,
   WEEKS_PER_MONTH,
@@ -69,6 +70,18 @@ assert(
   STAGEVERIFY_FIRST_YEAR_COST === 1098,
   "STAGEVERIFY_FIRST_YEAR_COST === 1098",
   `STAGEVERIFY_FIRST_YEAR_COST was ${STAGEVERIFY_FIRST_YEAR_COST}, expected 1098`,
+);
+
+assert(
+  STAGEVERIFY_FIRST_YEAR_COST === STAGEVERIFY_ANNUAL_RECURRING + STAGEVERIFY_SETUP_FEE,
+  "first-year cost equals annual recurring + setup",
+  `first-year cost was ${STAGEVERIFY_FIRST_YEAR_COST}, expected ${STAGEVERIFY_ANNUAL_RECURRING + STAGEVERIFY_SETUP_FEE}`,
+);
+
+assert(
+  STAGEVERIFY_SETUP_FEE === 150,
+  "STAGEVERIFY_SETUP_FEE === 150",
+  `STAGEVERIFY_SETUP_FEE was ${STAGEVERIFY_SETUP_FEE}, expected 150`,
 );
 
 assert(
@@ -162,12 +175,19 @@ assert(
   `below-subscription monthlySavingsCeiling was ${belowSubscription.monthlySavingsCeiling}, expected 0`,
 );
 assert(
+  belowSubscription.monthlyWagesBelowSubscription === true,
+  "below-subscription fixture monthlyWagesBelowSubscription === true",
+  `below-subscription monthlyWagesBelowSubscription was ${belowSubscription.monthlyWagesBelowSubscription}, expected true`,
+);
+assert(
   belowSubscription.annualSavingsCeiling === 0,
   "below-subscription fixture annualSavingsCeiling === 0",
   `below-subscription annualSavingsCeiling was ${belowSubscription.annualSavingsCeiling}, expected 0`,
 );
 
-const defaultsFinite = Object.values(defaults).every((value) => Number.isFinite(value));
+const defaultsFinite = Object.values(defaults)
+  .filter((value) => typeof value !== "boolean")
+  .every((value) => Number.isFinite(value));
 assert(
   defaultsFinite,
   "default calculator results are all finite",
@@ -263,9 +283,9 @@ const negativeInputs = calculateMaterialProcessCost({
   techWage: NaN,
   officeWage: Infinity,
 });
-const negativeFinite = Object.values(negativeInputs).every((value) =>
-  Number.isFinite(value),
-);
+const negativeFinite = Object.values(negativeInputs)
+  .filter((value) => typeof value !== "boolean")
+  .every((value) => Number.isFinite(value));
 assert(
   negativeFinite,
   "Negative/non-finite inputs cannot produce NaN or Infinity",
@@ -347,7 +367,7 @@ assert(
   `monthlyTotal was ${zeroTotal.monthlyTotal}, expected 0`,
 );
 const zeroFinite = Object.entries(zeroTotal)
-  .filter(([, value]) => value !== null)
+  .filter(([, value]) => value !== null && typeof value !== "boolean")
   .every(([, value]) => Number.isFinite(value));
 assert(
   zeroFinite,
@@ -386,7 +406,8 @@ const requiredCalcSourceLabels = [
   "StageVerify monthly subscription",
   "/month",
   "/year",
-  "This is the most you could keep if StageVerify removed all of the paid time you entered, after the StageVerify subscription. It is a ceiling, not a forecast; the actual amount depends on how much receiving and parts-hunting time StageVerify cuts.",
+  "It is a ceiling, not a forecast",
+  "data-calc-below-monthly",
   'data-calc-out="monthlyTotal"',
   'data-calc-out="annualTotal"',
   'data-calc-out="monthlySavingsCeiling"',

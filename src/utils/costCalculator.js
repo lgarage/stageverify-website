@@ -91,6 +91,8 @@ export function calculateMaterialProcessCost(inputs = {}) {
     0,
     annualTotal - STAGEVERIFY_FIRST_YEAR_COST,
   );
+  const monthlyWagesBelowSubscription = monthlyTotal < STAGEVERIFY_MONTHLY_PRICE;
+  const annualWagesBelowFirstYearCost = annualTotal < STAGEVERIFY_FIRST_YEAR_COST;
 
   const result = {
     techMonthlyHours,
@@ -102,10 +104,12 @@ export function calculateMaterialProcessCost(inputs = {}) {
     annualTotal,
     monthlySavingsCeiling,
     annualSavingsCeiling,
+    monthlyWagesBelowSubscription,
+    annualWagesBelowFirstYearCost,
   };
 
   for (const [key, value] of Object.entries(result)) {
-    if (value === null) continue;
+    if (value === null || typeof value === "boolean") continue;
     if (!Number.isFinite(value)) {
       result[key] = 0;
     }
