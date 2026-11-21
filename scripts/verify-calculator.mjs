@@ -392,7 +392,7 @@ const requiredCalcSourceLabels = [
   "Estimated annual wages out the door",
   "Monthly recurring subscription",
   "Annual recurring subscription",
-  "One-time on-site setup",
+  "One-time setup (NE WI on-site or nationwide remote kit)",
   "First-year StageVerify cost",
   "MOST YOU COULD KEEP (CEILING)",
   'data-calc-group="potential-savings-ceiling"',

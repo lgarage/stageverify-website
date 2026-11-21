@@ -283,7 +283,9 @@ const calculatorDisclaimer = `${sectionCopy.costCalculator.disclaimer} ${section
                 </dd>
               </div>
               <div class="flex items-start justify-between gap-3 border-b border-sv-border-light/80 pb-2">
-                <dt class="text-xs leading-snug text-gray-text sm:text-sm">One-time on-site setup</dt>
+                <dt class="text-xs leading-snug text-gray-text sm:text-sm">
+                  {sectionCopy.pricing.setupCalculatorLabel}
+                </dt>
                 <dd class="shrink-0 text-right text-xs font-semibold tabular-nums text-navy sm:text-sm">
                   {formatWholeDollars(STAGEVERIFY_SETUP_FEE)}
                 </dd>

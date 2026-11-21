@@ -118,7 +118,9 @@ export const sectionCopy = {
     setupAboveFifteen:
       "Additional setup fees may apply for locations with more than 15 staging spots.",
     perLocationNote:
-      "Each physical shop or branch requires its own StageVerify subscription, on-site setup, and included staging capacity.",
+      "Each physical shop or branch requires its own StageVerify subscription, one-time setup (on-site shop mapping and labeling in Northeast Wisconsin, or a guided remote setup kit nationwide), and included staging capacity.",
+    setupCalculatorLabel:
+      "One-time setup (NE WI on-site or nationwide remote kit)",
     setupSummary:
       "Physical staging areas are mapped, marked, and labeled during setup so each StageVerify location has a clearly defined place for material.",
   },
@@ -348,6 +350,6 @@ export const faqItems = [
   {
     question: "Is there a long-term contract?",
     answer:
-      "No long-term commitment is required. Subscriptions are month to month and you can cancel anytime. On-site setup is a separate one-time fee per location.",
+      "No long-term commitment is required. Subscriptions are month to month and you can cancel anytime. One-time setup is a separate fee per location — on-site shop mapping and labeling in Northeast Wisconsin, or a guided remote setup kit nationwide.",
   },
 ] as const;
