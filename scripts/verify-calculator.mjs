@@ -380,6 +380,7 @@ const calcSource = readFileSync(
   join(__dirname, "../src/components/sections/CostCalculator.astro"),
   "utf8",
 );
+const siteSource = readFileSync(join(__dirname, "../src/data/site.ts"), "utf8");
 
 const requiredCalcSourceLabels = [
   "Monthly technician hours hunting parts",
@@ -392,7 +393,7 @@ const requiredCalcSourceLabels = [
   "Estimated annual wages out the door",
   "Monthly recurring subscription",
   "Annual recurring subscription",
-  "One-time setup (NE WI on-site or nationwide remote kit)",
+  "setupCalculatorLabel",
   "First-year StageVerify cost",
   "MOST YOU COULD KEEP (CEILING)",
   'data-calc-group="potential-savings-ceiling"',
@@ -420,6 +421,12 @@ for (const label of requiredCalcSourceLabels) {
     `CostCalculator.astro missing: ${label}`,
   );
 }
+
+assert(
+  siteSource.includes("One-time setup (NE WI on-site or nationwide remote kit)"),
+  "site.ts contains calculator setup label",
+  "site.ts missing calculator setup label",
+);
 
 const absentOpportunityPatterns = [
   "POTENTIAL SAVINGS OPPORTUNITY",
