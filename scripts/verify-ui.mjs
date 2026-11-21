@@ -229,8 +229,10 @@ const barChartCategories = [
   { label: "Other material issues", value: "4" },
 ];
 
-const illustrativeDataNote =
-  "Illustrative example only. This is not customer data and does not represent a customer claim or promised result.";
+const illustrativeDataNote = "Illustrative example only — not customer data.";
+
+const foundingPilotCallout =
+  "Founding Shop Pilot (Northeast Wisconsin): Now onboarding 5 local trade shops — get free setup and 60 days free in exchange for honest workflow feedback.";
 
 const demoEyebrow = "Request a demo";
 const demoSubcopy = "Tell us how to reach you. We’ll follow up to schedule.";
@@ -271,8 +273,8 @@ const pricingValues = [
   "/month per location",
   "Includes up to 15 staging spots.",
   "$20/month per additional block of 5 staging spots.",
-  "One-time on-site setup",
-  "$150 per location for up to 15 staging spots.",
+  "One-time setup",
+  "$150 per location for up to 15 staging spots — includes on-site shop mapping & labeling in Northeast Wisconsin, or a guided remote setup kit nationwide.",
   "Additional setup fees may apply for locations with more than 15 staging spots.",
   "No long-term commitment",
   "Cancel anytime",
@@ -284,7 +286,7 @@ const faqQuestions = [
   "Do vendors or technicians need accounts or apps?",
   "What happens with UPS/FedEx/USPS deliveries?",
   "Who is StageVerify best for?",
-  "What does on-site setup include?",
+  "What does setup include on-site vs. nationwide?",
   "Is there a long-term contract?",
 ];
 
@@ -1569,11 +1571,15 @@ async function checkContentAssertions(page, name) {
   const lineChartDesc = await page.locator("[data-line-chart] desc").textContent();
   if (
     lineChartDesc &&
-    lineChartDesc.toLowerCase().includes("illustrative line chart") &&
-    lineChartDesc.toLowerCase().includes("not a customer trend")
+    lineChartDesc.toLowerCase().includes("line chart of example paid hours") &&
+    !lineChartDesc.toLowerCase().includes("not a customer")
   )
     pass(`[${name}] Line chart accessible description updated`);
   else fail(`[${name}] Line chart accessible description missing or incorrect`);
+
+  if (!body.includes("not customer case studies"))
+    pass(`[${name}] Readiness case-study disclaimer removed`);
+  else fail(`[${name}] Readiness section still has case-study disclaimer`);
 
   if (
     (await page.locator('[data-demo-unconfigured]').count()) > 0 ||
@@ -1725,6 +1731,26 @@ async function checkDemoSection(page, name) {
   const form = demo.locator("#demo-request-form");
   if ((await form.count()) === 1) pass(`[${name}] Demo request form present`);
   else fail(`[${name}] Missing #demo-request-form`);
+
+  const foundingCallout = form.locator("[data-founding-pilot-callout]");
+  if ((await foundingCallout.count()) === 1) pass(`[${name}] Founding pilot callout present`);
+  else fail(`[${name}] Missing founding pilot callout`);
+
+  if ((await foundingCallout.getByText(foundingPilotCallout, { exact: true }).count()) > 0)
+    pass(`[${name}] Founding pilot callout copy`);
+  else fail(`[${name}] Founding pilot callout copy mismatch`);
+
+  const nameField = form.locator("#demo-name");
+  const calloutBox = await foundingCallout.boundingBox();
+  const nameBox = await nameField.boundingBox();
+  if (
+    calloutBox &&
+    nameBox &&
+    calloutBox.y < nameBox.y &&
+    calloutBox.y + calloutBox.height <= nameBox.y + 4
+  )
+    pass(`[${name}] Founding pilot callout above demo inputs`);
+  else fail(`[${name}] Founding pilot callout should sit above demo inputs`);
 
   const requiredFields = [
     { label: "Name", selector: "#demo-name" },

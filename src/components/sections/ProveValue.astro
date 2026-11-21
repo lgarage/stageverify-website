@@ -83,7 +83,7 @@ const barMax = Math.max(...barChart.data.map((item) => item.value));
         >
           <title>{lineChart.title}</title>
           <desc>
-            Illustrative line chart of example paid hours spent receiving and hunting parts by month. Sample data only—not a customer trend or promised result.
+            Line chart of example paid hours spent receiving and hunting parts by month.
           </desc>
           {
             [0, 0.5, 1].map((fraction) => {
@@ -159,8 +159,9 @@ const barMax = Math.max(...barChart.data.map((item) => item.value));
       </div>
     </div>
 
-    <p class="border-t border-sv-border-light px-4 py-3 text-xs leading-relaxed text-gray-text sm:px-5">
-      {managementPreview.previewNote}
-    </p>
   </div>
+
+  <p class="mx-auto mt-4 max-w-5xl text-center text-xs leading-relaxed text-gray-text md:mt-5">
+    {managementPreview.previewNote}
+  </p>
 </SectionShell>

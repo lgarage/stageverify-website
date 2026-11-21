@@ -25,6 +25,16 @@ const labelClass = "block text-sm font-medium text-white/90";
       class="mx-auto mt-10 max-w-xl text-left md:mt-12"
       novalidate
     >
+      <div
+        class="mb-6 rounded-xl border-2 border-amber-300/90 bg-gradient-to-br from-amber-400/25 via-amber-300/15 to-sv-cyan/10 px-4 py-3.5 text-left shadow-lg shadow-amber-500/10 sm:px-5"
+        data-founding-pilot-callout
+        role="note"
+      >
+        <p class="text-sm font-semibold leading-snug text-amber-50 sm:text-[15px]">
+          {sectionCopy.demo.foundingPilot}
+        </p>
+      </div>
+
       <div class="grid gap-4 sm:grid-cols-2 sm:gap-5">
         <div class="sm:col-span-2">
           <label for="demo-name" class={labelClass}>Name</label>

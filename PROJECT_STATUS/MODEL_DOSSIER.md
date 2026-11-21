@@ -16,3 +16,4 @@ Running log of task types and cheapest-model recommendations for StageVerify web
 | 2026-09-01 | Marketing-site copy polish: labor H2, HVAC-lead ICP, ceiling label, one coming-soon note | composer-2.5 | 0.95 | Rule 97b local-only; exact ship-approved swaps; Sol assigns/verifies; no commit or deploy |
 | 2026-09-01 | Marketing-site copy polish: drop→delivery wording, hero labor lead-in, Office role cards | composer-2.5 | 0.94 | Rule 97b local-only; Sol assigns/verifies; no commit or deploy |
 | 2026-09-02 | Marketing-site UX: real Request Demo form (Formspree) replacing coming-soon dialog | composer-2.5 | 0.93 | Rule 97b local-only; Sol assigns/verifies; static Formspree POST; no commit or deploy |
+| 2026-11-20 | Marketing-site conversion/copy: disclaimer cleanup, setup local vs nationwide, founding pilot callout | composer-2.5 | 0.94 | verify:ui 1260 pass; Grok review SATISFIED |

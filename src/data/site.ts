@@ -98,8 +98,6 @@ export const sectionCopy = {
   readinessExamples: {
     eyebrow: "Illustrative examples",
     title: "What readiness looks like",
-    note:
-      "Illustrative material-readiness examples only — not customer case studies.",
   },
   proveValue: {
     eyebrow: "See the work",
@@ -114,8 +112,9 @@ export const sectionCopy = {
     includedSpots: "Includes up to 15 staging spots.",
     additionalCapacity:
       "$20/month per additional block of 5 staging spots.",
-    setupLabel: "One-time on-site setup",
-    setupPrice: "$150 per location for up to 15 staging spots.",
+    setupLabel: "One-time setup",
+    setupPrice:
+      "$150 per location for up to 15 staging spots — includes on-site shop mapping & labeling in Northeast Wisconsin, or a guided remote setup kit nationwide.",
     setupAboveFifteen:
       "Additional setup fees may apply for locations with more than 15 staging spots.",
     perLocationNote:
@@ -127,6 +126,8 @@ export const sectionCopy = {
     eyebrow: "Request a demo",
     title: "Request a demo",
     intro: "Tell us how to reach you. We’ll follow up to schedule.",
+    foundingPilot:
+      "Founding Shop Pilot (Northeast Wisconsin): Now onboarding 5 local trade shops — get free setup and 60 days free in exchange for honest workflow feedback.",
     submit: "Send request",
     success: "Thanks — we’ll follow up to schedule your demo.",
     error:
@@ -238,8 +239,7 @@ export const managementPreview = {
       { category: "Other material issues", value: 4 },
     ],
   },
-  previewNote:
-    "Illustrative example only. This is not customer data and does not represent a customer claim or promised result.",
+  previewNote: "Illustrative example only — not customer data.",
 } as const;
 
 export const pricingIncludes = [
@@ -341,9 +341,9 @@ export const faqItems = [
       "Trade contractors that receive and stage job materials before technicians pick them up.",
   },
   {
-    question: "What does on-site setup include?",
+    question: "What does setup include on-site vs. nationwide?",
     answer:
-      "On-site setup walks your shop, maps staging areas in StageVerify, configures initial staging spots, and marks and labels physical staging areas so material stays separated by spot. Additional setup fees may apply when more than 15 staging spots are needed.",
+      "For Northeast Wisconsin shops, the one-time $150 setup (up to 15 staging spots) includes an on-site visit to map your shop in StageVerify and mark and label physical staging areas. Nationwide, the same fee covers a guided remote setup kit — templates, labeling guidance, and a live walk-through so your team can complete mapping and labeling. Additional setup fees may apply when more than 15 staging spots are needed.",
   },
   {
     question: "Is there a long-term contract?",
