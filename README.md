@@ -23,6 +23,12 @@ npm run dev
 
 Open [http://localhost:4321](http://localhost:4321) in your browser.
 
+## Request Demo (Formspree)
+
+The static site submits Request Demo form data through [Formspree](https://formspree.io/). Dan must create and configure the Formspree form with destination email `info@stageverify.com`.
+
+Set `PUBLIC_FORMSPREE_ID` to the form hash only (for example `xyzabc`), not the full URL. For local development, add the same key to a `.env` file (see `.env.example`). GitHub Pages builds read `PUBLIC_FORMSPREE_ID` from the repository secret of the same name (see `.github/workflows/deploy.yml`).
+
 ## Build
 
 ```bash
@@ -43,7 +49,7 @@ npm run preview
 src/
 ├── components/
 │   ├── layout/       # Header, Footer
-│   ├── sections/     # Page sections (Hero, Problem, etc.)
+│   ├── sections/     # Page sections (Hero, HowItWorks, etc.)
 │   └── ui/           # Reusable UI (Button, Card, Logo, HeroMockup)
 ├── data/site.ts      # Copy and navigation constants
 ├── layouts/          # BaseLayout

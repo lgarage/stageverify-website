@@ -1,0 +1,15 @@
+---
+import SectionShell from "../ui/SectionShell.astro";
+import { sectionCopy } from "../../data/site";
+---
+
+<SectionShell id="catch-all" variant="steel" class="!py-12 md:!py-16">
+  <div class="mx-auto max-w-2xl rounded-xl border border-sv-border-light bg-white/70 px-5 py-5 sm:px-6">
+    <h2 class="text-base font-semibold text-navy sm:text-lg">
+      {sectionCopy.catchAll.title}
+    </h2>
+    <p class="mt-2 text-sm leading-relaxed text-gray-text sm:text-base">
+      {sectionCopy.catchAll.body}
+    </p>
+  </div>
+</SectionShell>

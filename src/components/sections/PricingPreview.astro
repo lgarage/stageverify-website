@@ -1,0 +1,62 @@
+---
+import SectionShell from "../ui/SectionShell.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
+import { pricingIncludes, sectionCopy } from "../../data/site";
+
+const { pricing } = sectionCopy;
+---
+
+<SectionShell id="pricing" variant="navy" class="!py-12 md:!py-16">
+  <SectionHeader title={pricing.title} dark />
+
+  <div class="mx-auto mt-7 max-w-lg rounded-xl border border-white/10 bg-white/[0.04] p-5 sm:p-6 md:mt-9">
+    <p class="text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
+      {pricing.monthlyPrice}
+      <span class="text-lg font-semibold text-white/75 sm:text-xl">{pricing.monthlyPeriod}</span>
+    </p>
+  </div>
+
+  <ul class="mx-auto mt-6 max-w-lg space-y-2.5 text-sm text-white/85">
+    <li class="flex items-start gap-2.5">
+      <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-sv-cyan" aria-hidden="true" />
+      <span>{pricing.includedSpots}</span>
+    </li>
+    <li class="flex items-start gap-2.5">
+      <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-sv-cyan" aria-hidden="true" />
+      <span>
+        Additional staging capacity:{" "}
+        <span class="text-white">+{pricing.additionalCapacity}</span>
+      </span>
+    </li>
+    <li class="flex items-start gap-2.5">
+      <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-sv-cyan" aria-hidden="true" />
+      <span>
+        <span class="font-medium text-white">{pricing.setupLabel}:</span>{" "}
+        {pricing.setupPrice}
+      </span>
+    </li>
+    <li class="flex items-start gap-2.5">
+      <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-sv-cyan" aria-hidden="true" />
+      <span>{pricing.setupAboveFifteen}</span>
+    </li>
+  </ul>
+
+  <p class="mx-auto mt-5 max-w-lg text-center text-sm leading-relaxed text-white/65">
+    {pricing.perLocationNote}
+  </p>
+
+  <p class="mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-white/60">
+    {pricing.setupSummary}
+  </p>
+
+  <ul class="mx-auto mt-5 flex max-w-lg flex-wrap justify-center gap-x-6 gap-y-2 border-t border-white/10 pt-4">
+    {
+      pricingIncludes.map((item) => (
+        <li class="flex items-center gap-2 text-sm text-white/80">
+          <span class="h-1 w-1 shrink-0 rounded-full bg-sv-cyan" aria-hidden="true" />
+          <span>{item}</span>
+        </li>
+      ))
+    }
+  </ul>
+</SectionShell>

@@ -6,6 +6,7 @@ Skills in this repo teach the agent project-specific workflows.
 
 | Skill | Path | When to use |
 |---|---|---|
+| **97b rule** | [.cursor/skills/rule-97b/SKILL.md](.cursor/skills/rule-97b/SKILL.md) | **Always** before implementation — Grok orchestrates. UX/UI: Sol writes the edit prompt → composer-2.5 edits → Sol verifies until Sol approves |
 | **Commit and push** | [.cursor/skills/commit-and-push/SKILL.md](.cursor/skills/commit-and-push/SKILL.md) | **Always** after any repo change — commit and push before reporting done |
 | **UI Playwright verify** | [.cursor/skills/ui-playwright-verify/SKILL.md](.cursor/skills/ui-playwright-verify/SKILL.md) | **Always** after UI edits — run Playwright before commit/push |
 | **Session cleanup** | [.cursor/skills/session-cleanup/SKILL.md](.cursor/skills/session-cleanup/SKILL.md) | **Always** after preview/dev/verify — kill stale servers and remove temp artifacts |
